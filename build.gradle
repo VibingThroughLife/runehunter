@@ -1,0 +1,92 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        url = 'https://repo.runelite.net'
+    }
+    mavenCentral()
+}
+
+def runeLiteVersion = 'latest.release'
+
+dependencies {
+    compileOnly group: 'net.runelite', name: 'client', version: runeLiteVersion
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation group: 'net.runelite', name: 'client', version: runeLiteVersion
+}
+
+group = 'com.runehunter'
+version = '0.1.0-SNAPSHOT'
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 11
+    options.encoding = 'UTF-8'
+}
+
+// RuneLite's dev client requires assertions enabled; applies to any
+// JavaExec task, including IntelliJ's delegated main() runs.
+tasks.withType(JavaExec).configureEach {
+    jvmArgs '-ea'
+}
+
+// One-time helper: copies the resolved RuneLite dependency jars into libs/
+// so they can be handed to the cloud dev environment for real-API compiles.
+tasks.register('copyDeps', Copy) {
+    from configurations.testCompileClasspath
+    into 'libs'
+}
+
+// Dev cache-dump tooling lives in its own source set so a breakage there can
+// never affect the plugin build or runClient.
+sourceSets {
+    tools {
+        java {
+            srcDir 'src/tools/java'
+        }
+    }
+}
+
+dependencies {
+    toolsImplementation group: 'net.runelite', name: 'cache', version: runeLiteVersion
+}
+
+// Prints the model ids behind object/loc definitions from your local game
+// cache. Used to hunt prop models (e.g. the MEP2 handholds):
+//   ./gradlew -q dumpLoc                  (defaults to the handhold candidates)
+//   ./gradlew -q dumpLoc -Pids=2236,3583
+tasks.register('dumpLoc', JavaExec) {
+    classpath = sourceSets.tools.runtimeClasspath
+    mainClass = 'tools.LocDump'
+    args((findProperty('ids') ?: '2236,3583,3584').toString().split(',') as List)
+}
+
+// Ground-truth animation dump: every roster NPC's exact stand/walk animation
+// ids straight from your local cache. Run and send me the output:
+//   ./gradlew -q dumpAnims > anims.txt
+tasks.register('dumpAnims', JavaExec) {
+    classpath = sourceSets.tools.runtimeClasspath
+    mainClass = 'tools.NpcAnimDump'
+}
+
+// Launch the RuneLite dev client with RuneHunter loaded, no IDE needed:
+//   ./gradlew runClient
+// Logs in automatically if ~/.runelite/credentials.properties exists
+// (see the Using Jagex Accounts wiki flow).
+tasks.register('runClient', JavaExec) {
+    dependsOn 'testClasses'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.runehunter.RuneHunterPluginTest'
+    args '--developer-mode'
+    // JVM flags the official launcher normally supplies (macOS needs
+    // com.apple.eawt opened, and Swing rendering via OpenGL not Metal).
+    jvmArgs '--add-opens=java.base/java.net=ALL-UNNAMED',
+            '--add-opens=java.base/java.io=ALL-UNNAMED',
+            '--add-opens=java.desktop/com.apple.eawt=ALL-UNNAMED',
+            '-Dsun.java2d.metal=false',
+            '-Dsun.java2d.opengl=true',
+            '-Xmx768m'
+}

@@ -1,0 +1,18 @@
+# Build output
+.gradle/
+build/
+out/
+libs/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.DS_Store
+
+# Local artifacts — never commit these to the Hub submission repo
+*.zip
+ziCOB1r9
+
+# device-bash cannot delete files; stale git lock files parked here
+_to_delete/

@@ -1,0 +1,757 @@
+== Chicken
+   id=1173 cb=1 size=1 stand=5386 walk=5385
+   id=1174 cb=1 size=1 stand=5386 walk=5385
+   id=2804 cb=1 size=1 stand=5386 walk=5385
+   id=2805 cb=1 size=1 stand=5386 walk=5385
+   id=2806 cb=1 size=1 stand=5386 walk=5385
+   id=3316 cb=3 size=1 stand=5386 walk=5385
+   id=3661 cb=1 size=1 stand=5386 walk=5385
+   id=3662 cb=1 size=1 stand=5386 walk=5385
+   id=9488 cb=3 size=1 stand=5386 walk=5385
+   id=10494 cb=1 size=1 stand=5386 walk=5385
+   id=10495 cb=1 size=1 stand=5386 walk=5385
+   id=10496 cb=1 size=1 stand=5386 walk=5385
+   id=10497 cb=1 size=1 stand=5386 walk=5385
+   id=10498 cb=1 size=1 stand=5386 walk=5385
+   id=10499 cb=1 size=1 stand=5386 walk=5385
+   id=10556 cb=0 size=1 stand=2298 walk=2297
+== Cow
+   id=2790 cb=2 size=2 stand=5852 walk=5848
+   id=2791 cb=2 size=2 stand=5852 walk=5848
+   id=2793 cb=2 size=2 stand=5852 walk=5848
+   id=2795 cb=2 size=2 stand=5852 walk=5848
+   id=5842 cb=2 size=2 stand=5852 walk=5848
+   id=6401 cb=2 size=2 stand=5852 walk=5848
+   id=10598 cb=0 size=2 stand=180 walk=229
+== Goblin
+   id=655 cb=5 size=1 stand=6181 walk=6180
+   id=656 cb=5 size=1 stand=6186 walk=6187
+   id=657 cb=5 size=1 stand=6181 walk=6180
+   id=658 cb=5 size=1 stand=6200 walk=6201
+   id=659 cb=5 size=1 stand=6181 walk=6180
+   id=660 cb=5 size=1 stand=6186 walk=6187
+   id=661 cb=5 size=1 stand=6186 walk=6187
+   id=662 cb=5 size=1 stand=6181 walk=6180
+   id=663 cb=5 size=1 stand=6186 walk=6187
+   id=664 cb=5 size=1 stand=6181 walk=6180
+   id=665 cb=5 size=1 stand=6200 walk=6201
+   id=666 cb=5 size=1 stand=6181 walk=6180
+   id=667 cb=5 size=1 stand=6186 walk=6187
+   id=668 cb=5 size=1 stand=6186 walk=6187
+   id=674 cb=5 size=1 stand=6181 walk=6180
+   id=677 cb=5 size=1 stand=1737 walk=1738
+   id=678 cb=5 size=1 stand=1737 walk=1738
+   id=2245 cb=17 size=1 stand=6181 walk=6180
+   id=2246 cb=12 size=1 stand=6181 walk=6180
+   id=2247 cb=12 size=1 stand=6139 walk=6138
+   id=2248 cb=15 size=1 stand=6186 walk=6187
+   id=2249 cb=13 size=1 stand=6181 walk=6180
+   id=2484 cb=5 size=1 stand=6186 walk=6187
+   id=2485 cb=13 size=1 stand=6186 walk=6187
+   id=2486 cb=11 size=1 stand=6186 walk=6187
+   id=2487 cb=16 size=1 stand=6186 walk=6187
+   id=2488 cb=25 size=1 stand=6186 walk=6187
+   id=2489 cb=16 size=1 stand=6186 walk=6187
+   id=3028 cb=2 size=1 stand=6181 walk=6180
+   id=3029 cb=2 size=1 stand=6181 walk=6180
+   id=3030 cb=2 size=1 stand=6181 walk=6180
+   id=3031 cb=2 size=1 stand=6181 walk=6180
+   id=3032 cb=2 size=1 stand=6181 walk=6180
+   id=3033 cb=2 size=1 stand=6181 walk=6180
+   id=3034 cb=2 size=1 stand=6181 walk=6180
+   id=3035 cb=2 size=1 stand=6181 walk=6180
+   id=3036 cb=2 size=1 stand=6181 walk=6180
+   id=3037 cb=2 size=1 stand=6181 walk=6180
+   id=3038 cb=2 size=1 stand=6181 walk=6180
+   id=3039 cb=2 size=1 stand=6181 walk=6180
+   id=3040 cb=2 size=1 stand=6181 walk=6180
+   id=3041 cb=2 size=1 stand=6181 walk=6180
+   id=3042 cb=2 size=1 stand=6181 walk=6180
+   id=3043 cb=2 size=1 stand=6181 walk=6180
+   id=3044 cb=2 size=1 stand=6181 walk=6180
+   id=3045 cb=5 size=1 stand=6186 walk=6187
+   id=3046 cb=13 size=1 stand=6181 walk=6180
+   id=3047 cb=5 size=1 stand=6181 walk=6180
+   id=3048 cb=5 size=1 stand=6186 walk=6187
+   id=3051 cb=2 size=1 stand=6181 walk=6180
+   id=3052 cb=2 size=1 stand=6181 walk=6180
+   id=3053 cb=2 size=1 stand=6181 walk=6180
+   id=3054 cb=2 size=1 stand=6181 walk=6180
+   id=3073 cb=5 size=1 stand=6186 walk=6187
+   id=3074 cb=5 size=1 stand=6186 walk=6187
+   id=3075 cb=5 size=1 stand=6186 walk=6187
+   id=3076 cb=5 size=1 stand=6186 walk=6187
+   id=4902 cb=0 size=1 stand=6140 walk=6141
+   id=4903 cb=0 size=1 stand=6140 walk=6141
+   id=4904 cb=0 size=1 stand=6140 walk=6141
+   id=4905 cb=0 size=1 stand=6140 walk=6141
+   id=4906 cb=0 size=1 stand=6140 walk=6141
+   id=5152 cb=0 size=1 stand=6181 walk=6180
+   id=5153 cb=0 size=1 stand=6186 walk=6187
+   id=5154 cb=0 size=1 stand=6181 walk=6193
+   id=5192 cb=2 size=1 stand=6181 walk=6180
+   id=5193 cb=2 size=1 stand=6181 walk=6180
+   id=5195 cb=2 size=1 stand=6181 walk=6180
+   id=5196 cb=2 size=1 stand=6181 walk=6180
+   id=5197 cb=2 size=1 stand=6181 walk=6180
+   id=5198 cb=2 size=1 stand=6181 walk=6180
+   id=5199 cb=2 size=1 stand=6181 walk=6180
+   id=5200 cb=2 size=1 stand=6181 walk=6180
+   id=5201 cb=2 size=1 stand=6181 walk=6180
+   id=5202 cb=2 size=1 stand=6181 walk=6180
+   id=5203 cb=2 size=1 stand=6181 walk=6180
+   id=5204 cb=2 size=1 stand=6186 walk=6187
+   id=5205 cb=2 size=1 stand=6181 walk=6180
+   id=5206 cb=2 size=1 stand=6181 walk=6180
+   id=5207 cb=2 size=1 stand=6181 walk=6180
+   id=5208 cb=2 size=1 stand=6181 walk=6180
+   id=5376 cb=0 size=1 stand=6181 walk=6180
+   id=5377 cb=0 size=1 stand=6181 walk=6180
+   id=5508 cb=0 size=2 stand=6858 walk=-1
+   id=5509 cb=0 size=2 stand=6859 walk=-1
+   id=10566 cb=0 size=1 stand=6186 walk=6187
+   id=10567 cb=0 size=1 stand=6181 walk=6180
+   id=11322 cb=0 size=1 stand=6181 walk=6180
+   id=11323 cb=0 size=1 stand=6181 walk=6180
+   id=11324 cb=0 size=1 stand=6181 walk=6180
+   id=11325 cb=0 size=1 stand=6181 walk=6180
+   id=11326 cb=0 size=1 stand=6181 walk=6180
+   id=11327 cb=0 size=1 stand=6181 walk=6180
+   id=11328 cb=0 size=1 stand=6181 walk=6180
+   id=11329 cb=0 size=1 stand=6181 walk=6180
+   id=11330 cb=0 size=1 stand=6181 walk=6180
+   id=11331 cb=0 size=1 stand=6181 walk=6180
+   id=11332 cb=0 size=1 stand=6181 walk=6180
+   id=11333 cb=0 size=1 stand=6181 walk=6180
+   id=11334 cb=0 size=1 stand=6181 walk=6180
+   id=11335 cb=0 size=1 stand=6181 walk=6180
+   id=11336 cb=0 size=1 stand=6181 walk=6180
+   id=11337 cb=0 size=1 stand=6181 walk=6180
+   id=11338 cb=0 size=1 stand=6181 walk=6180
+   id=11339 cb=0 size=1 stand=6181 walk=6180
+   id=11340 cb=0 size=1 stand=6181 walk=6180
+   id=11341 cb=0 size=1 stand=6181 walk=6180
+   id=11342 cb=0 size=1 stand=6181 walk=6180
+   id=11343 cb=0 size=1 stand=6181 walk=6180
+   id=11344 cb=0 size=1 stand=6181 walk=6180
+   id=11345 cb=0 size=1 stand=6181 walk=6180
+   id=11346 cb=0 size=1 stand=6181 walk=6180
+   id=11347 cb=0 size=1 stand=6181 walk=6180
+   id=11348 cb=0 size=1 stand=6181 walk=6180
+   id=11349 cb=0 size=1 stand=6181 walk=6180
+   id=11350 cb=0 size=1 stand=6181 walk=6180
+   id=11351 cb=0 size=1 stand=6181 walk=6180
+   id=11352 cb=0 size=1 stand=6181 walk=6180
+   id=11353 cb=0 size=1 stand=6181 walk=6180
+   id=11354 cb=0 size=1 stand=6181 walk=6180
+   id=11355 cb=0 size=1 stand=6181 walk=6180
+   id=11356 cb=0 size=1 stand=6181 walk=6180
+   id=11357 cb=0 size=1 stand=6181 walk=6180
+   id=11358 cb=0 size=1 stand=6181 walk=6180
+   id=11359 cb=0 size=1 stand=6181 walk=6180
+   id=11360 cb=0 size=1 stand=6181 walk=6180
+   id=11361 cb=0 size=1 stand=6181 walk=6180
+   id=11362 cb=0 size=1 stand=6181 walk=6180
+   id=11363 cb=0 size=1 stand=6181 walk=6180
+   id=11364 cb=0 size=1 stand=6181 walk=6180
+   id=11365 cb=0 size=1 stand=6181 walk=6180
+   id=11366 cb=0 size=1 stand=6181 walk=6180
+   id=11367 cb=0 size=1 stand=6181 walk=6180
+   id=11368 cb=0 size=1 stand=6181 walk=6180
+   id=11369 cb=0 size=1 stand=6181 walk=6180
+   id=11370 cb=0 size=1 stand=6181 walk=6180
+   id=11371 cb=0 size=1 stand=6181 walk=6180
+   id=11372 cb=0 size=1 stand=6181 walk=6180
+   id=11373 cb=0 size=1 stand=6181 walk=6180
+   id=11374 cb=0 size=1 stand=6181 walk=6180
+   id=11375 cb=0 size=1 stand=6181 walk=6180
+   id=11376 cb=0 size=1 stand=6181 walk=6180
+   id=11377 cb=0 size=1 stand=6181 walk=6180
+   id=11378 cb=0 size=1 stand=6181 walk=6180
+   id=11379 cb=0 size=1 stand=6181 walk=6180
+   id=11380 cb=0 size=1 stand=6181 walk=6180
+   id=11381 cb=0 size=1 stand=6181 walk=6180
+== Giant rat
+   id=2510 cb=26 size=2 stand=4932 walk=4931
+   id=2511 cb=26 size=2 stand=4932 walk=4931
+   id=2512 cb=26 size=2 stand=4932 walk=4931
+   id=2856 cb=3 size=2 stand=4932 walk=4931
+   id=2857 cb=3 size=2 stand=4932 walk=4931
+   id=2858 cb=3 size=2 stand=4932 walk=4931
+   id=2859 cb=3 size=2 stand=4932 walk=4931
+   id=2860 cb=3 size=2 stand=4932 walk=4931
+   id=2861 cb=3 size=2 stand=4932 walk=4931
+   id=2862 cb=6 size=2 stand=4932 walk=4931
+   id=2863 cb=6 size=2 stand=4932 walk=4931
+   id=2864 cb=6 size=2 stand=4932 walk=4931
+   id=3313 cb=3 size=2 stand=4932 walk=4931
+   id=3314 cb=3 size=2 stand=4932 walk=4931
+   id=3315 cb=3 size=2 stand=4932 walk=4931
+   id=7223 cb=46 size=2 stand=4932 walk=4931
+   id=9483 cb=3 size=2 stand=4932 walk=4931
+== Imp
+   id=3134 cb=7 size=1 stand=171 walk=168
+   id=5007 cb=2 size=1 stand=171 walk=168
+   id=5728 cb=1 size=1 stand=171 walk=168
+   id=14181 cb=1 size=1 stand=171 walk=168
+   id=14200 cb=1 size=1 stand=-1 walk=-1
+   id=14205 cb=0 size=1 stand=171 walk=168
+   id=14207 cb=2 size=1 stand=171 walk=168
+   id=14233 cb=2 size=1 stand=171 walk=168
+   id=15638 cb=1 size=1 stand=-1 walk=-1
+   id=15646 cb=0 size=1 stand=13865 walk=13866
+   id=15647 cb=0 size=1 stand=13865 walk=13866
+   id=15648 cb=0 size=1 stand=13865 walk=13866
+   id=15649 cb=0 size=1 stand=13865 walk=13866
+   id=15653 cb=0 size=1 stand=13867 walk=-1
+   id=15654 cb=0 size=1 stand=13867 walk=-1
+   id=15655 cb=0 size=1 stand=13867 walk=-1
+   id=15656 cb=0 size=1 stand=13868 walk=-1
+   id=15657 cb=0 size=1 stand=13868 walk=-1
+   id=15658 cb=0 size=1 stand=13868 walk=-1
+== Scorpion
+   id=2479 cb=59 size=2 stand=6252 walk=6253
+   id=2480 cb=37 size=2 stand=6252 walk=6253
+   id=3024 cb=14 size=2 stand=6252 walk=6253
+   id=5242 cb=38 size=1 stand=6252 walk=6257
+   id=13001 cb=14 size=2 stand=6252 walk=6253
+   id=13967 cb=0 size=1 stand=6252 walk=6253
+   id=14940 cb=1 size=1 stand=6258 walk=6257
+== Wolf
+   id=106 cb=64 size=2 stand=6580 walk=6556
+   id=110 cb=25 size=2 stand=6580 walk=6556
+   id=116 cb=25 size=2 stand=6580 walk=6556
+   id=117 cb=25 size=2 stand=6580 walk=6556
+   id=231 cb=25 size=2 stand=6580 walk=6556
+   id=2490 cb=14 size=2 stand=6580 walk=6556
+   id=2491 cb=11 size=2 stand=6580 walk=6556
+   id=3912 cb=64 size=2 stand=6580 walk=6556
+   id=10522 cb=79 size=2 stand=6580 walk=6556
+   id=10533 cb=79 size=2 stand=6580 walk=6556
+== Seagull
+   id=1338 cb=2 size=1 stand=6815 walk=6819
+   id=1339 cb=3 size=1 stand=6815 walk=6819
+   id=9609 cb=3 size=1 stand=6815 walk=6819
+   id=11026 cb=0 size=1 stand=6815 walk=6819
+   id=14938 cb=3 size=1 stand=6815 walk=6819
+== Duck
+   id=1838 cb=1 size=1 stand=6818 walk=6817
+   id=1839 cb=1 size=1 stand=6818 walk=6817
+   id=2003 cb=0 size=1 stand=6813 walk=6819
+   id=7473 cb=0 size=1 stand=6813 walk=6819
+   id=10546 cb=0 size=1 stand=6818 walk=6817
+   id=10547 cb=0 size=1 stand=6818 walk=6817
+   id=14808 cb=0 size=1 stand=6815 walk=6819
+   id=14951 cb=0 size=1 stand=6813 walk=6819
+== Rock Crab
+   id=100 cb=13 size=1 stand=1310 walk=1311
+   id=102 cb=13 size=1 stand=1310 walk=1311
+== Unicorn
+   id=2837 cb=15 size=2 stand=6374 walk=6373
+   id=8986 cb=15 size=2 stand=291 walk=288
+   id=14043 cb=15 size=2 stand=6374 walk=6373
+== Penguin
+   id=830 cb=0 size=1 stand=5668 walk=5666
+   id=831 cb=0 size=1 stand=5668 walk=5666
+   id=832 cb=0 size=1 stand=5668 walk=5666
+   id=845 cb=0 size=1 stand=5668 walk=5666
+   id=849 cb=0 size=1 stand=5680 walk=-1
+   id=850 cb=0 size=1 stand=5682 walk=-1
+   id=851 cb=0 size=1 stand=5685 walk=-1
+   id=2063 cb=2 size=1 stand=5668 walk=5666
+== Hill Giant
+   id=2098 cb=28 size=2 stand=4650 walk=4649
+   id=2099 cb=28 size=2 stand=4650 walk=4649
+   id=2100 cb=28 size=2 stand=4650 walk=4649
+   id=2101 cb=28 size=2 stand=4650 walk=4649
+   id=2102 cb=28 size=2 stand=4650 walk=4649
+   id=2103 cb=28 size=2 stand=4650 walk=4649
+   id=7261 cb=28 size=2 stand=4650 walk=4649
+   id=10374 cb=28 size=2 stand=4650 walk=4649
+   id=10375 cb=28 size=2 stand=4650 walk=4649
+   id=10376 cb=28 size=2 stand=4650 walk=4649
+   id=11195 cb=0 size=2 stand=4650 walk=4649
+   id=11467 cb=28 size=2 stand=4670 walk=6372
+   id=12848 cb=28 size=2 stand=4650 walk=4649
+   id=12849 cb=28 size=2 stand=4650 walk=4649
+   id=12850 cb=28 size=2 stand=4650 walk=4649
+   id=13502 cb=28 size=2 stand=4650 walk=4649
+   id=13503 cb=28 size=2 stand=4650 walk=4649
+   id=13504 cb=28 size=2 stand=4650 walk=4649
+== Moss giant
+   id=2090 cb=42 size=2 stand=4656 walk=4654
+   id=2091 cb=42 size=2 stand=4656 walk=4654
+   id=2092 cb=42 size=2 stand=4656 walk=4654
+   id=2093 cb=42 size=2 stand=4656 walk=4655
+   id=3851 cb=48 size=2 stand=4656 walk=4654
+   id=3852 cb=48 size=2 stand=4656 walk=4655
+   id=7262 cb=42 size=2 stand=4656 walk=4654
+   id=8736 cb=84 size=2 stand=4656 walk=4654
+   id=12844 cb=42 size=2 stand=4656 walk=4654
+   id=12845 cb=42 size=2 stand=4656 walk=4654
+   id=12846 cb=42 size=2 stand=4656 walk=4654
+   id=12847 cb=42 size=2 stand=4656 walk=4655
+   id=14422 cb=42 size=2 stand=4656 walk=4654
+== Ice giant
+   id=2085 cb=53 size=2 stand=4670 walk=4669
+   id=2086 cb=53 size=2 stand=4670 walk=4669
+   id=2087 cb=53 size=2 stand=4670 walk=4669
+   id=2088 cb=53 size=2 stand=4670 walk=4669
+   id=2089 cb=53 size=2 stand=4670 walk=4669
+   id=7878 cb=67 size=2 stand=4670 walk=4669
+   id=7879 cb=67 size=2 stand=4670 walk=4669
+   id=7880 cb=67 size=2 stand=4670 walk=4669
+   id=13796 cb=53 size=2 stand=4670 walk=4669
+   id=13797 cb=53 size=2 stand=4670 walk=4669
+== Hobgoblin
+   id=132 cb=54 size=1 stand=166 walk=162
+   id=2241 cb=47 size=1 stand=166 walk=162
+   id=3049 cb=28 size=1 stand=166 walk=162
+   id=3050 cb=42 size=1 stand=166 walk=162
+   id=3286 cb=28 size=1 stand=166 walk=162
+   id=3287 cb=28 size=1 stand=166 walk=162
+   id=3288 cb=28 size=1 stand=166 walk=162
+   id=3289 cb=28 size=1 stand=166 walk=162
+   id=4805 cb=28 size=1 stand=166 walk=162
+== Green dragon
+   id=260 cb=79 size=4 stand=90 walk=79
+   id=261 cb=79 size=4 stand=90 walk=79
+   id=262 cb=79 size=4 stand=90 walk=79
+   id=263 cb=79 size=4 stand=90 walk=79
+   id=264 cb=79 size=4 stand=90 walk=79
+   id=7868 cb=88 size=4 stand=90 walk=79
+   id=7869 cb=88 size=4 stand=90 walk=79
+   id=7870 cb=88 size=4 stand=90 walk=79
+   id=8073 cb=79 size=5 stand=7870 walk=7870
+   id=8076 cb=79 size=5 stand=7870 walk=7870
+   id=8082 cb=79 size=4 stand=90 walk=79
+   id=13010 cb=79 size=4 stand=90 walk=79
+   id=13488 cb=79 size=4 stand=90 walk=79
+== Lesser demon
+   id=2005 cb=82 size=2 stand=66 walk=63
+   id=2006 cb=82 size=2 stand=66 walk=63
+   id=2007 cb=82 size=2 stand=66 walk=63
+   id=2008 cb=82 size=2 stand=66 walk=63
+   id=2018 cb=82 size=2 stand=66 walk=63
+   id=3982 cb=82 size=2 stand=66 walk=63
+   id=7247 cb=87 size=2 stand=66 walk=63
+   id=7248 cb=94 size=2 stand=66 walk=63
+   id=7656 cb=82 size=2 stand=66 walk=63
+   id=7657 cb=82 size=2 stand=66 walk=63
+   id=7664 cb=82 size=2 stand=66 walk=63
+   id=7865 cb=94 size=2 stand=66 walk=63
+   id=7866 cb=94 size=2 stand=66 walk=63
+   id=7867 cb=94 size=2 stand=66 walk=63
+   id=12361 cb=94 size=2 stand=66 walk=63
+   id=12363 cb=94 size=2 stand=66 walk=63
+   id=12365 cb=94 size=2 stand=66 walk=63
+   id=12376 cb=39 size=1 stand=66 walk=63
+   id=12389 cb=82 size=2 stand=66 walk=63
+== Chaos druid
+   id=520 cb=13 size=1 stand=808 walk=819
+== Kalphite Worker
+   id=955 cb=28 size=2 stand=6218 walk=6220
+   id=956 cb=28 size=2 stand=6218 walk=6220
+   id=961 cb=28 size=2 stand=6218 walk=6220
+== Crawling Hand
+   id=448 cb=8 size=1 stand=1588 walk=1589
+   id=449 cb=8 size=1 stand=1588 walk=1589
+   id=450 cb=7 size=1 stand=1588 walk=1589
+   id=451 cb=8 size=1 stand=1588 walk=1589
+   id=452 cb=8 size=1 stand=1588 walk=1589
+   id=453 cb=12 size=2 stand=1588 walk=1589
+   id=454 cb=12 size=2 stand=1588 walk=1589
+   id=455 cb=11 size=2 stand=1588 walk=1589
+   id=456 cb=12 size=2 stand=1588 walk=1589
+   id=457 cb=12 size=2 stand=1588 walk=1589
+   id=12249 cb=0 size=1 stand=1588 walk=1589
+   id=14158 cb=0 size=1 stand=-1 walk=-1
+   id=14159 cb=0 size=1 stand=-1 walk=-1
+   id=14160 cb=0 size=1 stand=-1 walk=-1
+== Cave crawler
+   id=406 cb=23 size=2 stand=226 walk=225
+   id=407 cb=23 size=2 stand=226 walk=225
+   id=408 cb=23 size=2 stand=226 walk=225
+   id=409 cb=23 size=2 stand=226 walk=225
+   id=13800 cb=23 size=2 stand=226 walk=225
+   id=13801 cb=23 size=2 stand=226 walk=225
+== Banshee
+   id=414 cb=23 size=2 stand=1522 walk=1521
+== Rockslug
+   id=421 cb=29 size=1 stand=1566 walk=1564
+   id=422 cb=29 size=1 stand=1566 walk=1564
+   id=14423 cb=29 size=1 stand=1566 walk=1564
+== Cockatrice
+   id=419 cb=37 size=2 stand=1561 walk=1559
+   id=420 cb=37 size=3 stand=1561 walk=1559
+   id=14161 cb=0 size=1 stand=-1 walk=-1
+   id=14162 cb=0 size=1 stand=-1 walk=-1
+   id=14164 cb=0 size=1 stand=-1 walk=-1
+== Pyrefiend
+   id=433 cb=43 size=1 stand=1578 walk=1579
+   id=434 cb=43 size=1 stand=1578 walk=1579
+   id=435 cb=43 size=1 stand=1578 walk=1579
+   id=436 cb=43 size=1 stand=1578 walk=1579
+   id=3139 cb=48 size=1 stand=1578 walk=1579
+== TzHaar-Ket
+   id=2173 cb=149 size=1 stand=2603 walk=2601
+   id=2174 cb=149 size=1 stand=2603 walk=2601
+   id=2175 cb=149 size=1 stand=2603 walk=2601
+   id=2176 cb=149 size=1 stand=2603 walk=2601
+   id=2177 cb=149 size=1 stand=2603 walk=2601
+   id=2178 cb=149 size=1 stand=2603 walk=2601
+   id=2179 cb=149 size=1 stand=2603 walk=2601
+   id=2186 cb=0 size=1 stand=2603 walk=2601
+   id=2187 cb=0 size=1 stand=2603 walk=2601
+   id=7679 cb=221 size=1 stand=2603 walk=2601
+== Blue dragon
+   id=265 cb=111 size=4 stand=90 walk=79
+   id=266 cb=111 size=4 stand=90 walk=79
+   id=267 cb=111 size=4 stand=90 walk=79
+   id=268 cb=111 size=4 stand=90 walk=79
+   id=269 cb=111 size=4 stand=90 walk=79
+   id=4385 cb=111 size=4 stand=90 walk=79
+   id=5878 cb=111 size=4 stand=90 walk=79
+   id=5879 cb=111 size=4 stand=90 walk=79
+   id=5880 cb=111 size=4 stand=90 walk=79
+   id=5881 cb=111 size=4 stand=90 walk=79
+   id=5882 cb=111 size=4 stand=90 walk=79
+   id=8074 cb=111 size=5 stand=7870 walk=7870
+   id=8077 cb=111 size=5 stand=7870 walk=7870
+   id=8083 cb=111 size=4 stand=90 walk=79
+   id=14103 cb=111 size=4 stand=90 walk=79
+   id=14104 cb=111 size=4 stand=90 walk=79
+== Red dragon
+   id=247 cb=152 size=4 stand=90 walk=79
+   id=248 cb=152 size=4 stand=90 walk=79
+   id=249 cb=152 size=4 stand=90 walk=79
+   id=250 cb=152 size=4 stand=90 walk=79
+   id=251 cb=152 size=4 stand=90 walk=79
+   id=8075 cb=152 size=5 stand=7870 walk=7870
+   id=8078 cb=152 size=5 stand=7870 walk=7870
+   id=8079 cb=152 size=4 stand=90 walk=79
+   id=14511 cb=106 size=3 stand=90 walk=79
+== Black dragon
+   id=252 cb=227 size=4 stand=90 walk=79
+   id=253 cb=227 size=4 stand=90 walk=79
+   id=254 cb=227 size=4 stand=90 walk=79
+   id=255 cb=227 size=4 stand=90 walk=79
+   id=256 cb=227 size=4 stand=90 walk=79
+   id=257 cb=227 size=4 stand=90 walk=79
+   id=258 cb=227 size=4 stand=90 walk=79
+   id=259 cb=227 size=4 stand=90 walk=79
+   id=7861 cb=247 size=4 stand=90 walk=79
+   id=7862 cb=247 size=4 stand=90 walk=79
+   id=7863 cb=247 size=4 stand=90 walk=79
+   id=8084 cb=227 size=5 stand=90 walk=79
+   id=8085 cb=227 size=4 stand=90 walk=79
+   id=14146 cb=227 size=4 stand=90 walk=79
+   id=15610 cb=227 size=4 stand=90 walk=79
+== Bronze dragon
+   id=270 cb=131 size=4 stand=90 walk=79
+   id=271 cb=131 size=4 stand=90 walk=79
+   id=7253 cb=143 size=4 stand=90 walk=79
+== Iron dragon
+   id=272 cb=189 size=4 stand=90 walk=79
+   id=273 cb=189 size=4 stand=90 walk=79
+   id=7254 cb=215 size=4 stand=90 walk=79
+   id=8080 cb=189 size=4 stand=90 walk=79
+== Steel dragon
+   id=139 cb=246 size=3 stand=6496 walk=79
+   id=274 cb=246 size=4 stand=90 walk=79
+   id=275 cb=246 size=4 stand=90 walk=79
+   id=7255 cb=274 size=4 stand=90 walk=79
+   id=8086 cb=246 size=4 stand=90 walk=79
+== Basilisk
+   id=417 cb=61 size=2 stand=1545 walk=1544
+   id=418 cb=61 size=2 stand=1545 walk=1544
+   id=9283 cb=61 size=2 stand=1545 walk=1544
+   id=9284 cb=61 size=2 stand=1545 walk=1544
+   id=9285 cb=61 size=2 stand=1545 walk=1544
+   id=9286 cb=61 size=2 stand=1545 walk=1544
+   id=14166 cb=0 size=1 stand=-1 walk=-1
+   id=14168 cb=0 size=1 stand=-1 walk=-1
+   id=14170 cb=0 size=1 stand=-1 walk=-1
+== Bloodveld
+   id=484 cb=76 size=2 stand=1551 walk=1549
+   id=485 cb=76 size=2 stand=1551 walk=1549
+   id=486 cb=76 size=2 stand=1551 walk=1549
+   id=487 cb=76 size=2 stand=1551 walk=1549
+   id=3138 cb=81 size=2 stand=1551 walk=1549
+== Jelly
+   id=437 cb=78 size=1 stand=1583 walk=1584
+   id=438 cb=78 size=1 stand=1583 walk=1584
+   id=439 cb=78 size=1 stand=1583 walk=1584
+   id=440 cb=78 size=1 stand=1583 walk=1584
+   id=441 cb=78 size=1 stand=1583 walk=1584
+   id=442 cb=78 size=1 stand=1583 walk=1584
+   id=7518 cb=0 size=2 stand=286 walk=283
+   id=11241 cb=78 size=1 stand=1583 walk=1584
+   id=11242 cb=78 size=1 stand=1583 walk=1584
+   id=11243 cb=78 size=1 stand=1583 walk=1584
+   id=11244 cb=78 size=1 stand=1583 walk=1584
+   id=11245 cb=78 size=1 stand=1583 walk=1584
+== Turoth
+   id=426 cb=86 size=1 stand=1594 walk=1593
+   id=427 cb=89 size=2 stand=1594 walk=1593
+   id=428 cb=87 size=2 stand=1594 walk=1593
+   id=429 cb=85 size=1 stand=1594 walk=1593
+   id=430 cb=83 size=1 stand=1594 walk=1593
+   id=431 cb=88 size=2 stand=1594 walk=1593
+   id=432 cb=88 size=2 stand=1594 walk=1593
+== Aberrant spectre
+   id=2 cb=96 size=2 stand=1506 walk=1505
+   id=3 cb=96 size=2 stand=1506 walk=1505
+   id=4 cb=96 size=2 stand=1506 walk=1505
+   id=5 cb=96 size=2 stand=1506 walk=1505
+   id=6 cb=96 size=2 stand=1506 walk=1505
+   id=7 cb=96 size=2 stand=1506 walk=1505
+== Dust devil
+   id=423 cb=93 size=1 stand=1556 walk=1554
+   id=7249 cb=110 size=1 stand=1556 walk=1554
+   id=11238 cb=93 size=1 stand=1556 walk=1554
+== Kurask
+   id=410 cb=106 size=3 stand=1511 walk=1510
+   id=411 cb=106 size=3 stand=1511 walk=1510
+   id=14172 cb=0 size=1 stand=-1 walk=-1
+   id=14173 cb=0 size=1 stand=-1 walk=-1
+== Gargoyle
+   id=412 cb=111 size=3 stand=1516 walk=1515
+   id=413 cb=111 size=3 stand=-1 walk=-1
+   id=1543 cb=111 size=3 stand=1516 walk=1515
+== Hellhound
+   id=104 cb=122 size=2 stand=6561 walk=6583
+   id=105 cb=122 size=2 stand=6561 walk=6583
+   id=135 cb=122 size=2 stand=6561 walk=6583
+   id=3133 cb=127 size=2 stand=6580 walk=6582
+   id=7256 cb=122 size=2 stand=6561 walk=6583
+   id=7877 cb=136 size=2 stand=6561 walk=6583
+== Greater demon
+   id=2025 cb=92 size=3 stand=66 walk=63
+   id=2026 cb=92 size=3 stand=66 walk=63
+   id=2027 cb=92 size=3 stand=66 walk=63
+   id=2028 cb=92 size=3 stand=66 walk=63
+   id=2029 cb=92 size=3 stand=66 walk=63
+   id=2030 cb=92 size=3 stand=66 walk=63
+   id=2031 cb=92 size=3 stand=66 walk=63
+   id=2032 cb=92 size=3 stand=66 walk=63
+   id=7244 cb=101 size=3 stand=66 walk=63
+   id=7245 cb=100 size=3 stand=66 walk=63
+   id=7246 cb=113 size=3 stand=66 walk=63
+   id=7871 cb=104 size=3 stand=66 walk=63
+   id=7872 cb=104 size=3 stand=66 walk=63
+   id=7873 cb=104 size=3 stand=66 walk=63
+   id=12387 cb=92 size=3 stand=66 walk=63
+== Black demon
+   id=240 cb=172 size=3 stand=66 walk=63
+   id=1432 cb=172 size=3 stand=66 walk=63
+   id=2048 cb=172 size=3 stand=66 walk=63
+   id=2049 cb=172 size=3 stand=66 walk=63
+   id=2050 cb=172 size=3 stand=66 walk=63
+   id=2051 cb=172 size=3 stand=66 walk=63
+   id=2052 cb=172 size=3 stand=66 walk=63
+   id=5874 cb=172 size=3 stand=66 walk=63
+   id=5875 cb=172 size=3 stand=66 walk=63
+   id=5876 cb=172 size=3 stand=66 walk=63
+   id=5877 cb=172 size=3 stand=66 walk=63
+   id=6357 cb=172 size=3 stand=66 walk=63
+   id=7242 cb=184 size=3 stand=66 walk=63
+   id=7243 cb=178 size=3 stand=66 walk=63
+   id=7874 cb=188 size=3 stand=66 walk=63
+   id=7875 cb=188 size=3 stand=66 walk=63
+   id=7876 cb=188 size=3 stand=66 walk=63
+   id=12385 cb=172 size=3 stand=66 walk=63
+== Wyrm
+   id=8610 cb=97 size=3 stand=8266 walk=8266
+   id=8611 cb=97 size=3 stand=8267 walk=8267
+== Ahrim the Blighted
+   id=1672 cb=98 size=1 stand=813 walk=1205
+   id=12316 cb=98 size=1 stand=813 walk=1205
+   id=12322 cb=98 size=1 stand=813 walk=1205
+== Dharok the Wretched
+   id=1673 cb=115 size=1 stand=2065 walk=2064
+   id=12317 cb=115 size=1 stand=2065 walk=2064
+   id=12323 cb=115 size=1 stand=2065 walk=2064
+   id=12447 cb=666 size=2 stand=2065 walk=2064
+== Guthan the Infested
+   id=1674 cb=115 size=1 stand=813 walk=1205
+   id=12318 cb=115 size=1 stand=813 walk=1205
+   id=12324 cb=115 size=1 stand=813 walk=1205
+== Karil the Tainted
+   id=1675 cb=98 size=1 stand=808 walk=819
+   id=12319 cb=98 size=1 stand=808 walk=819
+   id=12325 cb=98 size=1 stand=808 walk=819
+== Torag the Corrupted
+   id=1676 cb=115 size=1 stand=808 walk=819
+   id=12320 cb=115 size=1 stand=808 walk=819
+   id=12326 cb=115 size=1 stand=808 walk=819
+== Verac the Defiled
+   id=1677 cb=115 size=1 stand=2061 walk=2060
+   id=12321 cb=115 size=1 stand=2061 walk=2060
+   id=12327 cb=115 size=1 stand=2061 walk=2060
+== Mithril dragon
+   id=2919 cb=304 size=4 stand=90 walk=79
+   id=8088 cb=304 size=5 stand=90 walk=79
+   id=8089 cb=304 size=4 stand=90 walk=79
+== Adamant dragon
+   id=8030 cb=338 size=5 stand=90 walk=79
+   id=8090 cb=338 size=5 stand=90 walk=79
+== Nechryael
+   id=8 cb=115 size=1 stand=1527 walk=1526
+   id=11 cb=115 size=1 stand=1527 walk=1526
+== Abyssal demon
+   id=415 cb=124 size=1 stand=1536 walk=1534
+   id=416 cb=124 size=1 stand=1536 walk=1534
+   id=7241 cb=124 size=1 stand=1536 walk=1534
+   id=11239 cb=124 size=1 stand=1536 walk=1534
+   id=14174 cb=0 size=1 stand=-1 walk=-1
+   id=14175 cb=0 size=1 stand=-1 walk=-1
+== Cave kraken
+   id=492 cb=127 size=2 stand=3989 walk=3989
+== Smoke devil
+   id=498 cb=160 size=1 stand=1829 walk=1828
+   id=6639 cb=0 size=1 stand=1829 walk=1828
+   id=6655 cb=0 size=1 stand=1829 walk=1828
+   id=8482 cb=0 size=1 stand=1829 walk=1828
+   id=8483 cb=0 size=1 stand=1829 walk=1828
+== Drake
+   id=2004 cb=0 size=1 stand=6813 walk=6819
+   id=8612 cb=192 size=5 stand=8274 walk=8273
+   id=8613 cb=192 size=5 stand=-1 walk=-1
+== Hydra
+   id=8609 cb=194 size=3 stand=8260 walk=8259
+== Basilisk Knight
+   id=9293 cb=204 size=3 stand=8497 walk=8498
+== Demonic gorilla
+   id=7144 cb=275 size=2 stand=7230 walk=7233
+   id=7145 cb=275 size=2 stand=7230 walk=7233
+   id=7146 cb=275 size=2 stand=7230 walk=7233
+   id=7147 cb=275 size=2 stand=7230 walk=7233
+   id=7148 cb=275 size=2 stand=7230 walk=7233
+   id=7149 cb=275 size=2 stand=7230 walk=7233
+   id=7152 cb=275 size=2 stand=7230 walk=7233
+== Lizardman shaman
+   id=6766 cb=150 size=3 stand=7191 walk=7195
+   id=6767 cb=150 size=3 stand=7191 walk=7195
+   id=7573 cb=0 size=3 stand=7191 walk=7195
+   id=7574 cb=0 size=3 stand=7191 walk=7195
+   id=7744 cb=150 size=3 stand=7191 walk=7195
+   id=7745 cb=150 size=3 stand=7191 walk=7195
+   id=8565 cb=150 size=2 stand=7191 walk=7195
+== Sarachnis
+   id=8713 cb=318 size=5 stand=8320 walk=8319
+== Giant Mole
+   id=5779 cb=230 size=3 stand=3309 walk=3313
+   id=6499 cb=230 size=3 stand=3309 walk=3313
+== King Black Dragon
+   id=239 cb=276 size=5 stand=90 walk=4635
+   id=2642 cb=0 size=5 stand=90 walk=4635
+   id=6502 cb=276 size=5 stand=90 walk=4635
+   id=12440 cb=281 size=5 stand=90 walk=4635
+== Kalphite Queen
+   id=128 cb=0 size=1 stand=-1 walk=-1
+   id=963 cb=333 size=5 stand=6239 walk=6238
+   id=965 cb=333 size=5 stand=6236 walk=6236
+   id=4303 cb=333 size=5 stand=6239 walk=6238
+   id=4304 cb=333 size=5 stand=6236 walk=6236
+   id=6500 cb=333 size=5 stand=6239 walk=6238
+   id=6501 cb=333 size=5 stand=6236 walk=6236
+   id=15616 cb=1 size=5 stand=6239 walk=6238
+   id=15617 cb=1 size=5 stand=6236 walk=6236
+== Dagannoth Rex
+   id=2267 cb=303 size=3 stand=2850 walk=2849
+   id=6498 cb=303 size=3 stand=2850 walk=2849
+   id=12439 cb=479 size=3 stand=2850 walk=2849
+   id=15620 cb=303 size=3 stand=2850 walk=2849
+== Dagannoth Prime
+   id=2266 cb=303 size=3 stand=2850 walk=2849
+   id=6497 cb=303 size=3 stand=2850 walk=2849
+   id=12442 cb=447 size=3 stand=2850 walk=2849
+   id=15619 cb=303 size=3 stand=2850 walk=2849
+== Dagannoth Supreme
+   id=2265 cb=303 size=3 stand=2850 walk=2849
+   id=6496 cb=303 size=3 stand=2850 walk=2849
+   id=12441 cb=436 size=3 stand=2850 walk=2849
+   id=15618 cb=303 size=3 stand=2850 walk=2849
+== General Graardor
+   id=2215 cb=624 size=4 stand=7017 walk=7016
+   id=6494 cb=624 size=4 stand=7017 walk=7016
+   id=12444 cb=624 size=4 stand=7017 walk=7016
+== K'ril Tsutsaroth
+   id=3129 cb=650 size=5 stand=6935 walk=4070
+   id=6495 cb=650 size=5 stand=6935 walk=4070
+   id=12446 cb=650 size=5 stand=6935 walk=4070
+== Kree'arra
+   id=3162 cb=580 size=5 stand=6976 walk=6977
+   id=6492 cb=580 size=5 stand=6976 walk=6977
+   id=12443 cb=580 size=5 stand=6976 walk=6977
+   id=15697 cb=580 size=5 stand=6976 walk=6977
+== Commander Zilyana
+   id=2205 cb=596 size=2 stand=6966 walk=6965
+   id=6493 cb=596 size=2 stand=6966 walk=6965
+   id=12445 cb=596 size=2 stand=6966 walk=6965
+== Zulrah
+   id=2042 cb=725 size=5 stand=5070 walk=5070
+   id=2043 cb=725 size=5 stand=5070 walk=5070
+   id=2044 cb=725 size=5 stand=5070 walk=5070
+== Vorkath
+   id=8026 cb=0 size=1 stand=-1 walk=-1
+   id=8058 cb=0 size=7 stand=7946 walk=7946
+   id=8059 cb=0 size=7 stand=7946 walk=7946
+   id=8060 cb=392 size=7 stand=7948 walk=7947
+   id=8061 cb=732 size=7 stand=7948 walk=7947
+   id=11959 cb=1 size=5 stand=7948 walk=7947
+== Cerberus
+   id=5862 cb=318 size=5 stand=4484 walk=4488
+   id=5863 cb=318 size=5 stand=4485 walk=4488
+   id=5866 cb=318 size=5 stand=4484 walk=4488
+   id=13657 cb=413 size=5 stand=4484 walk=4488
+   id=15612 cb=1 size=5 stand=4484 walk=4488
+== Kraken
+   id=494 cb=291 size=4 stand=3989 walk=3989
+   id=6640 cb=0 size=1 stand=3989 walk=3989
+   id=6656 cb=0 size=1 stand=3989 walk=3989
+== Thermonuclear smoke devil
+   id=499 cb=301 size=4 stand=1829 walk=1828
+   id=13659 cb=313 size=4 stand=1829 walk=1828
+   id=15611 cb=1 size=4 stand=1829 walk=1828
+== Alchemical Hydra
+   id=8615 cb=426 size=6 stand=8233 walk=8232
+   id=8616 cb=426 size=6 stand=-1 walk=-1
+   id=8617 cb=426 size=6 stand=8240 walk=8239
+   id=8618 cb=426 size=6 stand=8247 walk=8246
+   id=8619 cb=426 size=6 stand=8240 walk=8239
+   id=8620 cb=426 size=6 stand=8247 walk=8246
+   id=8621 cb=426 size=6 stand=8254 walk=8253
+   id=8622 cb=426 size=6 stand=8254 walk=8253
+   id=8634 cb=0 size=1 stand=-1 walk=-1
+   id=11962 cb=1 size=5 stand=-1 walk=-1
+== Corporeal Beast
+   id=319 cb=785 size=5 stand=1678 walk=1684
+== TzTok-Jad
+   id=3127 cb=702 size=5 stand=2650 walk=2651
+   id=6506 cb=702 size=5 stand=2650 walk=2651
+   id=13661 cb=1008 size=5 stand=2650 walk=2651
+   id=15574 cb=569 size=5 stand=2650 walk=2651
+   id=15699 cb=1758 size=5 stand=2650 walk=2651
+== Callisto
+   id=6503 cb=470 size=5 stand=4919 walk=4923
+   id=6609 cb=470 size=5 stand=10011 walk=10009
+== Venenatis
+   id=6504 cb=464 size=4 stand=5318 walk=5317
+   id=6610 cb=464 size=4 stand=9986 walk=9988
+== Vet'ion
+   id=6611 cb=454 size=3 stand=9965 walk=9967
+   id=6612 cb=454 size=3 stand=9966 walk=9968
+   id=12002 cb=454 size=3 stand=9965 walk=9967
+== Scorpia
+   id=6615 cb=225 size=5 stand=6252 walk=6262
+== Chaos Elemental
+   id=2054 cb=305 size=3 stand=3144 walk=3145
+   id=6505 cb=305 size=3 stand=3144 walk=3145
+== Nex
+   id=11278 cb=1001 size=3 stand=9177 walk=9175
+   id=11279 cb=1001 size=3 stand=9177 walk=9175
+   id=11280 cb=1001 size=3 stand=9177 walk=9175
+   id=11281 cb=1001 size=3 stand=9177 walk=9175
+   id=11282 cb=1001 size=3 stand=9177 walk=9175
