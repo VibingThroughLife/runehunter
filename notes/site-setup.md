@@ -51,7 +51,7 @@ Delete GoDaddy's default parking records first — there'll be an `A` record on 
 | A | @ | `185.199.109.153` | 1 hour |
 | A | @ | `185.199.110.153` | 1 hour |
 | A | @ | `185.199.111.153` | 1 hour |
-| CNAME | www | `<your-github-username>.github.io` | 1 hour |
+| CNAME | www | `vibingthroughlife.github.io` | 1 hour |
 
 All four A records — they're GitHub's load-balanced set, not alternatives. Confirm the current IPs against GitHub's Pages docs when you do this; they change rarely but they do change.
 

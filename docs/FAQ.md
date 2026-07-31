@@ -57,7 +57,7 @@ It's obviously Pokémon-inspired, and we're not going to pretend otherwise. But 
 
 ### Who are you?
 
-One OSRS player, `[YOUR RSN / HANDLE HERE]`. Not a studio, not a company. Someone who has played this game for years and wanted a reason to walk around parts of Gielinor that stopped mattering a long time ago.
+One OSRS player, **VibingThroughLife**. Not a studio, not a company. Someone who has played this game for years and wanted a reason to walk around parts of Gielinor that stopped mattering a long time ago.
 
 RuneHunter started as "what if a tiny Dharok was hiding behind Lumbridge castle" and turned into 87 creatures, real-time prayer-flick battles, and a trophy room.
 
