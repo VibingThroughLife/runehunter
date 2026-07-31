@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.inject.Inject;
+import javax.inject.Named;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
@@ -79,6 +80,22 @@ public class RuneHunterPlugin extends Plugin
 	@Inject
 	private RuneHunterConfig config;
 
+	/**
+	 * True only when RuneLite was launched with --developer-mode (RuneLite binds this
+	 * flag itself; see RuneLiteModule). Every dev tool in this plugin hangs off it, so
+	 * the Plugin Hub build ships them inert: no PokeDev button on the panel, ::rh and
+	 * ::rgo do nothing, and the console cannot be opened by any route.
+	 *
+	 * Note this is a visibility gate, not a security boundary — any user can pass the
+	 * flag. That is fine: the tools only affect that player's own client and their own
+	 * collection, and spoiling your own Secret Dex is its own punishment.
+	 *
+	 * ./gradlew runClient already passes --developer-mode, so dev workflow is unchanged.
+	 */
+	@Inject
+	@Named("developerMode")
+	private boolean developerMode;
+
 	private NpcModelCache modelCache;
 	private AnimationLearner animations;
 	private SpawnManager spawnManager;
@@ -112,7 +129,8 @@ public class RuneHunterPlugin extends Plugin
 		animations.load();
 		store = new CollectionStore(configManager);
 		spawnManager = new SpawnManager(client, clientThread, config, modelCache, animations);
-		panel = new RuneHunterPanel(store, this::setCompanion, this::openTrophyRoom, this::openDevConsole);
+		panel = new RuneHunterPanel(store, this::setCompanion, this::openTrophyRoom,
+			this::openDevConsole, developerMode);
 		catchManager = new CatchManager(client, clientThread, spawnManager, store, panel::refresh);
 		orbDropManager = new OrbDropManager(client, store, spawnManager, panel::refresh);
 		companionManager = new CompanionManager(client, modelCache, animations, store);
@@ -275,6 +293,11 @@ public class RuneHunterPlugin extends Plugin
 	@Subscribe
 	public void onCommandExecuted(CommandExecuted event)
 	{
+		// Dev-mode only. On a normal client ::rh is not a RuneHunter command at all.
+		if (!developerMode)
+		{
+			return;
+		}
 		if (!"rh".equalsIgnoreCase(event.getCommand()) && !"rgo".equalsIgnoreCase(event.getCommand()))
 		{
 			return;
@@ -738,6 +761,12 @@ public class RuneHunterPlugin extends Plugin
 	/** Lazily create + show the PokeDev console window (EDT-safe). */
 	public void openDevConsole()
 	{
+		// Second gate. The panel button is already hidden outside dev mode, but this
+		// method is also reachable from `::rh console`, so it defends itself.
+		if (!developerMode)
+		{
+			return;
+		}
 		javax.swing.SwingUtilities.invokeLater(() ->
 		{
 			if (devConsole == null)

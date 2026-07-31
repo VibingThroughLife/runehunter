@@ -57,6 +57,8 @@ public class RuneHunterPanel extends PluginPanel
 	private final Consumer<String> companionSetter;
 	private final Runnable trophyOpener;
 	private final Runnable consoleOpener;
+	/** --developer-mode only; hides the PokeDev launcher on normal clients. */
+	private final boolean developerMode;
 
 	private final JProgressBar dexBar = new JProgressBar(0, CreatureRoster.ALL.size());
 	private final JLabel essenceLabel = new JLabel();
@@ -73,7 +75,7 @@ public class RuneHunterPanel extends PluginPanel
 	private final Map<String, ImageIcon> silCache = new HashMap<>();
 
 	public RuneHunterPanel(CollectionStore store, Consumer<String> companionSetter,
-		Runnable trophyOpener, Runnable consoleOpener)
+		Runnable trophyOpener, Runnable consoleOpener, boolean developerMode)
 	{
 		// Unwrapped: we manage our own scroll panes so the mouse wheel works
 		super(false);
@@ -81,6 +83,7 @@ public class RuneHunterPanel extends PluginPanel
 		this.companionSetter = companionSetter;
 		this.trophyOpener = trophyOpener;
 		this.consoleOpener = consoleOpener;
+		this.developerMode = developerMode;
 
 		sparkleIcon = icon("sparkle.png");
 
@@ -151,16 +154,23 @@ public class RuneHunterPanel extends PluginPanel
 		rebuild();
 	}
 
-	/** Quick-launch buttons: Trophy Room + PokeDev console (no commands needed). */
+	/**
+	 * Quick-launch buttons. Trophy Room is always present; PokeDev only exists when
+	 * RuneLite was launched with --developer-mode, so the shipped build shows a single
+	 * full-width Trophy Room button and no dev surface at all.
+	 */
 	private JPanel buildLauncherRow()
 	{
-		JPanel row = new JPanel(new GridLayout(1, 2, 6, 0));
+		JPanel row = new JPanel(new GridLayout(1, developerMode ? 2 : 1, 6, 0));
 		row.setBackground(ColorScheme.DARK_GRAY_COLOR);
 		row.setMaximumSize(new Dimension(Integer.MAX_VALUE, 28));
 		row.add(launcherButton("Trophy Room",
 			"View and gear up your caught creatures", trophyOpener));
-		row.add(launcherButton("PokeDev",
-			"Open the dev console (spawn/debug tools)", consoleOpener));
+		if (developerMode)
+		{
+			row.add(launcherButton("PokeDev",
+				"Open the dev console (spawn/debug tools)", consoleOpener));
+		}
 		return row;
 	}
 
