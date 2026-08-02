@@ -37,7 +37,8 @@ public class TradeLedger
 	/** [caughtCount, shinyCount] straight from the persisted key. */
 	private int[] counts(CreatureDef d)
 	{
-		String v = configManager.getRSProfileConfiguration(GROUP, "col_" + d.key());
+		String v = configManager.getRSProfileConfiguration(GROUP,
+			com.runehunter.storage.SaveProfile.key("col_" + d.key()));
 		int[] out = {0, 0};
 		if (v != null)
 		{
@@ -56,7 +57,8 @@ public class TradeLedger
 
 	private void writeCounts(CreatureDef d, int caught, int shiny)
 	{
-		configManager.setRSProfileConfiguration(GROUP, "col_" + d.key(),
+		configManager.setRSProfileConfiguration(GROUP,
+			com.runehunter.storage.SaveProfile.key("col_" + d.key()),
 			Math.max(0, caught) + "," + Math.max(0, shiny));
 	}
 
@@ -96,7 +98,8 @@ public class TradeLedger
 		}
 		writeCounts(d, c[0] - 1, c[1]);
 		// equipped gear travels with the creature
-		configManager.setRSProfileConfiguration(GROUP, "equip_" + d.key(), ",,");
+		configManager.setRSProfileConfiguration(GROUP,
+			com.runehunter.storage.SaveProfile.key("equip_" + d.key()), ",,");
 		if (c[0] - 1 <= 0 && d.key().equals(store.getCompanionKey()))
 		{
 			store.setCompanion(null);

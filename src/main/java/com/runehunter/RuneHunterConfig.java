@@ -3,6 +3,7 @@ package com.runehunter;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.ConfigSection;
 import net.runelite.client.config.Range;
 
 @ConfigGroup("runehunter")
@@ -34,6 +35,98 @@ public interface RuneHunterConfig extends Config
 		{
 			return label;
 		}
+	}
+
+	/**
+	 * How chatty RuneHunter is, modelled on the game's own chat filters rather
+	 * than a plain on/off. Most people want to know when something happened
+	 * without a line for every routine event.
+	 */
+	enum ChatFilter
+	{
+		ALL("On"),
+		IMPORTANT("Filtered"),
+		OFF("Off");
+
+		private final String label;
+
+		ChatFilter(String label)
+		{
+			this.label = label;
+		}
+
+		@Override
+		public String toString()
+		{
+			return label;
+		}
+	}
+
+	@ConfigSection(
+		name = "Chat messages",
+		description = "What RuneHunter says in your chatbox",
+		position = 20,
+		closedByDefault = false
+	)
+	String chatSection = "chatSection";
+
+	@ConfigItem(
+		keyName = "chatVirtual",
+		name = "Virtual finds",
+		description = "On: every virtual find. Filtered: level-ups and rare finds only. Off: nothing.",
+		section = chatSection,
+		position = 21
+	)
+	default ChatFilter chatVirtual()
+	{
+		return ChatFilter.IMPORTANT;
+	}
+
+	@ConfigItem(
+		keyName = "chatCatches",
+		name = "Catches",
+		description = "On: every catch. Filtered: new GoDex entries and shinies only. Off: nothing.",
+		section = chatSection,
+		position = 22
+	)
+	default ChatFilter chatCatches()
+	{
+		return ChatFilter.ALL;
+	}
+
+	@ConfigItem(
+		keyName = "chatOrbs",
+		name = "Orb drops",
+		description = "On: every orb. Filtered: crystal and eldritch orbs only. Off: nothing.",
+		section = chatSection,
+		position = 23
+	)
+	default ChatFilter chatOrbs()
+	{
+		return ChatFilter.IMPORTANT;
+	}
+
+	@ConfigItem(
+		keyName = "chatBattles",
+		name = "Battles and duels",
+		description = "On: blow-by-blow. Filtered: start and result only. Off: nothing.",
+		section = chatSection,
+		position = 24
+	)
+	default ChatFilter chatBattles()
+	{
+		return ChatFilter.IMPORTANT;
+	}
+
+	@ConfigItem(
+		keyName = "hideWindowsInBattle",
+		name = "Hide windows during battle",
+		description = "Tuck the PokeDev and Trophy Room windows away while a battle is on screen, and bring them back after",
+		position = 12
+	)
+	default boolean hideWindowsInBattle()
+	{
+		return true;
 	}
 
 	@Range(min = 1, max = 24)

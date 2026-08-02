@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RuneHunter — catch miniature monsters hidden across Gielinor</title>
+<title>RuneHunter: catch miniature monsters hidden across Gielinor</title>
 <meta name="description" content="A free, open-source RuneLite plugin. Miniature OSRS monsters spawn hidden in the 3D world. Walk over, throw an orb, fill your GoDex. 87 creatures, shinies, prayer-flick battles.">
 <meta property="og:title" content="RuneHunter">
 <meta property="og:description" content="Miniature OSRS monsters, hidden in the world. Find them, catch them, collect them. Free RuneLite plugin.">
@@ -16,6 +16,7 @@
     --ink:#e8e0d0; --dim:#a3977f; --faint:#7d735f;
     --gold:#d9a441; --gold-dim:#8f6d2b;
     --t1:#9aa0a6; --t2:#5fa85f; --t3:#5b8fd6; --t4:#a06fd0; --t5:#d05f5f; --shiny:#e8c95a;
+    --discord:#5865f2;
     --maxw:860px;
   }
   *{box-sizing:border-box}
@@ -31,13 +32,21 @@
 
   /* ---- header ---- */
   header{border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(18,16,12,.94); backdrop-filter:blur(8px); z-index:10}
-  .nav{display:flex; align-items:center; gap:22px; height:58px}
+  .nav{display:flex; align-items:center; gap:12px; height:58px}
   .brand{font-weight:700; letter-spacing:.02em; color:var(--ink); font-size:17px}
   .brand span{color:var(--gold)}
   .nav nav{margin-left:auto; display:flex; gap:20px; font-size:14.5px}
   .nav nav a{color:var(--dim)}
   .nav nav a:hover{color:var(--gold); text-decoration:none}
   @media(max-width:560px){ .nav nav a.hide-sm{display:none} }
+
+  /* ---- version pill ---- */
+  .pill{
+    font-size:11.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+    padding:3px 9px; border-radius:99px; border:1px solid var(--gold-dim);
+    color:var(--gold); background:rgba(217,164,65,.08); white-space:nowrap;
+  }
+  a.pill:hover{text-decoration:none; background:rgba(217,164,65,.16)}
 
   /* ---- hero ---- */
   .hero{padding:76px 0 60px; border-bottom:1px solid var(--line)}
@@ -52,7 +61,20 @@
   .btn:hover{text-decoration:none; filter:brightness(1.08)}
   .btn.ghost{background:transparent; color:var(--ink); border-color:var(--line)}
   .btn.ghost:hover{border-color:var(--gold-dim); color:var(--gold)}
+  .btn.discord{background:var(--discord); border-color:var(--discord); color:#fff}
+  .btn.discord:hover{filter:brightness(1.12)}
   .note{font-size:13.5px; color:var(--faint); margin-top:14px}
+
+  /* ---- status strip ---- */
+  .status{
+    background:var(--bg2); border:1px solid var(--line); border-left:3px solid var(--gold);
+    border-radius:8px; padding:18px 20px; margin:30px 0 0;
+  }
+  .status .row{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin:0 0 8px}
+  .status .ver{font:700 20px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; color:var(--gold)}
+  .status .phase{font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--t3)}
+  .status p{margin:0; color:var(--dim); font-size:14.5px; max-width:70ch}
+  .status .meta{margin-top:10px; font-size:13px; color:var(--faint)}
 
   /* ---- generic section ---- */
   section{padding:58px 0; border-bottom:1px solid var(--line)}
@@ -64,6 +86,22 @@
   .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:22px}
   .card{background:var(--bg2); border:1px solid var(--line); border-radius:8px; padding:20px}
   .card p{margin:0; color:var(--dim); font-size:14.5px}
+
+  /* ---- community ---- */
+  .community{background:linear-gradient(180deg,rgba(88,101,242,.07),transparent)}
+  .cmt-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:18px; margin:0 0 28px}
+  .cmt-grid .card h3{color:var(--ink)}
+
+  /* ---- roadmap ---- */
+  ul.road{list-style:none; padding:0; margin:0}
+  ul.road li{position:relative; padding:0 0 14px 26px; color:var(--dim); font-size:15px}
+  ul.road li::before{
+    content:""; position:absolute; left:3px; top:8px; width:9px; height:9px; border-radius:50%;
+    border:2px solid var(--gold-dim); background:var(--bg);
+  }
+  ul.road li.done::before{background:var(--t2); border-color:var(--t2)}
+  ul.road li.now::before{background:var(--gold); border-color:var(--gold)}
+  ul.road li b{color:var(--ink); font-weight:600}
 
   /* ---- tiers ---- */
   .tiers{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 22px}
@@ -107,12 +145,27 @@
 </head>
 <body>
 
+<!--
+  ============================================================
+  VERSION: update in exactly two places when you cut a release.
+    1. the .pill in the header
+    2. the .status block under the hero (version + phase + date)
+  Keep both in sync with runelite-plugin.properties `version=`.
+
+  DISCORD: every Discord link on this site points at /discord,
+  which is docs/discord/index.html. Change the invite there once
+  and every link on the site and in the plugin follows.
+  ============================================================
+-->
+
 <header>
   <div class="wrap nav">
     <div class="brand">Rune<span>Hunter</span></div>
+    <a class="pill" href="#status">v0.8.0 beta</a>
     <nav>
       <a href="#how">How it works</a>
-      <a href="#faq">FAQ</a>
+      <a href="#community">Community</a>
+      <a href="#faq" class="hide-sm">FAQ</a>
       <a href="#install" class="hide-sm">Install</a>
       <a href="#devs" class="hide-sm">Developers</a>
     </nav>
@@ -123,15 +176,31 @@
   <div class="wrap">
     <h1>There is a tiny Dharok <em>hiding behind Lumbridge castle</em>.</h1>
     <p class="lede">
-      RuneHunter spawns miniature versions of OSRS monsters in the 3D world — behind buildings,
+      RuneHunter spawns miniature versions of OSRS monsters in the 3D world: behind buildings,
       around corners, tucked against walls where you'd never look unless you were looking.
       Walk over. Throw an orb. Fill your GoDex.
     </p>
     <div class="cta">
-      <a class="btn" href="#install">Install from the Plugin Hub</a>
+      <a class="btn discord" href="/discord">Join the Discord</a>
       <a class="btn ghost" href="#faq">Is this allowed?</a>
     </div>
     <p class="note">Free and open source · No purchases, ever · Nothing leaves your computer</p>
+
+    <div class="status" id="status">
+      <div class="row">
+        <span class="ver">v0.8.0</span>
+        <span class="phase">Beta · not yet on the Plugin Hub</span>
+      </div>
+      <p>
+        RuneHunter is feature-complete and playable, but it hasn't been submitted to the
+        RuneLite Plugin Hub yet. Submission is targeted for late August 2026, and Hub review
+        typically takes another two to six weeks after that.
+      </p>
+      <p class="meta">
+        Want to know the moment it goes live, or help shape what ships?
+        <a href="/discord">The Discord</a> is where release notes, test builds and feedback land first.
+      </p>
+    </div>
   </div>
 </div>
 
@@ -142,7 +211,7 @@
     <div class="grid">
       <div class="card">
         <h3>Orbs drop from kills</h3>
-        <p>Four tiers, from the basic unpowered orb to the near-guaranteed eldritch orb. Rates scale with combat level, so bossing pays better — but a chicken-killing ironman still progresses.</p>
+        <p>Four tiers, from the basic unpowered orb to the near-guaranteed eldritch orb. Rates scale with combat level, so bossing pays better, but a chicken-killing ironman still progresses.</p>
       </div>
       <div class="card">
         <h3>The species lure</h3>
@@ -150,7 +219,7 @@
       </div>
       <div class="card">
         <h3>Everyone on your world sees the same spawns</h3>
-        <p>Spawns are seeded from world, region and a 30-minute time window — so "it's over here!" actually works, with no server anywhere. Different worlds roll differently.</p>
+        <p>Spawns are seeded from world, region and a 30-minute time window, so "it's over here!" actually works, with no server anywhere. Different worlds roll differently.</p>
       </div>
       <div class="card">
         <h3>Battles are prayer flicking</h3>
@@ -182,10 +251,45 @@
     </div>
     <div class="grid">
       <div class="card"><h3>Commons</h3><p>Chicken, cow, goblin, giant rat, imp, scorpion, wolf, seagull, duck, rock crab, unicorn, penguin.</p></div>
-      <div class="card"><h3>The middle</h3><p>Hill and moss giants, the whole slayer line — crawling hands up through gargoyles, nechryael and abyssal demons — and every colour of dragon.</p></div>
+      <div class="card"><h3>The middle</h3><p>Hill and moss giants, the whole slayer line (crawling hands up through gargoyles, nechryael and abyssal demons), and every colour of dragon.</p></div>
       <div class="card"><h3>Legendaries</h3><p>The Barrows six, the GWD generals, Zulrah, Vorkath, Cerberus, Corporeal Beast, TzTok-Jad, and Nex on event windows only.</p></div>
       <div class="card"><h3>And some secrets</h3><p>There are a handful of creatures that never appear in the GoDex until you've caught one. No hints. Roughly one in three hundred and fifty spawn windows.</p></div>
     </div>
+  </div>
+</section>
+
+<section id="community" class="community">
+  <div class="wrap">
+    <h2>Community and feedback</h2>
+    <p class="sub">RuneHunter is one person's project, and it gets better when people tell me what's wrong with it.</p>
+
+    <div class="cmt-grid">
+      <div class="card">
+        <h3>Report a bug</h3>
+        <p>Something spawned inside a wall, a battle desynced, a model looks wrong. Post it with your RuneLite version and I'll chase it.</p>
+      </div>
+      <div class="card">
+        <h3>Request a creature</h3>
+        <p>87 is not the ceiling. If there's an NPC you want shrunk down and hidden in the world, say so. Requests genuinely drive the roster.</p>
+      </div>
+      <div class="card">
+        <h3>Shape the balance</h3>
+        <p>Catch rates, orb drops, battle pacing, shiny odds. All of it is tunable, and none of it is settled. Loud opinions welcome.</p>
+      </div>
+      <div class="card">
+        <h3>Show off catches</h3>
+        <p>Shinies, full-dex runs, first-to-catch races, and the secret creatures nobody has found yet. Screenshots encouraged.</p>
+      </div>
+    </div>
+
+    <div class="cta">
+      <a class="btn discord" href="/discord">Join the Discord</a>
+      <a class="btn ghost" href="https://github.com/VibingThroughLife/runehunter/issues">Open an issue on GitHub</a>
+    </div>
+    <p class="note">
+      No account linking, no in-game data collected. The Discord is a normal Discord server,
+      and the plugin never talks to it. Prefer not to use Discord? GitHub issues work just as well.
+    </p>
   </div>
 </section>
 
@@ -196,14 +300,14 @@
 
     <details open>
       <summary>Will this get me banned?</summary>
-      <p>RuneHunter is built to sit inside Jagex's third-party client rules: no gameplay advantage, no automation, no information the game doesn't already give you. The creatures it renders aren't real game entities. It's a cosmetic collection layer that adds things and removes nothing. That's why it's on the official RuneLite Plugin Hub, where maintainers review submissions for exactly this.</p>
-      <p>Being straight with you: no plugin author can promise you won't be banned, and anyone who does is lying. Jagex sets the rules and can change them. What I can tell you is exactly what the plugin does — and the source is public, so you can check rather than trust me.</p>
+      <p>RuneHunter is built to sit inside Jagex's third-party client rules: no gameplay advantage, no automation, no information the game doesn't already give you. The creatures it renders aren't real game entities. It's a cosmetic collection layer that adds things and removes nothing. That's why it's headed for the official RuneLite Plugin Hub, where maintainers review submissions for exactly this.</p>
+      <p>Being straight with you: no plugin author can promise you won't be banned, and anyone who does is lying. Jagex sets the rules and can change them. What I can tell you is exactly what the plugin does, and the source is public, so you can check rather than trust me.</p>
     </details>
 
     <details>
       <summary>Does it send my data anywhere?</summary>
-      <p>Your collection lives in a file on your own computer. There is no account, no login, and no RuneHunter server — none exists.</p>
-      <p>The one exception is trading and duelling, which run over RuneLite's own built-in Party service — the same mechanism the vanilla Party plugin uses. That only does anything when you deliberately join a party with someone, and it only carries the creature being traded and the duel state. If you never join a party, RuneHunter never touches the network at all.</p>
+      <p>Your collection lives in a file on your own computer. There is no account, no login, and no RuneHunter server. None exists.</p>
+      <p>The one exception is trading and duelling, which run over RuneLite's own built-in Party service, the same mechanism the vanilla Party plugin uses. That only does anything when you deliberately join a party with someone, and it only carries the creature being traded and the duel state. If you never join a party, RuneHunter never touches the network at all.</p>
     </details>
 
     <details>
@@ -213,13 +317,13 @@
 
     <details>
       <summary>Does it work on ironman and HCIM?</summary>
-      <p>Yes. Collections are stored per-account on your own machine, and nothing RuneHunter does touches your actual account state — no XP, no bank, no inventory.</p>
+      <p>Yes. Collections are stored per-account on your own machine, and nothing RuneHunter does touches your actual account state: no XP, no bank, no inventory.</p>
     </details>
 
     <details>
       <summary>Who made this, and why?</summary>
       <p>One OSRS player. Not a studio, not a company. It started as "what if a tiny Dharok was hiding behind Lumbridge castle" and turned into 87 creatures, prayer-flick battles, and a trophy room.</p>
-      <p>The reason is simple: OSRS is better with more <em>to do</em> in it — not more efficient, more to do. There are enormous parts of Gielinor nobody visits because there's no reason to go. RuneHunter puts a reason on those tiles. And the community keeps proving it wants this: the OSRS TCG plugin went viral within days of hitting the Hub on nothing but a booster-pack loop.</p>
+      <p>The reason is simple: OSRS is better with more <em>to do</em> in it. Not more efficient, more to do. There are enormous parts of Gielinor nobody visits because there's no reason to go. RuneHunter puts a reason on those tiles. And the community keeps proving it wants this: the OSRS TCG plugin went viral within days of hitting the Hub on nothing but a booster-pack loop.</p>
     </details>
 
     <details>
@@ -229,7 +333,7 @@
 
     <details>
       <summary>Can I stream it, make videos, monetize that content?</summary>
-      <p>Yes, unconditionally. No permission needed, no revenue share, no attribution required — a link is appreciated but not expected. Streamers and YouTubers make OSRS content a dozen different ways and every one of those formats had to be invented by somebody. Shiny hunts, dex races, first-to-catch-Jad: they're yours. If you build something interesting, tell me and I'll signal-boost it.</p>
+      <p>Yes, unconditionally. No permission needed, no revenue share, no attribution required. A link is appreciated but not expected. Streamers and YouTubers make OSRS content a dozen different ways and every one of those formats had to be invented by somebody. Shiny hunts, dex races, first-to-catch-Jad: they're yours. If you build something interesting, tell me and I'll signal-boost it.</p>
     </details>
 
     <details>
@@ -242,14 +346,21 @@
 <section id="install">
   <div class="wrap">
     <h2>Install</h2>
-    <p class="sub">RuneLite → Plugin Hub. Takes about fifteen seconds.</p>
-    <ol class="steps">
-      <li>Open RuneLite and click the <b>wrench</b> icon in the sidebar.</li>
-      <li>Scroll to the bottom and click <b>Plugin Hub</b>.</li>
-      <li>Search for <b>RuneHunter</b> and hit Install.</li>
-      <li>Log in and start killing things. Orbs drop from normal kills, and creatures start appearing around you.</li>
-    </ol>
-    <p class="note">Requires the release version of RuneLite. The Hub warning you'll see is shown on every third-party plugin, not on this one specifically.</p>
+    <p class="sub">Not on the Plugin Hub yet. Here's exactly where things stand.</p>
+
+    <ul class="road">
+      <li class="done"><b>Feature-complete at v0.8.0.</b> 87 creatures, battles, companions, trading, duels and the Trophy Room are all built and running.</li>
+      <li class="now"><b>Hardening for submission.</b> Stripping developer tooling out of the release build and finishing the compliance pass.</li>
+      <li><b>Submit to the Plugin Hub.</b> Targeted for late August 2026.</li>
+      <li><b>Maintainer review.</b> Historically two to six weeks for a brand new plugin, with no guaranteed timeline.</li>
+      <li><b>Live.</b> Once it's merged, installing takes about fifteen seconds: RuneLite, wrench icon, Plugin Hub, search RuneHunter, Install.</li>
+    </ul>
+
+    <p class="note" style="margin-top:22px">
+      Until then, the source is public and you can build it yourself from
+      <a href="https://github.com/VibingThroughLife/runehunter">the repository</a>.
+      Release announcements go out in <a href="/discord">the Discord</a> first.
+    </p>
   </div>
 </section>
 
@@ -258,8 +369,8 @@
     <h2>Build on it</h2>
     <p class="sub">RuneHunter ships a public integration API. You don't need permission, our jar, or a build change.</p>
     <p style="color:var(--dim); margin:0 0 20px; max-width:66ch">
-      RuneHunter broadcasts what's happening — creature spawned, catch attempted, shiny found, battle won,
-      dex updated — and any RuneLite plugin can react. Custom highlights. Sound packs. TTS shiny alerts.
+      RuneHunter broadcasts what's happening: creature spawned, catch attempted, shiny found, battle won,
+      dex updated. Any RuneLite plugin can react. Custom highlights. Sound packs. TTS shiny alerts.
       OBS overlays showing your live dex on stream. Discord webhooks. Flick-accuracy trackers.
       Copy one self-contained file into your plugin and you're done:
     </p>
@@ -280,7 +391,7 @@
 
 <footer>
   <div class="wrap">
-    <p><strong style="color:var(--dim)">RuneHunter</strong> — free, open source, BSD 2-Clause.</p>
+    <p><strong style="color:var(--dim)">RuneHunter</strong> is free and open source, BSD 2-Clause. Currently v0.8.0 beta.</p>
     <p>An unofficial third-party plugin. Not affiliated with or endorsed by Jagex Ltd. Old School RuneScape is a
        trademark of Jagex Ltd. Not affiliated with or endorsed by Nintendo, Game Freak, or The Pokémon Company.</p>
   </div>

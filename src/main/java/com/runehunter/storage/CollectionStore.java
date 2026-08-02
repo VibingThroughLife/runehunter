@@ -400,12 +400,12 @@ public class CollectionStore
 			encoded = "";
 		}
 		entries.add(d.key() + "=" + encoded);
-		configManager.setConfiguration(GROUP, "bugreports", String.join(";", entries));
+		configManager.setConfiguration(GROUP, SaveProfile.key("bugreports"), String.join(";", entries));
 	}
 
 	private java.util.List<String> rawReports()
 	{
-		String v = configManager.getConfiguration(GROUP, "bugreports");
+		String v = configManager.getConfiguration(GROUP, SaveProfile.key("bugreports"));
 		if (v == null || v.isEmpty())
 		{
 			return new java.util.ArrayList<>();
@@ -441,7 +441,7 @@ public class CollectionStore
 
 	public void clearBugReports()
 	{
-		configManager.unsetConfiguration(GROUP, "bugreports");
+		configManager.unsetConfiguration(GROUP, SaveProfile.key("bugreports"));
 	}
 
 	private static int essenceFor(Tier t)
@@ -503,7 +503,7 @@ public class CollectionStore
 		companionKey = key;
 		if (key == null)
 		{
-			configManager.unsetRSProfileConfiguration(GROUP, "companion");
+			configManager.unsetRSProfileConfiguration(GROUP, SaveProfile.key("companion"));
 		}
 		else
 		{
@@ -515,12 +515,12 @@ public class CollectionStore
 
 	private String rsGet(String key)
 	{
-		return configManager.getRSProfileConfiguration(GROUP, key);
+		return configManager.getRSProfileConfiguration(GROUP, SaveProfile.key(key));
 	}
 
 	private void rsSet(String key, String value)
 	{
-		configManager.setRSProfileConfiguration(GROUP, key, value);
+		configManager.setRSProfileConfiguration(GROUP, SaveProfile.key(key), value);
 	}
 
 	private static int safeInt(String s)

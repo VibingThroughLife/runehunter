@@ -114,6 +114,12 @@ public class RuneHunterPlugin extends Plugin
 	private com.runehunter.ui.DevConsole devConsole;
 	private com.runehunter.party.PartyHub partyHub;
 
+	/** Window-hiding state for {@link #syncWindowsToBattle()}. */
+	private boolean windowsHiddenForBattle;
+	private boolean devConsoleWasVisible;
+	private boolean trophyRoomWasVisible;
+	private boolean announcedSaveProfile;
+
 	@Provides
 	RuneHunterConfig provideConfig(ConfigManager configManager)
 	{
@@ -123,6 +129,10 @@ public class RuneHunterPlugin extends Plugin
 	@Override
 	protected void startUp()
 	{
+		// Pick the save file BEFORE any store reads a key. Dev mode gets its own
+		// namespace so testing never touches the collection you actually play.
+		com.runehunter.storage.SaveProfile.useDevProfile(developerMode);
+
 		modelCache = new NpcModelCache(client, clientThread);
 		animations = new AnimationLearner(configManager);
 		animations.setModelCache(modelCache);
@@ -165,6 +175,7 @@ public class RuneHunterPlugin extends Plugin
 		if (client.getGameState() == GameState.LOGGED_IN)
 		{
 			store.load();
+			announceSaveProfile();
 			panel.refresh();
 			modelCache.startScan(() -> clientThread.invokeLater(spawnManager::reseed));
 		}
@@ -217,6 +228,7 @@ public class RuneHunterPlugin extends Plugin
 		if (event.getGameState() == GameState.LOGGED_IN)
 		{
 			store.load();
+			announceSaveProfile();
 			panel.refresh();
 			companionManager.invalidate();
 			modelCache.startScan(() -> clientThread.invokeLater(spawnManager::reseed));
@@ -241,6 +253,7 @@ public class RuneHunterPlugin extends Plugin
 		{
 			partyHub.tick();
 		}
+		syncWindowsToBattle();
 		if (config.enableCompanion())
 		{
 			companionManager.tick();
@@ -756,6 +769,101 @@ public class RuneHunterPlugin extends Plugin
 			trophyRoom.setVisible(true);
 			trophyRoom.toFront();
 		});
+	}
+
+	/**
+	 * Tuck the floating Swing windows away while a battle is on screen.
+	 *
+	 * The battle renders as a full-screen overlay on the game canvas, but PokeDev
+	 * and the Trophy Room are separate always-on-top frames, so they sit right on
+	 * top of the fight and have to be dragged off manually. Hide them when a
+	 * battle starts and restore whichever were open once it ends — the player
+	 * should never have to move a window to see their own fight.
+	 */
+	private void syncWindowsToBattle()
+	{
+		if (!config.hideWindowsInBattle())
+		{
+			return;
+		}
+
+		final boolean inBattle = isBattleOnScreen();
+		if (inBattle == windowsHiddenForBattle)
+		{
+			return;
+		}
+		windowsHiddenForBattle = inBattle;
+
+		final com.runehunter.ui.DevConsole dev = devConsole;
+		final com.runehunter.ui.TrophyRoom trophy = trophyRoom;
+
+		if (inBattle)
+		{
+			// Remember what was open so we only restore those.
+			devConsoleWasVisible = dev != null && dev.isVisible();
+			trophyRoomWasVisible = trophy != null && trophy.isVisible();
+			javax.swing.SwingUtilities.invokeLater(() ->
+			{
+				if (dev != null && devConsoleWasVisible)
+				{
+					dev.setVisible(false);
+				}
+				if (trophy != null && trophyRoomWasVisible)
+				{
+					trophy.setVisible(false);
+				}
+			});
+			return;
+		}
+
+		javax.swing.SwingUtilities.invokeLater(() ->
+		{
+			if (dev != null && devConsoleWasVisible)
+			{
+				dev.setVisible(true);
+			}
+			if (trophy != null && trophyRoomWasVisible)
+			{
+				trophy.setVisible(true);
+			}
+		});
+		devConsoleWasVisible = false;
+		trophyRoomWasVisible = false;
+	}
+
+	/** True while any battle-like thing is drawing over the game canvas. */
+	private boolean isBattleOnScreen()
+	{
+		if (battleManager != null
+			&& battleManager.getState() != com.runehunter.game.BattleManager.State.IDLE)
+		{
+			return true;
+		}
+		return partyHub != null
+			&& partyHub.getDuelManager() != null
+			&& partyHub.getDuelManager().getState()
+				!= com.runehunter.game.BattleManager.State.IDLE;
+	}
+
+	/**
+	 * Tell the player which save they're on, once, when it isn't the normal one.
+	 * An unexplained empty GoDex reads as data loss; a one-line notice turns it
+	 * into an obviously separate profile.
+	 */
+	private void announceSaveProfile()
+	{
+		// Once per session. This also fires on world hops, and a line every hop
+		// would be exactly the chat spam the filters exist to prevent.
+		if (announcedSaveProfile)
+		{
+			return;
+		}
+		final String notice = com.runehunter.storage.SaveProfile.loginNotice();
+		if (notice != null)
+		{
+			announcedSaveProfile = true;
+			chat(notice);
+		}
 	}
 
 	/** Lazily create + show the PokeDev console window (EDT-safe). */

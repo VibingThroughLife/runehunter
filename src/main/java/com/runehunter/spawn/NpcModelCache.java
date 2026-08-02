@@ -359,6 +359,22 @@ public class NpcModelCache
 			{
 				piece.scale(s, s, s);
 			}
+			// Yaw first, then lift — rotating after translating would swing the
+			// piece around the body's axis instead of its own.
+			switch (recipe.getMergeItemYaw())
+			{
+				case 90:
+					piece.rotateY90Ccw();
+					break;
+				case 180:
+					piece.rotateY180Ccw();
+					break;
+				case 270:
+					piece.rotateY270Ccw();
+					break;
+				default:
+					break;
+			}
 			if (recipe.getMergeItemLift() != 0)
 			{
 				// Jagex Y grows downward, so "up" is negative

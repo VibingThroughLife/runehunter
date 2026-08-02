@@ -98,8 +98,35 @@ public final class SecretIds
 	 */
 	public static final int THIRD_AGE_ITEM_SCALE = 128;
 
-	/** Height offset for merged item models, model units, positive = up. */
-	public static final int THIRD_AGE_ITEM_LIFT = 0;
+	/**
+	 * Height offset for merged item models, model units, positive = up.
+	 *
+	 * Item models are authored around their own origin for the inventory icon, so
+	 * merging them onto a body at lift 0 drops them all at the Man's feet — which
+	 * is exactly what "clipped at the feet" looks like. A player-scale model is
+	 * roughly 200 units tall, so torso height is around 100-120.
+	 *
+	 * Tune with Toolkit -> "Reload models" -> respawn, no restart needed. If one
+	 * value can't satisfy helm, body and weapon at once, that's the signal to split
+	 * this into per-slot offsets rather than keep compromising.
+	 */
+	public static final int THIRD_AGE_ITEM_LIFT = 110;
+
+	/**
+	 * Yaw correction for merged item models, in degrees: 0, 90, 180 or 270.
+	 *
+	 * The RuneLite API only exposes {@code ItemComposition.getInventoryModel()} —
+	 * there is no accessor for a worn/equipped model. So what gets merged is the
+	 * INVENTORY ICON model, authored to look right under the icon camera rather
+	 * than on a body, which is why the armour arrives rotated.
+	 *
+	 * {@code Mesh} only offers Y-axis (yaw) rotation, so this dial can fix a
+	 * left/right facing problem but NOT a pitch problem. If the armour is lying
+	 * on its back rather than turned sideways, no value here will save it — take
+	 * the fallback and drop .mergeItems(), because the white/gold recolour alone
+	 * still reads as 3rd Age and looks deliberate rather than broken.
+	 */
+	public static final int THIRD_AGE_ITEM_YAW = 90;
 
 	// ------------------------------------------------------------------
 	// Palette (packed Jagex HSL: hue 0-63, saturation 0-7, luminance 0-127)

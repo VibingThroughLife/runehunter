@@ -41,6 +41,7 @@ import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.materialtabs.MaterialTab;
 import net.runelite.client.ui.components.materialtabs.MaterialTabGroup;
 import net.runelite.client.util.ImageUtil;
+import net.runelite.client.util.LinkBrowser;
 
 /**
  * RuneHunter side panel. Two tabs: the GoDex (collection browser with
@@ -52,6 +53,20 @@ public class RuneHunterPanel extends PluginPanel
 	private static final Color GOLD = new Color(0xE8B84A);
 	private static final Color CARD = ColorScheme.DARKER_GRAY_COLOR;
 	private static final Color UNCAUGHT_TEXT = new Color(0x8A8A8A);
+	private static final Color DISCORD = new Color(0x7A83E8);
+
+	/** Keep in sync with the {@code version=} line in runelite-plugin.properties. */
+	private static final String VERSION = "0.8.0";
+
+	/**
+	 * Community and feedback link. This points at a redirect page on the project site
+	 * rather than a raw discord.gg invite so a dead invite can be fixed by editing one
+	 * static page instead of shipping a new plugin release.
+	 * <p>
+	 * The plugin never issues an HTTP request to this URL. {@link LinkBrowser} hands the
+	 * address to the operating system's default browser and nothing else happens here.
+	 */
+	private static final String COMMUNITY_URL = "https://runehunter.gg/discord";
 
 	private final CollectionStore store;
 	private final Consumer<String> companionSetter;
@@ -130,6 +145,7 @@ public class RuneHunterPanel extends PluginPanel
 
 		add(top, BorderLayout.NORTH);
 		add(display, BorderLayout.CENTER);
+		add(buildFooter(), BorderLayout.SOUTH);
 
 		tierFilter.addActionListener(e -> rebuild());
 		stateFilter.addActionListener(e -> rebuild());
@@ -172,6 +188,40 @@ public class RuneHunterPanel extends PluginPanel
 				"Open the dev console (spawn/debug tools)", consoleOpener));
 		}
 		return row;
+	}
+
+	/**
+	 * Bottom strip: the running version, and a way to reach the community. Feedback is
+	 * worth surfacing in the client itself because the people best placed to report a
+	 * broken spawn or a desynced battle are the ones looking at it when it happens.
+	 */
+	private JPanel buildFooter()
+	{
+		JPanel footer = new JPanel();
+		footer.setLayout(new BoxLayout(footer, BoxLayout.Y_AXIS));
+		footer.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		footer.setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 0));
+
+		JButton community = launcherButton("Feedback & Discord",
+			"Report a bug, request a creature, or just show off a shiny",
+			() -> LinkBrowser.browse(COMMUNITY_URL));
+		community.setForeground(DISCORD);
+		community.setBorder(BorderFactory.createCompoundBorder(
+			BorderFactory.createLineBorder(new Color(70, 78, 150)),
+			BorderFactory.createEmptyBorder(4, 8, 4, 8)));
+		community.setAlignmentX(Component.CENTER_ALIGNMENT);
+		community.setMaximumSize(new Dimension(Integer.MAX_VALUE, 24));
+
+		JLabel version = new JLabel("RuneHunter v" + VERSION + " (beta)", SwingConstants.CENTER);
+		version.setFont(FontManager.getRunescapeSmallFont());
+		version.setForeground(UNCAUGHT_TEXT);
+		version.setAlignmentX(Component.CENTER_ALIGNMENT);
+		version.setToolTipText("Not yet released on the Plugin Hub");
+		version.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
+
+		footer.add(community);
+		footer.add(version);
+		return footer;
 	}
 
 	private JButton launcherButton(String label, String tooltip, Runnable action)

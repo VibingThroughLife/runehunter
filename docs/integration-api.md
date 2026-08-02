@@ -1,4 +1,4 @@
-# RuneHunter Integration API — v1
+# RuneHunter Integration API v1
 
 *How to build a RuneLite plugin that reacts to RuneHunter.*
 
@@ -15,13 +15,13 @@ There is one hard constraint that shapes the entire design:
 > **RuneLite loads every Plugin Hub plugin in its own `PluginHubClassLoader`.**
 > ([source](https://github.com/runelite/runelite/blob/master/runelite-client/src/main/java/net/runelite/client/externalplugins/ExternalPluginManager.java))
 
-That means your plugin and RuneHunter do **not** share class identity. If RuneHunter posts an instance of `com.runehunter.api.CreatureSpawned` on the shared `EventBus`, and your plugin subscribes to *its own* copy of that class, the EventBus keys the two on different `Class` objects and your handler never fires. This is the trap every "just post an event" integration falls into. Reflection would route around it — and reflection is **forbidden** by RuneLite's plugin rules, so that door is closed too.
+That means your plugin and RuneHunter do **not** share class identity. If RuneHunter posts an instance of `com.runehunter.api.CreatureSpawned` on the shared `EventBus`, and your plugin subscribes to *its own* copy of that class, the EventBus keys the two on different `Class` objects and your handler never fires. This is the trap every "just post an event" integration falls into. Reflection would route around it, and reflection is **forbidden** by RuneLite's plugin rules, so that door is closed too.
 
 So the API is carried on channels whose types live in **RuneLite core**, which every plugin genuinely shares:
 
 | Channel | Carries | Mechanism |
 |---|---|---|
-| **Event channel** | Discrete things that just happened | `ConfigChanged` — a core RuneLite event with `String` group/key/value |
+| **Event channel** | Discrete things that just happened | `ConfigChanged`, a core RuneLite event with `String` group/key/value |
 | **State channel** | Bulk current state and static data | JSON files under `.runelite/runehunter/` |
 
 Both are **local-only**. Nothing here touches the network, and nothing about this API changes RuneHunter's compliance posture.
@@ -96,7 +96,7 @@ RuneHunter writes a single config key. Every event overwrites it, so the config 
 | Field | Type | Meaning |
 |---|---|---|
 | `v` | int | API version. Ignore envelopes whose `v` you don't support. |
-| `seq` | long | Monotonic per-session counter. Use it to drop duplicates — RuneLite can replay a `ConfigChanged` on profile load. |
+| `seq` | long | Monotonic per-session counter. Use it to drop duplicates, because RuneLite can replay a `ConfigChanged` on profile load. |
 | `t` | string | Event type (table below). |
 | `ts` | long | `System.currentTimeMillis()` at emission. |
 | `d` | object | Payload. |
@@ -120,7 +120,7 @@ public void onConfigChanged(ConfigChanged e)
 
 ### Threading
 
-`ConfigChanged` is posted on whatever thread called `setConfiguration` — RuneHunter always emits from the **client thread**. Your handler therefore runs on the client thread. Do not block it. If you need to do I/O or network work (a Discord webhook, say), hand off to an executor; if you need to come back to the client, use `clientThread.invoke()`.
+`ConfigChanged` is posted on whatever thread called `setConfiguration`. RuneHunter always emits from the **client thread**. Your handler therefore runs on the client thread. Do not block it. If you need to do I/O or network work (a Discord webhook, say), hand off to an executor; if you need to come back to the client, use `clientThread.invoke()`.
 
 ### Event types (v1)
 
@@ -179,7 +179,7 @@ Fires in addition to `catch.attempt` when the result is `CAUGHT`. This is the on
   "damageDealt": 340, "damageTaken": 96 }
 ```
 `outcome` ∈ `VICTORY` · `DEFEAT` · `FLED` · `FLEE_FAILED_ABORT`
-`deflects` / `misflicks` are the prayer-flick scorecard — a natural hook for stream overlays and "flick accuracy" trackers.
+`deflects` / `misflicks` are the prayer-flick scorecard, a natural hook for stream overlays and "flick accuracy" trackers.
 
 #### `dex.updated`
 ```json
@@ -204,7 +204,7 @@ Files under `~/.runelite/runehunter/`. Rewritten atomically (temp file + rename)
 | `state.json` | `apiVersion`, plugin version, orb inventory, current companion, lifetime stats, currently active spawns | On any change, debounced to ≥1s |
 | `dex.json` | Per creature: `caught`, `count`, `shiny`, `firstCaughtAt` | On dex change |
 
-`roster.json` is the file that makes a *good* third-party plugin possible — it's how your plugin knows all 87 creatures and their tiers without hardcoding a copy that rots.
+`roster.json` is the file that makes a *good* third-party plugin possible. It's how your plugin knows all 87 creatures and their tiers without hardcoding a copy that rots.
 
 ```json
 // roster.json (excerpt)
@@ -229,7 +229,7 @@ Files under `~/.runelite/runehunter/`. Rewritten atomically (temp file + rename)
 - It keeps our Plugin Hub review surface small. "Broadcasts local state" is trivially auditable; "executes third-party creature definitions" is not.
 - Read-and-react already covers the overwhelming majority of what people actually want to build.
 
-**Planned for v2** (once v1 has real consumers and we know what they hit): a declarative creature-pack format — third parties ship a signed JSON pack of creature definitions that RuneHunter loads into a clearly-marked *community* dex, separate from the canonical one. Declarative, not executable, so the review posture holds.
+**Planned for v2** (once v1 has real consumers and we know what they hit): a declarative creature-pack format: third parties ship a signed JSON pack of creature definitions that RuneHunter loads into a clearly-marked *community* dex, separate from the canonical one. Declarative, not executable, so the review posture holds.
 
 If you're blocked on something v1 can't do, open an issue describing the *plugin you want to build*, not the API call you want. That's what shapes v2.
 
@@ -247,15 +247,15 @@ If you're blocked on something v1 can't do, open an issue describing the *plugin
 
 ## 7. Things worth building
 
-Not a wishlist we're claiming — genuinely unclaimed, and none of it needs us:
+Not a wishlist we're claiming. Genuinely unclaimed, and none of it needs us:
 
-- **Shiny TTS / sound pack** — audio alert on a shiny spawn, with per-tier sounds
-- **Stream overlay bridge** — write dex progress and last-catch to a file OBS reads as a text/browser source
-- **Flick coach** — grade prayer-flick accuracy over time from `battle.ended`, chart it
-- **Discord webhook** — post rare catches to a clan server
-- **Hunt router** — combine `creature.spawned` with the world map to plot a route through active spawns
-- **Auto-screenshot** — trigger RuneLite's screenshot on `catch.success` where `newDexEntry` is true
-- **Dex-race scoreboard** — a clan-run tracker fed by opt-in exports
+- **Shiny TTS / sound pack**: audio alert on a shiny spawn, with per-tier sounds
+- **Stream overlay bridge**: write dex progress and last-catch to a file OBS reads as a text/browser source
+- **Flick coach**: grade prayer-flick accuracy over time from `battle.ended`, chart it
+- **Discord webhook**: post rare catches to a clan server
+- **Hunt router**: combine `creature.spawned` with the world map to plot a route through active spawns
+- **Auto-screenshot**: trigger RuneLite's screenshot on `catch.success` where `newDexEntry` is true
+- **Dex-race scoreboard**: a clan-run tracker fed by opt-in exports
 
 Ship it, tell us, we'll link it.
 

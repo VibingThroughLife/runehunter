@@ -16,3 +16,11 @@ ziCOB1r9
 
 # device-bash cannot delete files; stale git lock files parked here
 _to_delete/
+
+# Local dev dashboard. Runs on this machine only and must never reach the
+# Hub submission repo. Untracked on purpose so it survives branch switches.
+runehunter-dash.py
+.runehunter-dash.json
+.runehunter-dash.json.tmp
+strip-dev-tooling.patch
+__pycache__/

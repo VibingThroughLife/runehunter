@@ -118,6 +118,7 @@ public final class ModelRecipe
 	private final int[] mergeItemIds;
 	private final int mergeItemScale;
 	private final int mergeItemLift;
+	private final int mergeItemYaw;
 	private final boolean desaturate;
 	private final Recolor[] recolors;
 	private final SlabPaint[] slabs;
@@ -128,6 +129,7 @@ public final class ModelRecipe
 		this.mergeItemIds = b.mergeItemIds.stream().mapToInt(Integer::intValue).toArray();
 		this.mergeItemScale = b.mergeItemScale;
 		this.mergeItemLift = b.mergeItemLift;
+		this.mergeItemYaw = b.mergeItemYaw;
 		this.desaturate = b.desaturate;
 		this.recolors = b.recolors.toArray(new Recolor[0]);
 		this.slabs = b.slabs.toArray(new SlabPaint[0]);
@@ -147,6 +149,12 @@ public final class ModelRecipe
 	}
 
 	/** Height offset for merged item models, in model units (positive = up). */
+	/** Yaw correction in degrees (0/90/180/270) for merged item models. */
+	public int getMergeItemYaw()
+	{
+		return mergeItemYaw;
+	}
+
 	public int getMergeItemLift()
 	{
 		return mergeItemLift;
@@ -187,6 +195,7 @@ public final class ModelRecipe
 		private final List<SlabPaint> slabs = new ArrayList<>();
 		private int mergeItemScale = 128;
 		private int mergeItemLift;
+		private int mergeItemYaw;
 		private boolean desaturate;
 		private int scaleOverride = -1;
 
@@ -199,6 +208,13 @@ public final class ModelRecipe
 					mergeItemIds.add(id);
 				}
 			}
+			return this;
+		}
+
+		/** Yaw correction in degrees; rounded to the nearest 90. */
+		public Builder itemYaw(int degrees)
+		{
+			this.mergeItemYaw = ((degrees % 360) + 360) % 360;
 			return this;
 		}
 

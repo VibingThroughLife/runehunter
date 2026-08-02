@@ -194,6 +194,7 @@ public final class CreatureRoster
 			.mergeItems(itemIds)
 			.itemScale(SecretIds.THIRD_AGE_ITEM_SCALE)
 			.itemLift(SecretIds.THIRD_AGE_ITEM_LIFT)
+			.itemYaw(SecretIds.THIRD_AGE_ITEM_YAW)
 			// gold band at the head, then torso and legs in 3rd age white
 			.paint(ModelRecipe.Axis.Y, 0.00, 0.17, SecretIds.THIRD_AGE_GOLD)
 			.paint(ModelRecipe.Axis.Y, 0.17, 0.90, SecretIds.THIRD_AGE_WHITE)

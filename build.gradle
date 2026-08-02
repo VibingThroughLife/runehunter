@@ -80,7 +80,19 @@ tasks.register('runClient', JavaExec) {
     dependsOn 'testClasses'
     classpath = sourceSets.test.runtimeClasspath
     mainClass = 'com.runehunter.RuneHunterPluginTest'
-    args '--developer-mode'
+    // Developer mode is ON by default so the PokeDev tools are there while you work.
+    // To see exactly what a Plugin Hub user sees — no PokeDev button, ::rh inert,
+    // console unreachable — run:  ./gradlew runClient -PnoDev
+    if (!project.hasProperty('noDev')) {
+        args '--developer-mode'
+    }
+    // Second client for trade/duel testing. RuneLite's --profile keeps each
+    // instance's config separate, so two clients don't fight over ~/.runelite:
+    //   ./gradlew runClient                     (main)
+    //   ./gradlew runClient -PrlProfile=alt     (second account)
+    if (project.hasProperty('rlProfile')) {
+        args '--profile', project.property('rlProfile')
+    }
     // JVM flags the official launcher normally supplies (macOS needs
     // com.apple.eawt opened, and Swing rendering via OpenGL not Metal).
     jvmArgs '--add-opens=java.base/java.net=ALL-UNNAMED',

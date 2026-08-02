@@ -25,7 +25,14 @@ public class CompanionManager
 	private final AnimationLearner animations;
 	private final CollectionStore store;
 
-	private static final int MOVE_TICKS_PER_TILE = 24; // slightly quicker than walk, keeps up
+	/** Client ticks per tile at walking pace. A game tick is ~30 client ticks. */
+	private static final int WALK_TICKS_PER_TILE = 24;
+	/** Client ticks per tile once it has fallen behind — this is the "run" gear. */
+	private static final int RUN_TICKS_PER_TILE = 11;
+	/** Distance at which it stops walking and starts running to catch up. */
+	private static final int RUN_DISTANCE = 2;
+	/** Beyond this it gives up and teleports, the way real followers do. */
+	private static final int TELEPORT_DISTANCE = 8;
 
 	private java.util.function.BooleanSupplier faintCheck = () -> false;
 
@@ -36,6 +43,8 @@ public class CompanionManager
 	private WorldPoint lastPlayerTile;
 	private int currentAnim = -1;
 	private int walkTicks;
+	/** How many tiles behind the player we were when the current move began. */
+	private int behindBy;
 
 	// smooth movement (client-tick lerp)
 	private LocalPoint moveFrom;
@@ -74,6 +83,7 @@ public class CompanionManager
 			return;
 		}
 		WorldPoint playerTile = player.getWorldLocation();
+		behindBy = companionTile == null ? 0 : companionTile.distanceTo(playerTile);
 
 		if (!key.equals(activeKey) || object == null)
 		{
@@ -95,7 +105,8 @@ public class CompanionManager
 		{
 			stepAside(playerTile);
 		}
-		else if (companionTile == null || (!isMoving() && companionTile.distanceTo(playerTile) > 1))
+		else if (companionTile == null || ((!isMoving() || shouldRetarget(playerTile))
+			&& (playerMoved(playerTile) || companionTile.distanceTo(playerTile) > 1)))
 		{
 			WorldPoint target = lastPlayerTile != null && !lastPlayerTile.equals(companionTile)
 				? lastPlayerTile : playerTile;
@@ -106,7 +117,7 @@ public class CompanionManager
 			}
 			if (!target.equals(companionTile))
 			{
-				if (companionTile != null && companionTile.distanceTo(target) <= 3)
+				if (companionTile != null && companionTile.distanceTo(target) < TELEPORT_DISTANCE)
 				{
 					startMove(target);
 				}
@@ -128,6 +139,14 @@ public class CompanionManager
 				}
 				faceToward(playerTile);
 			}
+		}
+
+		// Settled and not going anywhere: turn to look at the player. Doing this
+		// only when a move STARTS meant a 90-degree step left the companion facing
+		// its old direction until you walked far enough to trigger another move.
+		if (!isMoving() && companionTile != null && !companionTile.equals(playerTile))
+		{
+			faceToward(playerTile);
 		}
 
 		// Walk animation while moving, idle when settled
@@ -173,6 +192,34 @@ public class CompanionManager
 		return moveTo != null;
 	}
 
+	/**
+	 * True when an in-flight move is already stale.
+	 *
+	 * Previously a move locked out any new target until it finished, so running —
+	 * two tiles per game tick — meant the companion kept committing to a tile you
+	 * had already left, dropped further behind each tick, and eventually crossed
+	 * the snap threshold and teleported. That is the "falls behind then jumps"
+	 * you saw. Letting it re-aim mid-step keeps it attached.
+	 */
+	private boolean shouldRetarget(WorldPoint playerTile)
+	{
+		return moveTarget != null && moveTarget.distanceTo(playerTile) > 1;
+	}
+
+	/**
+	 * True when the player's true tile changed since last game tick.
+	 *
+	 * This is the whole follow trigger. The previous condition only moved the
+	 * companion once the player was MORE than one tile away, so circling it at
+	 * range 1 — any of the eight adjacent tiles — never fired, and the companion
+	 * just stood there. Real pets reposition every time you step, taking the tile
+	 * you vacated, which is what "one tile behind" actually means.
+	 */
+	private boolean playerMoved(WorldPoint playerTile)
+	{
+		return lastPlayerTile != null && !lastPlayerTile.equals(playerTile);
+	}
+
 	private void startMove(WorldPoint target)
 	{
 		LocalPoint from = companionTile != null
@@ -186,7 +233,11 @@ public class CompanionManager
 		moveTo = to;
 		moveTarget = target;
 		moveTick = 0;
-		moveTicks = MOVE_TICKS_PER_TILE * Math.max(1, companionTile.distanceTo(target));
+		final int tiles = Math.max(1, companionTile.distanceTo(target));
+		// Behind? Run. Real followers sprint to close a gap rather than ambling and
+		// then teleporting, which is what made this look like it was stuttering.
+		final int perTile = behindBy >= RUN_DISTANCE ? RUN_TICKS_PER_TILE : WALK_TICKS_PER_TILE;
+		moveTicks = perTile * tiles;
 		// face the direction of travel
 		int dx = Integer.compare(target.getX(), companionTile.getX());
 		int dy = Integer.compare(target.getY(), companionTile.getY());
@@ -282,19 +333,15 @@ public class CompanionManager
 		{
 			return;
 		}
-		int dx = target.getX() - companionTile.getX();
-		int dy = target.getY() - companionTile.getY();
-		// JAU: 0 = south, 512 = west, 1024 = north, 1536 = east
-		int orientation;
-		if (Math.abs(dx) > Math.abs(dy))
+		if (object == null)
 		{
-			orientation = dx > 0 ? 1536 : 512;
+			return;
 		}
-		else
-		{
-			orientation = dy > 0 ? 1024 : 0;
-		}
-		object.setOrientation(orientation);
+		// Delegate to the same JAU maths startMove uses, so a companion turning to
+		// look at you can face all eight directions rather than snapping to the
+		// four cardinals — a diagonal step used to leave it facing the wrong way.
+		faceDirection(Integer.compare(target.getX(), companionTile.getX()),
+			Integer.compare(target.getY(), companionTile.getY()));
 	}
 
 	/** Force a respawn after scene reloads. */

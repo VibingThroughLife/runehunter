@@ -2,7 +2,7 @@
 
 **Miniature OSRS monsters, hidden in the world you already play in.**
 
-Barrows brothers, metal dragons, slayer mobs, GWD generals — shrunk down and tucked
+Barrows brothers, metal dragons, slayer mobs, GWD generals, shrunk down and tucked
 into real tiles across Gielinor. Behind the Varrock bank. Around a corner in a dungeon.
 Against a wall where you'd never look unless you were looking.
 
@@ -11,12 +11,16 @@ Walk over. Throw an orb. Fill your GoDex.
 A free, open-source RuneLite plugin. Inspired by creature-collecting games, built
 entirely out of OSRS's own assets.
 
+**Current version: v0.8.0 (beta).** Feature-complete and playable, not yet submitted to
+the RuneLite Plugin Hub. Submission targeted for late August 2026.
+[Join the Discord](https://runehunter.gg/discord) for release notes and test builds.
+
 ---
 
 ## What it is
 
 - **87 creatures** across five rarity tiers, plus shiny variants and a hidden Secret Dex
-- **Spawns are seeded**, not random — from world + region + a 30-minute window, so every
+- **Spawns are seeded**, not random. World + region + a 30-minute window decide them, so every
   player on your world sees the same creatures in the same places. Shared hunts, zero servers.
 - **Orbs drop from normal kills.** Your regular grind *is* the RuneHunter grind. Killing a
   real NPC also lures its miniature counterpart to you.
@@ -37,13 +41,13 @@ security focus. That's my day job and it's how I think.
 I've been playing RuneScape on and off since 2006. This game has been part of my life for
 most of my life, and the nostalgia is most of why I'm still here.
 
-But the thing I actually love about OSRS isn't the game — it's what the community keeps
+But the thing I actually love about OSRS isn't the game. It's what the community keeps
 building on top of it. Snowflake accounts. Self-imposed rulesets nobody asked for. Ironman
 progression series. Locked-region runs. Escape-room style challenges built out of ordinary
 game systems. People invent entire genres inside a twenty-year-old MMO, and then other
 people watch it for hours.
 
-RuneHunter is me adding one more thing to that pile. Not more efficient — more *to do*.
+RuneHunter is me adding one more thing to that pile. Not more efficient. More *to do*.
 There are enormous parts of Gielinor nobody visits because there's no reason to go. This
 puts a reason on those tiles.
 
@@ -87,7 +91,7 @@ The reason it's worth being direct about: RuneLite's maintainers have already st
 that most plugin code submitted to them is no longer written by humans, and that they can't
 fund human review at that scale. That's not a forecast, it's the current state of the Plugin
 Hub, described by the people who run it. So the useful question isn't whether AI-assisted
-plugins exist — it's whether they're careful or careless.
+plugins exist. It's whether they're careful or careless.
 
 Every design decision here is mine: the tiers, the catch rates, the prayer-flick combat, the
 spawn seeding, which creatures made the roster, which easter eggs are funny and why. AI is
@@ -96,7 +100,7 @@ Nothing ships that I haven't compiled and played.
 
 Slop is what you get when nobody is accountable for the output. I'm accountable for this one.
 The source is public and the licence is BSD 2-Clause, so every claim on this page is something
-you can check rather than take my word for. If it's bad, that's on me — tell me in the issues.
+you can check rather than take my word for. If it's bad, that's on me, so tell me in the Discord or the issues.
 
 ---
 
@@ -118,7 +122,7 @@ it. I'd like it to still exist in ten years.
 ## Build on it
 
 RuneHunter ships a **public integration API**. Other plugin authors can react to spawns, catches,
-shinies, battles and dex progress — custom highlights, sound packs, TTS shiny alerts, OBS
+shinies, battles and dex progress: custom highlights, sound packs, TTS shiny alerts, OBS
 overlays, Discord webhooks, flick-accuracy trackers.
 
 You don't need my jar, a build change, or my permission. Copy one self-contained file into your
@@ -126,20 +130,24 @@ plugin and you're done.
 
 Full spec: [`docs/integration-api.md`](docs/integration-api.md)
 
-This is deliberate. Somebody building an escape-room series shouldn't have to fork this plugin —
-they should be able to react to it from their own. The community inventing new genres on top of
+This is deliberate. Somebody building an escape-room series shouldn't have to fork this plugin.
+They should be able to react to it from their own. The community inventing new genres on top of
 old systems is the best thing about OSRS, and an API is how you get out of its way.
 
-If you want to make content with this — streams, videos, series, whatever — go ahead. No
+If you want to make content with this (streams, videos, series, whatever), go ahead. No
 permission, no revenue share, no attribution required. A link is appreciated and that's it.
 
 ---
 
 ## Install
 
-RuneLite → wrench icon → Plugin Hub → search **RuneHunter** → Install.
+**v0.8.0 beta. Not on the Plugin Hub yet.**
 
-*(Pending Plugin Hub review. Until then, clone and run locally.)*
+Once it's live, installing is: RuneLite → wrench icon → Plugin Hub → search
+**RuneHunter** → Install.
+
+Until then, clone this repository and run it locally with `./gradlew runClient`.
+Release announcements go out in [the Discord](https://runehunter.gg/discord) first.
 
 ---
 
@@ -148,7 +156,8 @@ RuneLite → wrench icon → Plugin Hub → search **RuneHunter** → Install.
 - **Site:** [runehunter.gg](https://runehunter.gg)
 - **FAQ:** [`docs/FAQ.md`](docs/FAQ.md)
 - **Integration API:** [`docs/integration-api.md`](docs/integration-api.md)
-- **Bugs and creature requests:** GitHub issues
+- **Discord:** [runehunter.gg/discord](https://runehunter.gg/discord)
+- **Bugs and creature requests:** the Discord, or GitHub issues
 
 ---
 
