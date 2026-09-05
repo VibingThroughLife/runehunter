@@ -10,9 +10,15 @@
 
 Miniature versions of OSRS monsters (Barrows brothers, metal dragons, slayer mobs, GWD generals) spawn hidden in the 3D world around you. Behind the Varrock bank. Around the corner in a dungeon. Tucked against a wall where you'd never look unless you were looking.
 
-You walk over, you throw an orb, you try to catch it. Rarer creatures are harder to catch and harder to find. Every creature has a shiny variant. You fill out a collection log (the "GoDex"), and you can set any creature you've caught as a companion that follows you around.
+You walk over, you throw an orb, you try to catch it. Rarer creatures are harder to catch and harder to find. Each of the 87 public creatures has a shiny variant; hidden Secret Dex creatures do not. You fill out a collection log (the "GoDex"), and you can set any creature you've caught as a companion that follows you around.
 
 Orbs, the catch currency, drop from normal NPC kills. Your regular grind *is* the RuneHunter grind.
+
+### Can I install it yet?
+
+**Not on the Plugin Hub yet.** The public source is v0.8.0 beta. The core game is implemented, with hardening and playtesting still in progress. RuneHunter has not been submitted to the Plugin Hub, and there is no confirmed release date.
+
+You can inspect or build the [source on GitHub](https://github.com/VibingThroughLife/runehunter). Release announcements will appear in the [Discord](https://runehunter.gg/discord). The website's V1 release does not change the plugin's availability.
 
 ### Is this a separate game?
 
@@ -36,16 +42,16 @@ RuneHunter is designed from the ground up to sit inside Jagex's third-party clie
 
 - **No gameplay advantage.** It doesn't tell you where real NPCs are, doesn't help you fight anything, doesn't reveal information the game doesn't already give you. The creatures it renders are not real game entities.
 - **No automation.** It never clicks, moves, or acts for you. Every catch is you walking there and clicking.
-- **No RuneHunter server.** There isn't one. Your collection lives in a file on your own computer. The only networking anywhere in the plugin is trading and duelling, which run over RuneLite's own built-in Party service. See below.
+- **No RuneHunter server or telemetry.** Your collection is stored locally. Party presence, trading and duelling use RuneLite's built-in Party service when you join a party. See below.
 - **Cosmetic and additive only.** It adds a visual collection layer. It removes nothing and trivializes nothing.
 
-That's the strongest compliance posture a plugin can have. It's also why RuneHunter is submitted to the official RuneLite **Plugin Hub**, where RuneLite maintainers review submissions for exactly these things.
+RuneHunter is being prepared for submission to the RuneLite **Plugin Hub**. It has not been submitted, reviewed or approved. These design intentions are not a guarantee of approval.
 
 To be straight with you: no plugin author can *promise* you won't be banned, and anyone who does is lying. Jagex sets the rules and can change them. What we can tell you is what the plugin actually does, which is the list above, and that the source is public so you can verify it yourself.
 
-### Why does the Plugin Hub show a warning?
+### Does being on the Plugin Hub mean a plugin is guaranteed safe?
 
-RuneLite shows a warning on all Hub plugins because they're third-party code that RuneLite doesn't guarantee. That's a standard notice on every plugin in the Hub, not a flag on this one.
+Hub plugins are third-party code. RuneHunter is not currently listed, and a future listing would not be a guarantee from Jagex or RuneLite. Read the [Plugin Hub information](https://github.com/runelite/runelite/wiki/Information-about-the-Plugin-Hub) for RuneLite's explanation.
 
 ### Isn't this a Pokémon ripoff?
 
@@ -85,13 +91,13 @@ There's also the **species lure**: killing a real NPC temporarily raises the loc
 
 ### How do spawns work? Do I see the same creatures as my friends?
 
-Yes, if you're on the same world. Spawns are seeded deterministically from `(world, region, 30-minute time window)`, so everyone on your world sees the same creature in the same spot during the same window. That's what makes "it's over here!" work, and it needs no server at all.
+Spawns use a seed based on your world, region and a 30-minute time window. Personal species lures, local spawn limits and placement can affect what appears, so identical encounters are not guaranteed between players. No RuneHunter server is needed.
 
 Different worlds roll differently, which quietly makes world-hopping a hunting mechanic.
 
 ### How do battles work?
 
-Real-time, on the OSRS tick, built around prayer flicking. Wild creatures telegraph attacks three ticks ahead with a style icon; you flick the correct overhead protection prayer to deflect. Correct prayer at impact = zero damage plus special-attack energy. Prayer points drain while lit, so flicking properly is the skilled play.
+Real-time, on the OSRS tick, built around prayer flicking. Wild creatures telegraph attacks with a style icon; you select the matching protection prayer in RuneHunter's battle panel to deflect. The default Relaxed pace gives seven ticks of warning. Standard and Fast shorten the window. Correct protection at impact deflects ordinary hits and builds special-attack energy. RuneHunter prayer points drain while lit.
 
 Rare-and-above creatures smite your prayer off. Epic-and-above throw skull-marked unavoidable hits that punch through prayer. It's OSRS combat literacy, applied to a collection game.
 
@@ -101,9 +107,9 @@ Locally, in your RuneLite config directory, scoped to your account profile. Ther
 
 ### So does anything touch the network?
 
-One thing: **trading and duelling**, which run over RuneLite's own built-in **Party service**, the same mechanism the vanilla Party plugin and the OSRS TCG plugin use. It only does anything when you deliberately join a party with someone, and it only carries the creature being traded and the duel state. No RuneHunter infrastructure is involved, because none exists.
+When you join a RuneLite Party, RuneHunter uses RuneLite's built-in **Party service**. It periodically shares your OSRS display name, current companion and companion level with party members. Trade and duel messages also carry creature XP and gear plus combat state such as hitpoints, prayer and special attacks. Messages are relayed to the party and filtered for the intended player locally.
 
-If you never join a party, RuneHunter never touches the network at all.
+There is no RuneHunter server or telemetry. If you never join a party, RuneHunter itself makes no network requests. RuneLite and OSRS still use their own normal network connections.
 
 ### How does trading work?
 
@@ -125,11 +131,11 @@ If you wipe your RuneLite config, yes. Back up your `.runelite` directory if you
 
 ### Can I build on top of this?
 
-Yes, and that's an explicit design goal. RuneHunter ships a **public integration API** so other RuneLite plugin authors can build on it without touching our code.
+An integration API is planned, but **it does not ship in v0.8.0**. The repository contains a design draft for other RuneLite plugins to react to creature spawns, catches, battles and dex updates.
 
-Think about how popular NPC-highlight tooling is for things like imp hunting. Same idea here: RuneHunter broadcasts what's happening: creature spawned, catch attempted, shiny found, battle won, dex updated. Anyone can write a plugin that reacts to it. Custom highlights. Sound packs. TTS shiny alerts. OBS overlays that show your live dex progress on stream. Discord webhooks. Personal stat trackers. Things we haven't thought of.
+Possible uses include sound packs, shiny alerts, stream overlays and personal stat trackers. No broadcaster, state files or copy-paste consumer stub ship yet, so the examples cannot currently connect to RuneHunter.
 
-The API is local-only, requires no permission from us, and has a documented stability policy. See `docs/integration-api.md`.
+The proposed API uses local channels. Its payloads and stability policy are proposals, not a released contract. See the [integration API draft](integration-api.md).
 
 ### Can I stream it / make videos / monetize that content?
 
@@ -147,7 +153,7 @@ The [Discord](https://runehunter.gg/discord) is the fastest route, and GitHub is
 
 ## Roadmap
 
-**Now:** 87 creatures across five tiers plus shinies, hidden 3D spawns, orb drops and species lure, real-time prayer-flick battles, companions, GoDex, trophy room, a handful of secret creatures, and trading + duels over RuneLite's Party service.
+**Implemented in the v0.8.0 beta source:** 87 creatures across five tiers plus shinies, hidden 3D spawns, orb drops and species lure, real-time prayer-flick battles, companions, GoDex, trophy room, a handful of secret creatures, and trading + duels over RuneLite's Party service. Hardening and playtesting remain in progress; this is not a Plugin Hub release.
 
 **Next:** friend activity feed, essence spending, regional dex rewards.
 

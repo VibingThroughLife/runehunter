@@ -9,12 +9,12 @@
 <link rel="canonical" href="https://runehunter.gg/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://runehunter.gg/">
-<meta property="og:title" content="There is a tiny Dharok hiding behind Lumbridge castle.">
+<meta property="og:title" content="RuneHunter | Same Gielinor. A whole new hunt.">
 <meta property="og:description" content="There is a tiny Dharok hiding behind Lumbridge castle.">
 <meta property="og:image" content="https://runehunter.gg/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="A low poly Lumbridge castle with a miniature Dharok standing beside it, over the words: there is a tiny Dharok hiding behind Lumbridge castle.">
+<meta property="og:image:alt" content="RuneHunter: Same Gielinor. A whole new hunt. Illustrated Lumbridge castle and River Lum.">
 <meta property="og:site_name" content="RuneHunter">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://runehunter.gg/og.jpg">
@@ -639,12 +639,87 @@ body.shiny .dustline{display:block}
   header.nav,.panel,details,footer,#hud,#rsmenu{background:Canvas;color:CanvasText;border-color:CanvasText;box-shadow:none}
 }
 
+
+/* V1 hero: a quiet reading column and a clear Lumbridge establishing shot. */
+:root{--maxw:1320px}
+header.nav{background:linear-gradient(180deg,#29251c,#181811);border-bottom:1px solid #746244;box-shadow:0 1px 0 #100f0a}
+.nav .wrap{height:70px;gap:26px}
+.brand .mk{font-size:28px}
+.nav nav{gap:25px}
+.nav nav a{color:#d1c5a6;font-size:17px;padding:12px 0}
+.pill{color:#d3c193;font-size:13px;letter-spacing:.09em;padding:6px 10px}
+.hero{isolation:isolate;min-height:max(820px,100svh);padding:150px 0 150px;overflow:hidden;background:#141c13;align-items:center}
+.hero-art,.hero-shade{position:absolute;inset:0;z-index:-2;pointer-events:none}
+.hero-art img{width:100%;height:100%;object-fit:cover;object-position:64% 50%;animation:hero-breathe 30s ease-in-out infinite alternate}
+@keyframes hero-breathe{from{transform:scale(1)}to{transform:scale(1.035)}}
+.hero-shade{z-index:-1;background:linear-gradient(90deg,rgba(9,16,12,.96) 0%,rgba(12,21,14,.89) 23%,rgba(13,22,15,.57) 42%,rgba(16,22,14,.05) 65%),linear-gradient(0deg,#151a11 0%,rgba(14,23,15,.08) 34%,rgba(8,17,12,.13) 80%,rgba(8,17,12,.35))}
+.hero-layout{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:end}
+.hero-copy{max-width:550px}
+.hero-eyebrow{font-family:var(--f-sm);text-transform:uppercase;font-size:14px;letter-spacing:.13em;color:#d5c59b;margin:0 0 28px;text-shadow:1px 1px #000}
+.hero-eyebrow span{color:#e5b754;margin-right:7px}
+.hero .wordmark{font-size:clamp(60px,6.6vw,98px);white-space:nowrap;line-height:1.05;letter-spacing:-.025em;color:#eee0ab;text-shadow:2px 3px 0 #15110a;margin:0 0 26px}
+.hero .wordmark span{display:inline}.hero .wordmark .h{margin:0;color:#e9b856}
+.hero-heading{font-family:var(--f-ui);font-size:clamp(29px,3.4vw,45px);font-weight:400;line-height:1.15;letter-spacing:-.015em;color:#f2eddb;margin:0 0 23px;text-shadow:1px 2px #10150d}
+.hero-heading em{font-style:normal;color:#e3bd6b}
+.hero .lede{font-size:20px;line-height:1.5;color:#d9dcc9;max-width:43ch;margin-bottom:14px}
+.hero-loop{font-family:var(--f-ui);font-size:18px;color:#f1e6bf;margin-bottom:0;text-shadow:1px 1px #000}
+.hero .cta{margin:29px 0 18px;gap:12px}
+.hero .btn{min-height:52px;padding:11px 22px;font-size:18px;justify-content:center}
+.hero .btn span{margin-left:10px}.hero .btn.gold{background:linear-gradient(#b74e2d,#87341e);border-color:#d9955b #462618 #462618 #d9955b;color:#fff0c8}
+.hero-release{font-family:var(--f-body);font-size:15px;color:#c0c5af;max-width:49ch;line-height:1.5;margin:0}
+.hero-release a{color:#dcc38d}.release-dot{display:inline-block;width:6px;height:6px;background:#c69c4f;border-radius:50%;margin:0 6px 2px 0}
+.hero-stats{display:flex;gap:36px;margin:30px 0 0;padding-top:23px;border-top:1px solid #8f947340;width:fit-content}
+.hero-stats div{display:flex;flex-direction:column-reverse;gap:3px}
+.hero-stats dt{font-family:var(--f-sm);font-size:14px;color:#b4bea5;white-space:nowrap}
+.hero-stats dd{font-family:var(--f-quill);font-size:33px;line-height:1;color:#ecd7a2;margin:0}
+.hero-discovery{width:290px;justify-self:end;margin:0 10px 10px 0;background:rgba(27,28,18,.94);border:1px solid #8a7951;box-shadow:0 3px 0 #0a0e08;color:#e8dfc8;text-shadow:1px 1px #000;transform:translateY(14px)}
+.hero-discovery summary{color:#efcf83;background:none;font-family:var(--f-ui);font-size:19px;display:flex;gap:13px;align-items:center;padding:16px;min-height:78px;list-style:none;cursor:pointer}
+.hero-discovery summary::-webkit-details-marker{display:none}.hero-discovery summary::before,.hero-discovery summary::after{display:none}
+.hero-discovery summary small{display:block;font-family:var(--f-sm);font-size:13px;color:#b7baa1;margin-bottom:2px}
+.discovery-rune{font-family:var(--f-quill);font-size:30px;color:#dcbe73;border:1px solid #736449;background:#373a28;box-shadow:inset 1px 1px #898063;display:grid;place-items:center;width:37px;height:42px;flex:none}
+.discovery-plus{margin-left:auto;color:#cbbd8c}.hero-discovery[open] .discovery-plus{transform:rotate(45deg)}
+.discovery-answer{padding:2px 17px 18px;color:#d6d7c5;font-size:17px;line-height:1.4}.discovery-answer strong{color:#efdbaf;display:block;font-family:var(--f-ui);font-weight:400;font-size:20px}.epic-label{display:block;color:#cea6ee;font-size:14px;margin:3px 0 12px}.discovery-answer p{margin-bottom:12px}.discovery-answer a{color:#efcb78;font-size:16px}
+.hero-bottom{position:absolute;bottom:30px;left:0;right:0;width:100%;display:flex;align-items:center;gap:30px}
+.hero-location{display:flex;gap:14px;align-items:center;text-decoration:none;color:#d8ceb0}
+.hero-location b{display:block;font-family:var(--f-ui);font-size:19px;color:#e5cd95;font-weight:400}.hero-location small{font-family:var(--f-sm);font-size:14px;color:#adb79c}.location-mark{font-size:33px;color:#bd9a57}
+.art-credit{margin-left:auto;font-family:var(--f-sm);font-size:12px;color:#afb69f}
+.hero-scroll{font-family:var(--f-sm);font-size:14px;letter-spacing:.09em;color:#d6cba7;text-transform:uppercase;text-decoration:none;display:flex;gap:15px;align-items:center}.hero-scroll span{font-size:25px}
+#motion-toggle{position:fixed;right:18px;bottom:18px;z-index:41;background:#202218;border:1px solid #786b48;color:#d8cda8;font-family:var(--f-sm);font-size:13px;min-height:38px;padding:7px 13px;cursor:pointer;box-shadow:0 2px 5px #0006}
+#motion-toggle:hover{color:#ffff80;border-color:#bba466}
+body.in-hero #motion-toggle{bottom:103px}
+body.in-hero #mini,body.in-hero #acttext,body.in-hero #plates{visibility:hidden}
+#hud{display:none}body.debug #hud{display:block;bottom:65px}
+#mini{top:87px;width:138px;height:138px}
+body.motion-paused *,body.motion-paused *::before,body.motion-paused *::after{animation-play-state:paused!important;transition:none!important}
+html:has(body.motion-paused){scroll-behavior:auto}
+#tour{scroll-margin-top:72px}#how,#roster,#battle,#faq,#install,#dev{scroll-margin-top:100px}
+@media(min-width:1600px){.hero-art img{object-position:center 55%}.hero-shade{background:linear-gradient(90deg,#0d170dd9 0%,#0d170db0 35%,transparent 63%),linear-gradient(0deg,#151a11,transparent 30%)}}
+@media(max-width:1100px){.hero-layout{gap:20px;grid-template-columns:1.2fr .8fr}.hero-copy{max-width:530px}.hero .wordmark{font-size:76px}.hero .lede{max-width:36ch}.hero-discovery{width:252px;margin-right:0}.hero .btn{font-size:17px;padding:11px 17px}.hero-shade{background:linear-gradient(90deg,#0c170eef,#0c170eaa 47%,#0c170e15 90%),linear-gradient(0deg,#151a11,transparent 55%)}.nav nav{gap:17px}}
+@media(max-width:860px){.nav .wrap{height:auto;gap:5px 15px;padding-top:10px;padding-bottom:7px}.nav nav{padding:5px 0 0}.nav nav a{padding:4px 0;font-size:16px}.hero{padding-top:162px}.hero-layout{grid-template-columns:1fr 230px;gap:8px}.hero .wordmark{font-size:64px}.hero-eyebrow{font-size:12px;letter-spacing:.08em}.hero .lede{font-size:18px}.hero-stats{gap:25px}.hero-stats dt{font-size:12px}.hero-discovery{width:230px}.hero-discovery summary{font-size:16px;padding:12px;gap:8px}.hero-discovery summary small{font-size:12px}#mini{top:114px;width:104px;height:104px}.art-credit{display:none}}
+@media(max-width:620px){
+ .hero{min-height:0;padding:0;display:block;background:#121c11}
+ .hero-art{top:80px;height:460px;z-index:-2}.hero-art img{object-position:68% 0;animation:none}
+ .hero-shade{height:560px;background:linear-gradient(0deg,#121c11 0%,#121c11e6 14%,#121c1130 47%,#121c1100 67%,#10191155)}
+ .hero-layout{display:flex;flex-direction:column;align-items:stretch;gap:20px;padding-top:337px;padding-bottom:26px}
+ .hero-copy{max-width:none}.hero-eyebrow{font-size:12px;margin-bottom:15px;letter-spacing:.085em}
+ .hero .wordmark{font-size:clamp(54px,13.9vw,84px);margin-bottom:20px}.hero-heading{font-size:33px;margin-bottom:19px}
+ .hero .lede{font-size:19px;max-width:44ch}.hero-loop{font-size:17px}
+ .hero .cta{margin:25px 0 18px;gap:10px;display:grid;grid-template-columns:1fr 1fr}.hero .btn{font-size:16px;padding:10px 7px;gap:3px;min-height:50px}.hero .btn span{margin-left:4px}
+ .hero-release{font-size:14px;max-width:40ch}.hero-stats{width:100%;justify-content:space-between;gap:8px;margin-top:27px;padding-top:23px}.hero-stats dd{font-size:32px}.hero-stats dt{font-size:13px}
+ .hero-discovery{align-self:stretch;width:auto;transform:none;margin:7px 0 0}.hero-discovery summary{font-size:18px;padding:12px 14px;min-height:64px}.hero-discovery summary small{font-size:13px}.discovery-rune{height:35px;width:35px;font-size:25px}
+ .hero-bottom{position:relative;bottom:auto;gap:10px;padding-top:20px;padding-bottom:26px;border-top:1px solid #626d4140}.hero-location small{display:none}.hero-location b{font-size:17px}.hero-location{gap:6px}.hero-scroll{margin-left:auto;font-size:12px;letter-spacing:.03em;gap:9px}.location-mark{font-size:25px}
+ body.in-hero #motion-toggle{bottom:12px}#motion-toggle{font-size:12px;min-height:36px;right:10px;bottom:10px}.hero-scroll span{font-size:21px}
+ .hero-stats dt{white-space:normal}.nav nav{justify-content:space-between;gap:12px}.nav nav a[href="#battle"],.nav nav a[href="#dev"]{display:none}#tour{scroll-margin-top:102px}
+}
+@media(prefers-reduced-motion:reduce){.hero-art img{animation:none}}
+@media(forced-colors:active){.hero-art,.hero-shade{display:none}.hero,.hero-discovery{background:Canvas;color:CanvasText}.hero *{color:CanvasText!important;text-shadow:none!important}.hero a,.hero summary,#motion-toggle{border:1px solid ButtonText;background:ButtonFace;color:ButtonText!important}.hero-layout{padding-top:145px}.hero-art{height:0}}
+
 </style>
 </head>
-<body>
+<body class="in-hero">
 <a class="sr" href="#how">Skip to content</a>
 
-<noscript><style>#scan,#vig,#grain{display:none}.rv{opacity:1;transform:none}#hud{display:none}#world{background:#1a1610}</style></noscript>
+<noscript><style>#motion-toggle{display:none}.win{min-height:0;padding:70px 0;background:#1b2419}#scan,#vig,#grain{display:none}.rv{opacity:1;transform:none}#hud{display:none}#world{background:#1a1610}</style></noscript>
 <canvas id="world" aria-hidden="true"></canvas>
 <div id="grain" aria-hidden="true"></div>
 <div id="tscrim" aria-hidden="true"></div>
@@ -654,57 +729,62 @@ body.shiny .dustline{display:block}
 <header class="nav">
   <div class="wrap">
     <a class="brand" href="#top"><i class="orb"></i><span class="mk"><span class="a">Rune</span><span class="b">Hunter</span></span></a>
-    <nav>
+    <nav aria-label="Main navigation">
       <a href="#how">How it works</a>
       <a href="#roster">Creatures</a>
       <a href="#battle">Battles</a>
       <a href="#faq">FAQ</a>
-      <a href="#install">Install</a>
+      <a href="#install">Release</a>
       <a href="#dev">Developers</a>
     </nav>
-    <span class="pill" id="verpill">v0.8.0 BETA</span>
+    <span class="pill" id="verpill">IN DEVELOPMENT</span>
   </div>
 </header>
 
 <main class="page" id="top">
 
 <!-- ============ HERO ============ -->
-<section class="hero">
-  <div class="wrap">
-    <h1 class="wordmark" id="wm"><span>Rune</span><span class="h">Hunter</span></h1>
-    <p class="tagline">A RuneLite plugin</p>
-    <p class="kicker">There is a tiny Dharok <em>hiding behind Lumbridge castle.</em></p>
-    <p class="lede">RuneHunter spawns miniature versions of OSRS monsters on walkable tiles in the 3D world. Some land behind buildings or around corners, and every player on the same world gets the same hunt. <b>Walk over. Throw an orb. Fill your dex.</b></p>
-    <div class="cta">
-      <span class="btn locked" aria-disabled="true" title="Not on the Plugin Hub yet">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 11h12v9H6z"/><path d="M9 11V7a3 3 0 0 1 6 0v4"/></svg>
-        Install from Plugin Hub
-      </span>
-      <a class="btn gold" href="https://runehunter.gg/discord">Get told the second it unlocks</a>
-      <a class="btn" href="#faq">Is this allowed?</a>
-    </div>
-    <p class="req"><span class="x">✖</span> Requires: RuneLite Plugin Hub merge. <b>Not met.</b> <a href="#install">See where it stands</a></p>
-    <p class="note">Free and open source <b>·</b> No purchases, ever <b>·</b> No RuneHunter server or telemetry</p>
-
-    <div class="panel statusbar">
-      <div class="pbody">
-        <div class="vbig">v0.8.0</div>
-        <div class="bar">
-          <div class="lab">Core loop built, hardening for the Hub</div>
-          <div class="track"><i data-fill="88%"></i></div>
-        </div>
+<section class="hero" aria-labelledby="wm">
+  <picture class="hero-art">
+    <source media="(max-width: 620px)" srcset="assets/lumbridge-hero-mobile.webp">
+    <img src="assets/lumbridge-hero.webp" width="1536" height="1024" fetchpriority="high" alt="An illustrated Lumbridge castle and the River Lum, with a miniature Dharok hiding beside a stone wall.">
+  </picture>
+  <div class="hero-shade" aria-hidden="true"></div>
+  <div class="wrap hero-layout">
+    <div class="hero-copy">
+      <p class="hero-eyebrow"><span aria-hidden="true">✦</span> Old School RuneScape. A new adventure.</p>
+      <h1 class="wordmark" id="wm"><span>Rune</span><span class="h">Hunter</span></h1>
+      <p class="hero-heading">Same Gielinor.<br><em>A whole new hunt.</em></p>
+      <p class="lede">A tiny Dharok behind Lumbridge castle. A miniature Jad on your travels. Discover and collect the monsters you know, in the world you never really left.</p>
+      <p class="hero-loop">Explore. Throw an orb. Fill your GoDex.</p>
+      <div class="cta">
+        <a class="btn gold" href="#tour">Begin the hunt <span aria-hidden="true">↓</span></a>
+        <a class="btn" href="https://runehunter.gg/discord">Join the Discord <span aria-hidden="true">↗</span></a>
       </div>
+      <p class="hero-release"><span class="release-dot" aria-hidden="true"></span> A free RuneLite plugin. <a href="#install">Plugin Hub release in preparation</a>.</p>
+      <dl class="hero-stats">
+        <div><dt>Creatures to discover</dt><dd>87</dd></div>
+        <div><dt>Rarity tiers</dt><dd>5</dd></div>
+        <div><dt>Real-world cost</dt><dd>Free</dd></div>
+      </dl>
     </div>
+    <details class="hero-discovery">
+      <summary><span class="discovery-rune" aria-hidden="true">?</span><span><small>Something is hiding here</small>Examine Dharok</span><span class="discovery-plus" aria-hidden="true">+</span></summary>
+      <div class="discovery-answer"><strong>Dharok the Wretched</strong><span class="epic-label">Epic creature</span><p>All of the menace. A tenth of the height. One of six Barrows brothers waiting to join your collection.</p><a href="#roster">Open the collection log <span aria-hidden="true">→</span></a></div>
+    </details>
   </div>
-  <div class="scrollcue"><span></span>Scroll to hunt</div>
+  <div class="hero-bottom wrap">
+    <a href="#tour" class="hero-location"><span class="location-mark" aria-hidden="true">⌖</span><span><b>Lumbridge</b><small>Every adventure starts somewhere.</small></span></a>
+    <span class="art-credit">Lumbridge concept artwork</span>
+    <a href="#tour" class="hero-scroll">Scroll to explore <span aria-hidden="true">↓</span></a>
+  </div>
 </section>
 
-
-<section class="win" data-win="dharok">
+<section class="win" data-win="dharok" id="tour" aria-label="Interactive Lumbridge scene">
   <div class="wrap">
-    <p class="wlabel">Lumbridge</p>
-    <p class="wline">There is a Dharok <em>behind Lumbridge castle.</em></p>
-    <p class="wsub">Nothing on this page is a video. Everything you see is being rasterized right now.</p>
+    <p class="wlabel">01 / Lumbridge</p>
+    <p class="wline">You know the castle. <em>Look a little closer.</em></p>
+    <p class="wsub">Explore our interactive world tour. Scroll to reveal the miniature monsters.</p>
   </div>
 </section>
 <!-- ============ HOW ============ -->
@@ -726,13 +806,13 @@ body.shiny .dustline{display:block}
       </div></div>
       <div class="panel card rv d2"><div class="pbody">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="4"/></svg></div>
-        <h3>Everyone on your world sees the same spawns</h3>
-        <p>Spawns are seeded from world, region and a 30 minute time window, so "it's over here!" actually works, with no server anywhere. Different worlds roll differently.</p>
+        <h3>Hunts roll with your world</h3>
+        <p>Spawns use your world, region and a 30 minute window. Different worlds roll differently, and your kills can attract personal encounters. No RuneHunter server needed.</p>
       </div></div>
       <div class="panel card rv d3"><div class="pbody">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 4v6c0 4-3 6.5-7 8-4-1.5-7-4-7-8V7z"/></svg></div>
         <h3>Battles are prayer flicking</h3>
-        <p>Real time, on the tick. Attacks telegraph three ticks ahead, so flick the right overhead to deflect. Rares smite your prayer off. Epics hit through it.</p>
+        <p>Real time, on the tick. A warning gives you time to flick the matching overhead. Choose Relaxed, Standard or Fast to set the pace. Rares smite your prayer off. Epics hit through it.</p>
       </div></div>
       <div class="panel card rv d4"><div class="pbody">
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M6 20c0-4 2.5-6 6-6s6 2 6 6"/><circle cx="12" cy="8" r="4"/></svg></div>
@@ -761,7 +841,7 @@ body.shiny .dustline{display:block}
   <div class="wrap">
     <p class="eyebrow rv">02 / The roster</p>
     <h2 class="rv">87 creatures, five tiers, and shinies.</h2>
-    <p class="sub rv d1">Rarer means harder to find and harder to catch. Every creature has a shiny variant at roughly one in five hundred and twelve, and every model is a real OSRS NPC loaded from your own game cache and shrunk down.</p>
+    <p class="sub rv d1">Rarer means harder to find and harder to catch. Each of the 87 public creatures has a shiny variant at roughly one in five hundred and twelve, and every model is a real OSRS NPC loaded from your own game cache and shrunk down.</p>
 
     <div class="tiers rv d1">
       <div class="tier t1"><span class="nm">Common</span><span class="ex">Chicken, cow, goblin, giant rat, imp, scorpion, wolf, seagull, duck, rock crab, unicorn, penguin.</span><span class="rate">90% base catch</span></div>
@@ -809,7 +889,7 @@ body.shiny .dustline{display:block}
   <div class="wrap">
     <p class="eyebrow rv">03 / Battles</p>
     <h2 class="rv">It flicks like the real thing.</h2>
-    <p class="sub rv d1">Catching is only half of it. Wild creatures pick fights, and the fight is real time prayer combat on the game tick. The attack telegraphs before it lands, and you get that long to be on the right overhead. The panel below is live. Flick it yourself.</p>
+    <p class="sub rv d1">Catching is only half of it. Wild creatures pick fights, and the fight is real time prayer combat on the game tick. The attack telegraphs before it lands, and you get that long to be on the right overhead. Try the interactive website demo below. Flick the matching overhead.</p>
     <div class="dexwrap">
       <div class="panel rv d1">
         <div class="ptitle"><i class="dot"></i>Combat</div>
@@ -832,8 +912,8 @@ body.shiny .dustline{display:block}
         <p style="color:var(--dim);font-size:15.5px">Relaxed is the default and gives you seven ticks of warning, because flicking is a skill and not everybody has it yet. Standard tightens it. Fast is the old speed, and it is properly hard.</p>
         <h3 style="margin-top:22px">What the tiers do</h3>
         <p style="color:var(--dim);font-size:15.5px">Commons swing slow and telegraph honestly. Rares smite your prayer off mid fight. Epics hit straight through protection, so the answer is never one button.</p>
-        <h3 style="margin-top:22px">Nothing is at stake</h3>
-        <p style="color:var(--dim);font-size:15.5px;margin-bottom:0">Losing costs you nothing you cannot get back, and duels between friends record a win or a loss and nothing else. No creature ever dies.</p>
+        <h3 style="margin-top:22px">Your collection stays yours</h3>
+        <p style="color:var(--dim);font-size:15.5px;margin-bottom:0">A defeated companion needs three minutes to recover. You keep your collection. Friendly duels record a win or a loss without fainting your companion.</p>
       </div></div>
     </div>
   </div>
@@ -937,7 +1017,7 @@ body.shiny .dustline{display:block}
   <div class="wrap">
     <p class="wlabel">Fremennik</p>
     <p class="wline">Still out there. <em>Still not caught.</em></p>
-    <p class="wsub">Somebody is going to be first. It could be you, in about a week.</p>
+    <p class="wsub">Somebody is going to be first. There is a lot of Gielinor left to explore.</p>
   </div>
 </section>
 <!-- ============ DEV ============ -->
@@ -993,7 +1073,7 @@ body.shiny .dustline{display:block}
         <li><a href="#install">Release status</a></li>
       </ul></div>
     </div>
-    <p class="legal">An unofficial third party plugin. Not affiliated with or endorsed by Jagex Ltd. Old School RuneScape is a trademark of Jagex Ltd. Not affiliated with or endorsed by Nintendo, Game Freak, or The Pokémon Company. This page renders its world with a software rasterizer written by hand into a 2D canvas, with no 3D library, no framework and no analytics, which is either a good use of a weekend or a warning sign.</p>
+    <p class="legal">An unofficial third party plugin. Not affiliated with or endorsed by Jagex Ltd. Old School RuneScape is a trademark of Jagex Ltd. Not affiliated with or endorsed by Nintendo, Game Freak, or The Pokémon Company. Hero: original AI-assisted Lumbridge concept artwork, not a gameplay capture. The interactive tour uses a custom 2D canvas renderer. Game fonts are CC0 recreations by RuneStar. No RuneHunter server or telemetry. No analytics.</p>
   </div>
 </footer>
 
@@ -1009,6 +1089,7 @@ body.shiny .dustline{display:block}
   <div class="mint" style="display:none">HUD</div>
 </div>
 
+<button id="motion-toggle" type="button" aria-pressed="false">Pause motion</button>
 <div id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <canvas id="mini" aria-hidden="true"></canvas>
 <div id="xpdrops" aria-hidden="true"></div>
@@ -1027,7 +1108,19 @@ body.shiny .dustline{display:block}
    ═══════════════════════════════════════════════════════════════════ */
 var cv=document.getElementById('world');
 var ctx=cv.getContext('2d',{alpha:false});
-var REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var motionMedia=matchMedia('(prefers-reduced-motion: reduce)');
+var REDUCED=motionMedia.matches, needsFrame=true, lastDrawnP=-1, heroOnly=true;
+var motionButton=document.getElementById('motion-toggle');
+function syncMotion(){
+  document.body.classList.toggle('motion-paused',REDUCED);
+  motionButton.setAttribute('aria-pressed',String(REDUCED));
+  motionButton.textContent=REDUCED?'Resume motion':'Pause motion';
+  needsFrame=true;
+}
+motionButton.addEventListener('click',function(){REDUCED=!REDUCED;syncMotion();});
+motionMedia.addEventListener('change',function(e){REDUCED=e.matches;syncMotion();});
+syncMotion();
+if(new URLSearchParams(location.search).has('debug'))document.body.classList.add('debug');
 var TICK=0.6;
 
 function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
@@ -2183,6 +2276,7 @@ var NRING=4, PIN=!!(window.__PIN);
 var scrollP=0,targetP=0,lastT=0,fps=60,facc=0,fn=0,T0=0,slow=0,lastAdj=0;
 var fhx=0,fhz=1,XK=0.78,HUDREG='LUMBRIDGE';
 function resize(){
+  needsFrame=true;
   var w=innerWidth,h=innerHeight,ar=w/h;
   cv.style.width=w+'px';cv.style.height=h+'px';
   if(ar>=1){H=Math.max(220,Math.round(h*RS));W=Math.round(H*ar);if(W>960){W=960;H=Math.round(960/ar);}}
@@ -2196,6 +2290,9 @@ function resize(){
   ctx.imageSmoothingEnabled=false;QS=[];
 }
 function readScroll(){
+  var heroBottom=document.querySelector('.hero').getBoundingClientRect().bottom;
+  heroOnly=heroBottom>=window.innerHeight;
+  document.body.classList.toggle('in-hero',heroBottom>120);
   var h=document.documentElement.scrollHeight-window.innerHeight;
   targetP=h>0?clamp(window.scrollY/h,0,1):0;
 }
@@ -2290,6 +2387,9 @@ function drawSky(){
 }
 function frame(now){
   requestAnimationFrame(frame);
+  if(document.hidden){lastT=now;return;}
+  if((REDUCED||heroOnly)&&lastDrawnP===targetP&&!needsFrame&&!CLKX){lastT=now;return;}
+  lastDrawnP=targetP;needsFrame=false;
   var dt=Math.min(0.064,(now-lastT)/1000||0.016);lastT=now;
   if(!T0)T0=now;var t=REDUCED?0:(now-T0)/1000;
   scrollP+=(targetP-scrollP)*(REDUCED?1:Math.min(1,dt*4.8));
@@ -2414,6 +2514,7 @@ var _flush=flush;
 flush=function(){nTlast=nT;_flush();};
 
 function boot(){
+  needsFrame=true;
   buildPath();buildPlates();anchorRegions();genWorld();placeMobs();
   var e=document.getElementById('h-seed');if(e)e.textContent=SEED;
   VC.clear();
@@ -2484,7 +2585,7 @@ function drawClickX(now){
   ctx.restore();
 }
 addEventListener('click',function(ev){
-  if(ev.button!==0)return;
+  if(ev.button!==0||document.body.classList.contains('in-hero'))return;
   if(ev.target.closest&&ev.target.closest('a,button,.panel,details,header,.nav,#hud,#rsmenu,#toast,.pray,input,select,textarea,#wm,.brand,pre'))return;
   walkTo(ev.clientX,ev.clientY);
 },true);
@@ -2624,7 +2725,7 @@ var TC={1:'#a7abb0',2:'#5fb45f',3:'#5b91e0',4:'#b06be0',5:'#f0a83c'};
     manual=true;touched=true;ignored=0;
     prays.forEach(function(q){q.classList.remove('ask');});});});
   setInterval(function(){
-    if(!live)return;
+    if(!live||document.hidden||document.body.classList.contains('motion-paused'))return;
     t++;
     if(phase===0){
       if(t>2){
@@ -2677,7 +2778,7 @@ function goShiny(){
   document.body.classList.add('shiny');
   TINT=[0.72,0.99,1.16,26,34,52];
   QS=[];
-  document.getElementById('verpill').textContent='v0.8.0 SHINY';
+  document.getElementById('verpill').textContent='SHINY FOUND';
   var h=document.querySelector('#hud .hint');if(h)h.textContent='shiny: true · 1/512';
   toast('You have a funny feeling like you are being followed.',8000);
   try{sessionStorage.setItem('rh_shiny','1');}catch(e){}
@@ -2735,7 +2836,7 @@ function actLabel(a){
 var rsm=document.getElementById('rsmenu'),rsOps=rsm.querySelector('.ops');
 function rsHide(){rsm.style.display='none';}
 addEventListener('contextmenu',function(ev){
-  if(ev.shiftKey)return;
+  if(ev.shiftKey||document.body.classList.contains('in-hero'))return;
   if(ev.target.closest&&ev.target.closest('#rsmenu')){ev.preventDefault();return;}
   var a=ev.target.closest&&ev.target.closest('a,button,.pray,summary'),list=[];
   if(a){
