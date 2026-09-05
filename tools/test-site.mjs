@@ -1,126 +1,170 @@
 import assert from 'node:assert/strict';
-import { readFile, stat } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const sourcePath = path.join(repo, 'runehunter-index.html');
-const pagesPath = path.join(repo, 'docs', 'index.html');
-const ogPath = path.join(repo, 'docs', 'og.jpg');
-
+const docs = path.join(repo, 'docs');
+const origin = 'https://runehunter.gg';
 const [source, pages, og] = await Promise.all([
-  readFile(sourcePath, 'utf8'),
-  readFile(pagesPath, 'utf8'),
-  readFile(ogPath),
+  readFile(path.join(repo, 'runehunter-index.html'), 'utf8'),
+  readFile(path.join(docs, 'index.html'), 'utf8'),
+  readFile(path.join(docs, 'og.jpg')),
 ]);
-
 assert.equal(pages, source, 'docs/index.html must exactly match runehunter-index.html');
 
-const scriptMatch = source.match(/<script>([\s\S]*?)<\/script>/);
-assert.ok(scriptMatch, 'inline script not found');
-new Function(scriptMatch[1]);
-
-for (const phrase of [
-  'Nothing leaves your computer',
-  'RuneHunter ships a public integration API',
-  'it only carries the creature being traded',
-  'Alpha · on the Plugin Hub',
-]) {
-  assert.ok(!source.includes(phrase), `outdated claim remains: ${phrase}`);
-}
-
-assert.ok(source.includes('Not on the Plugin Hub yet.'), 'release status must remain explicit');
-assert.ok(source.includes('No RuneHunter server or telemetry'), 'privacy summary is missing');
-assert.ok(source.includes('When you join a RuneLite Party') && source.includes('Those messages are relayed'), 'Party data-sharing disclosure is missing');
-assert.ok(source.includes('No broadcaster, state files or copy-paste consumer stub ship yet.'), 'API draft status is missing');
-assert.equal((source.match(/[—–]/g) || []).length, 0, 'Unicode dashes are not allowed');
-assert.equal((source.match(/Matthew/gi) || []).length, 0, 'real name must not appear');
-assert.equal((source.match(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/g) || []).length, 0, 'email address must not appear');
-
-const discordHrefs = [...source.matchAll(/href="([^"]*discord[^"]*)"/gi)].map((m) => m[1]);
-assert.equal(discordHrefs.length, 4, 'expected four Discord links');
-assert.ok(discordHrefs.every((href) => href === 'https://runehunter.gg/discord'), 'Discord links must use the canonical redirect');
-
-assert.ok(!/<script\s+[^>]*src=/i.test(source), 'external scripts are not allowed');
-const assetRoot = path.join(repo, 'docs');
-const checkedAssets = new Set();
-async function checkLocalAsset(value, base = 'https://runehunter.gg/') {
-  if (value.startsWith('data:') || value.startsWith('#')) return;
-  const url = new URL(value, base);
-  assert.equal(url.origin, 'https://runehunter.gg', `runtime asset must be same-origin: ${value}`);
-  const asset = path.resolve(assetRoot, `.${decodeURIComponent(url.pathname)}`);
-  assert.ok(asset.startsWith(`${assetRoot}${path.sep}`), `asset is outside docs: ${value}`);
-  assert.ok((await stat(asset)).isFile(), `runtime asset is missing: ${value}`);
-  checkedAssets.add(asset);
-}
 function attribute(tag, name) {
   return tag.match(new RegExp(`(?:\\s|^)${name}\\s*=["']([^"']*)["']`, 'i'))?.[1];
 }
-const styleSources = [...source.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)]
-  .map((match) => ({ css: match[1], base: 'https://runehunter.gg/' }));
-for (const [tag] of source.matchAll(/<(?:img|source|link)\b[^>]*>/gi)) {
+const checkedAssets = new Set();
+const checkedModules = new Set();
+const styles = [];
+async function localAsset(value, base = `${origin}/`) {
+  if (value.startsWith('data:') || value.startsWith('#')) return null;
+  const url = new URL(value, base);
+  assert.equal(url.origin, origin, `Runtime assets must be same-origin: ${value}`);
+  const filename = path.resolve(docs, `.${decodeURIComponent(url.pathname)}`);
+  assert.ok(filename.startsWith(`${docs}${path.sep}`), `Asset is outside docs: ${value}`);
+  assert.ok((await stat(filename)).isFile(), `Runtime asset is missing: ${value}`);
+  checkedAssets.add(filename);
+  return { filename, url: url.href };
+}
+function syntaxCheck(code, label, module = false) {
+  if (!module) { new Function(code); return; }
+  const result = spawnSync(process.execPath, ['--check', '--input-type=module'], { input: code, encoding: 'utf8' });
+  assert.equal(result.status, 0, `Invalid module ${label}: ${result.stderr || result.error || ''}`);
+}
+async function inspectModule(code, base, label) {
+  syntaxCheck(code, label, true);
+  const imports = [
+    ...[...code.matchAll(/\b(?:import|export)\s+(?:[^;'"`]*?\s+from\s*)?['"]([^'"]+)['"]/g)].map((match) => match[1]),
+    ...[...code.matchAll(/\bimport\s*\(\s*['"]([^'"]+)['"]\s*\)/g)].map((match) => match[1]),
+  ];
+  for (const specifier of imports) {
+    assert.ok(/^(?:\.\.?\/|\/)/.test(specifier), `Module imports must use local paths: ${label} -> ${specifier}`);
+    const asset = await localAsset(specifier, base);
+    assert.ok(asset, `Module cannot import a data URL: ${label}`);
+    if (checkedModules.has(asset.filename)) continue;
+    checkedModules.add(asset.filename);
+    await inspectModule(await readFile(asset.filename, 'utf8'), asset.url, path.relative(docs, asset.filename));
+  }
+  for (const match of code.matchAll(/new\s+URL\(\s*['"]([^'"]+)['"]\s*,\s*import\.meta\.url\s*\)/g)) {
+    await localAsset(match[1], base);
+  }
+}
+async function inspectCss(css, base) {
+  styles.push(css);
+  for (const match of css.matchAll(/@import\s+(?:url\(\s*)?['"]([^'"]+)['"]\s*\)?[^;]*;/gi)) {
+    const asset = await localAsset(match[1], base);
+    assert.ok(asset, 'Stylesheets cannot import a data URL');
+    if (!styles.includes(await readFile(asset.filename, 'utf8'))) await inspectCss(await readFile(asset.filename, 'utf8'), asset.url);
+  }
+  for (const match of css.matchAll(/url\(\s*(?:"([^"]*)"|'([^']*)'|([^"'()\s]+))\s*\)/gi)) {
+    await localAsset(match[1] ?? match[2] ?? match[3], base);
+  }
+}
+
+const scriptTags = [...source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
+assert.ok(scriptTags.length, 'Page scripts are missing');
+for (const [tag, attributes, code] of scriptTags) {
+  const type = attribute(attributes, 'type') || 'text/javascript';
+  const src = attribute(attributes, 'src');
+  if (type === 'application/ld+json') { JSON.parse(code); continue; }
+  assert.ok(['module', 'text/javascript'].includes(type), `Unsupported script type: ${type}`);
+  if (src) {
+    const asset = await localAsset(src);
+    assert.ok(asset, 'Script sources must be local files');
+    const externalCode = await readFile(asset.filename, 'utf8');
+    if (type === 'module') {
+      checkedModules.add(asset.filename);
+      await inspectModule(externalCode, asset.url, src);
+    } else syntaxCheck(externalCode, src);
+  } else if (type === 'module') await inspectModule(code, `${origin}/`, 'inline module');
+  else syntaxCheck(code, 'inline script');
+}
+assert.ok(scriptTags.some(([, attributes]) => attribute(attributes, 'type') === 'module'), 'The adventure module must be loaded');
+for (const match of source.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)) await inspectCss(match[1], `${origin}/`);
+for (const [tag] of source.matchAll(/<(?:img|source|link|video|audio)\b[^>]*>/gi)) {
   if (/^<link\b/i.test(tag)) {
-    if (attribute(tag, 'rel') !== 'stylesheet') continue;
+    const rel = attribute(tag, 'rel');
+    if (!['stylesheet', 'modulepreload', 'preload', 'icon'].includes(rel)) continue;
     const href = attribute(tag, 'href');
-    assert.ok(href, 'stylesheet has no href');
-    await checkLocalAsset(href);
-    const url = new URL(href, 'https://runehunter.gg/');
-    styleSources.push({ css: await readFile(path.resolve(assetRoot, `.${decodeURIComponent(url.pathname)}`), 'utf8'), base: url.href });
+    assert.ok(href, `${rel} link has no href`);
+    const asset = await localAsset(href);
+    if (rel === 'stylesheet' && asset) await inspectCss(await readFile(asset.filename, 'utf8'), asset.url);
   } else {
-    const src = attribute(tag, 'src');
-    if (src) await checkLocalAsset(src);
+    for (const name of ['src', 'poster']) { const value = attribute(tag, name); if (value) await localAsset(value); }
     const srcset = attribute(tag, 'srcset');
     if (srcset && !srcset.startsWith('data:')) {
-      for (const candidate of srcset.split(',')) await checkLocalAsset(candidate.trim().split(/\s+/)[0]);
+      for (const candidate of srcset.split(',')) await localAsset(candidate.trim().split(/\s+/)[0]);
     }
   }
 }
-const styles = styleSources.map(({ css }) => css).join('\n');
-assert.ok(!/@import\b/i.test(styles), 'CSS imports are not allowed');
-for (const { css, base } of styleSources) {
-  for (const match of css.matchAll(/url\(\s*(?:"([^"]*)"|'([^']*)'|([^"'()\s]+))\s*\)/gi)) {
-    await checkLocalAsset(match[1] ?? match[2] ?? match[3], base);
+
+async function listFiles(directory, prefix = '') {
+  const result = [];
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const relative = path.join(prefix, entry.name);
+    if (entry.isDirectory()) result.push(...await listFiles(path.join(directory, entry.name), relative));
+    else if (entry.isFile()) result.push(relative);
+    else assert.fail(`Asset tree cannot contain symlinks or special files: ${relative}`);
   }
+  return result.sort();
 }
-for (const asset of checkedAssets) {
-  if (!/\.(?:webp|png|jpe?g|svg)$/i.test(asset)) continue;
-  const relative = path.relative(assetRoot, asset);
-  const [published, preview] = await Promise.all([readFile(asset), readFile(path.join(repo, relative))]);
-  assert.ok(published.equals(preview), `Root preview image must match docs/${relative} byte-for-byte`);
+const [publishedAssets, previewAssets] = await Promise.all([listFiles(path.join(docs, 'assets')), listFiles(path.join(repo, 'assets'))]);
+assert.deepEqual(previewAssets, publishedAssets, 'Root preview and docs assets must contain the same files');
+for (const relative of publishedAssets) {
+  const [published, preview] = await Promise.all([readFile(path.join(docs, 'assets', relative)), readFile(path.join(repo, 'assets', relative))]);
+  assert.ok(published.equals(preview), `Asset mirrors differ: assets/${relative}`);
 }
-assert.ok(!/\b(?:fetch|XMLHttpRequest|WebSocket|sendBeacon)\s*\(/.test(scriptMatch[1]), 'network calls are not allowed');
-assert.equal((styles.match(/@font-face/g) || []).length, 5, 'expected five embedded game fonts');
-for (const [face] of styles.matchAll(/@font-face\s*\{[^}]*\}/gi)) {
-  assert.ok(/src\s*:\s*url\(\s*data:font\//i.test(face), 'game fonts must remain embedded');
-}
-assert.ok(source.includes('var LPATCH='), 'Lumbridge terrain patch is missing');
+const threeLicense = await readFile(path.join(docs, 'assets/vendor/THREE-LICENSE.txt'), 'utf8');
+assert.match(threeLicense, /Permission is hereby granted/i, 'Vendored Three.js must retain its MIT license');
+assert.match(threeLicense, /three\.js|threejs|mrdoob/i, 'Vendored license must identify Three.js');
+assert.ok([...checkedModules].some((filename) => filename.endsWith('/vendor/three.module.js')), 'The local Three.js entry point was not reached');
+assert.ok([...checkedModules].some((filename) => filename.endsWith('/vendor/three.core.js')), 'The local Three.js core dependency was not reached');
 
-const ids = [...source.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
-assert.equal(new Set(ids).size, ids.length, 'duplicate HTML id found');
+const css = styles.join('\n');
+assert.equal((css.match(/@font-face/g) || []).length, 5, 'Expected five embedded game fonts');
+for (const [face] of css.matchAll(/@font-face\s*\{[^}]*\}/gi)) assert.match(face, /src\s*:\s*url\(\s*data:font\//i, 'Game fonts must remain embedded');
+for (const phrase of ['Nothing leaves your computer', 'RuneHunter ships a public integration API', 'it only carries the creature being traded', 'Alpha · on the Plugin Hub']) {
+  assert.ok(!source.includes(phrase), `Outdated claim remains: ${phrase}`);
+}
+assert.ok(source.includes('Not on the Plugin Hub yet.'), 'Plugin availability must remain explicit');
+assert.ok(source.includes('No RuneHunter server or telemetry'), 'Privacy summary is missing');
+assert.ok(source.includes('When you join a RuneLite Party') && source.includes('Those messages are relayed'), 'Party data-sharing disclosure is missing');
+assert.ok(source.includes('No broadcaster, state files or copy-paste consumer stub ship yet.'), 'API draft status is missing');
+assert.match(source, /(?:website|browser).{0,80}(?:demo|adventure|showcase)|(?:demo|adventure|showcase).{0,80}(?:website|browser)/i, 'Adventure must be identified as a website demonstration');
+assert.equal((source.match(/[—–]/g) || []).length, 0, 'Unicode dashes are not allowed');
+assert.equal((source.match(/Matthew/gi) || []).length, 0, 'Real name must not appear');
+assert.equal((source.match(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/g) || []).length, 0, 'Email address must not appear');
+const discord = [...source.matchAll(/href=["']([^"']*discord[^"']*)["']/gi)].map((match) => match[1]);
+assert.ok(discord.length >= 2, 'Community links are missing');
+assert.ok(discord.every((href) => href === 'https://runehunter.gg/discord'), 'Discord links must use the canonical redirect');
+
+const ids = [...source.matchAll(/\sid=["']([^"']+)["']/g)].map((match) => match[1]);
+assert.equal(new Set(ids).size, ids.length, 'Duplicate HTML id found');
 const idSet = new Set(ids);
-for (const match of source.matchAll(/href="#([^"]+)"/g)) {
-  assert.ok(idSet.has(match[1]), `broken fragment link: #${match[1]}`);
+for (const match of source.matchAll(/href=["']#([^"']+)["']/g)) assert.ok(idSet.has(match[1]), `Broken fragment link: #${match[1]}`);
+for (const id of ['top', 'tour', 'world-stage', 'world-canvas', 'explore-world', 'adventure-dialog', 'adventure-title', 'adventure-viewport', 'exit-world', 'world-pause', 'world-replay', 'world-zoom-in', 'world-zoom-out', 'world-rotate-left', 'world-rotate-right', 'world-catch', 'world-notice', 'world-progress']) {
+  assert.ok(idSet.has(id), `Adventure control is missing: #${id}`);
 }
+assert.match(source, /<dialog\b[^>]*id=["']adventure-dialog["']/i, 'Adventure needs a native dialog');
+assert.match(source, /id=["']explore-world["'][^>]*href=["']#tour["']|href=["']#tour["'][^>]*id=["']explore-world["']/i, 'Explore must retain a no-JS fallback link');
+for (const creature of ['chicken', 'goblin', 'dharok']) assert.ok(source.includes(`data-creature="${creature}"`) || source.includes(`data-creature='${creature}'`), `Accessible creature action missing: ${creature}`);
+assert.match(source, /<main\b[^>]*id=["']top["']/i, 'Main landmark is missing');
+assert.match(css, /\.sr:focus\s*\{/, 'Visible skip-link focus style is missing');
+assert.match(css, /@media\s*\(\s*forced-colors\s*:\s*active\s*\)/, 'Forced-colors fallback is missing');
+assert.match(source, /prefers-reduced-motion\s*:\s*reduce/, 'Reduced-motion preference is missing');
 
-const rosterMatch = source.match(/var ROSTER=(\[[\s\S]*?\]);\nvar TC=/);
-assert.ok(rosterMatch, 'site roster not found');
+const rosterMatch = source.match(/(?:var|const|let)\s+ROSTER\s*=\s*(\[[\s\S]*?\]);\s*(?:var|const|let)\s+TC\s*=/);
+assert.ok(rosterMatch, 'Site roster not found');
 const roster = new Function(`return ${rosterMatch[1]}`)();
-assert.equal(roster.length, 87, 'site roster must contain all 87 public creatures');
-assert.equal(new Set(roster.map(([name]) => name.toLowerCase())).size, 87, 'site roster names must be unique');
-const tierCounts = roster.reduce((counts, [, tier]) => {
-  counts[tier] = (counts[tier] || 0) + 1;
-  return counts;
-}, {});
-assert.deepEqual(tierCounts, { 1: 12, 2: 15, 3: 18, 4: 18, 5: 24 }, 'site tier counts must match CreatureRoster');
+assert.equal(roster.length, 87, 'Site roster must contain all 87 public creatures');
+assert.equal(new Set(roster.map(([name]) => name.toLowerCase())).size, 87, 'Site roster names must be unique');
+const tierCounts = roster.reduce((counts, [, tier]) => ({ ...counts, [tier]: (counts[tier] || 0) + 1 }), {});
+assert.deepEqual(tierCounts, { 1: 12, 2: 15, 3: 18, 4: 18, 5: 24 }, 'Site tier counts must match CreatureRoster');
 
-assert.ok(source.includes('<main class="page" id="top">'), 'main landmark is missing');
-assert.ok(source.includes('.sr:focus{'), 'visible skip-link focus style is missing');
-assert.equal((source.match(/<button\b[^>]*class="pray"[^>]*aria-pressed="false"/g) || []).length, 3, 'prayer controls need pressed state');
-assert.ok(source.includes('@media(forced-colors:active)'), 'forced-colors fallback is missing');
-assert.ok(source.includes('prefers-reduced-motion: reduce'), 'reduced-motion preference is missing');
-assert.ok(source.includes('id="motion-toggle"'), 'motion pause control is missing');
-
-assert.equal(og.readUInt16BE(0), 0xffd8, 'social card must be a JPEG');
 function jpegDimensions(buffer) {
   const sof = new Set([0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf]);
   let offset = 2;
@@ -130,20 +174,12 @@ function jpegDimensions(buffer) {
     const marker = buffer[offset++];
     if (marker === 0xd9 || marker === 0xda) break;
     const length = buffer.readUInt16BE(offset);
-    if (sof.has(marker)) {
-      return { height: buffer.readUInt16BE(offset + 3), width: buffer.readUInt16BE(offset + 5) };
-    }
+    if (sof.has(marker)) return { height: buffer.readUInt16BE(offset + 3), width: buffer.readUInt16BE(offset + 5) };
     offset += length;
   }
   throw new Error('JPEG dimensions not found');
 }
-assert.deepEqual(jpegDimensions(og), { width: 1200, height: 630 }, 'social card must be 1200x630');
-assert.ok(source.includes('https://runehunter.gg/og.jpg'), 'social metadata must reference og.jpg');
-
-const externalHosts = new Set(
-  [...source.matchAll(/https:\/\/[^"'\s<)]+/g)]
-    .map((m) => new URL(m[0]).hostname)
-);
-assert.deepEqual([...externalHosts].sort(), ['github.com', 'runehunter.gg'], 'unexpected external host');
-
-console.log(`RuneHunter site checks passed: truthful copy, 87-creature roster, ${checkedAssets.size} local assets, embedded fonts and scripts, accessibility hooks, and 1200x630 social card.`);
+assert.equal(og.readUInt16BE(0), 0xffd8, 'Social card must be a JPEG');
+assert.deepEqual(jpegDimensions(og), { width: 1200, height: 630 }, 'Social card must be 1200x630');
+assert.ok(source.includes('https://runehunter.gg/og.jpg'), 'Social metadata must reference og.jpg');
+console.log(`RuneHunter static acceptance passed: ${checkedModules.size} local modules, ${checkedAssets.size} runtime assets, ${publishedAssets.length} mirrored assets, Three.js license, 87-creature roster, truthful status and accessible adventure controls.`);

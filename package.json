@@ -1,0 +1,12 @@
+{
+  "name": "runehunter-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:site": "node tools/test-site.mjs",
+    "test:world": "node tools/test-world.mjs",
+    "test:browser": "node tools/test-browser.mjs",
+    "sync:site": "node tools/sync-site.mjs"
+  },
+  "description": "Static RuneHunter website acceptance tooling; runtime dependencies are vendored with licenses."
+}

@@ -1,5 +1,9 @@
 # RuneHunter website V1 hero
 
+Historical handoff for hero commit `21fa6bf`. The walkable adventure supersedes
+the scrolling-world behavior below; see [Lumbridge adventure](LUMBRIDGE-ADVENTURE.md)
+for the current implementation, validation, and release status.
+
 The website release is separate from the plugin release. The public plugin is
 v0.8.0 beta; RuneHunter is not listed on the RuneLite Plugin Hub as checked on
 4 September 2026. Do not promote the uncommitted v0.9 plugin work with this site.
