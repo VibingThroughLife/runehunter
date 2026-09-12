@@ -9,12 +9,12 @@
 <link rel="canonical" href="https://runehunter.gg/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://runehunter.gg/">
-<meta property="og:title" content="RuneHunter | Same Gielinor. A whole new hunt.">
+<meta property="og:title" content="RuneHunter | Your next adventure is hiding in plain sight.">
 <meta property="og:description" content="There is a tiny Dharok hiding behind Lumbridge castle.">
 <meta property="og:image" content="https://runehunter.gg/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="RuneHunter: Same Gielinor. A whole new hunt. The interactive 3D Lumbridge castle, stone bridge, and River Lum.">
+<meta property="og:image:alt" content="RuneHunter: Your next adventure is hiding in plain sight. A 3D Lumbridge Castle and a miniature Dharok encounter.">
 <meta property="og:site_name" content="RuneHunter">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://runehunter.gg/og.jpg">
@@ -23,7 +23,7 @@
 /* ============================================================
    RuneHunter :: runehunter.gg
    A static website. No framework, backend, build step, or tracking.
-   The live Lumbridge adventure uses locally served Three.js.
+   The scroll-driven Lumbridge introduction uses locally served Three.js.
    Original procedural scenery and a deterministic, memory-only showcase.
    The interface is drawn to the same rules as the client's own:
    stone panels, parchment, and the actual game fonts
@@ -640,87 +640,13 @@ body.shiny .dustline{display:block}
 }
 
 
-/* V1 hero: a quiet reading column and a clear Lumbridge establishing shot. */
-:root{--maxw:1320px}
-header.nav{background:linear-gradient(180deg,#29251c,#181811);border-bottom:1px solid #746244;box-shadow:0 1px 0 #100f0a}
-.nav .wrap{height:70px;gap:26px}
-.brand .mk{font-size:28px}
-.nav nav{gap:25px}
-.nav nav a{color:#d1c5a6;font-size:17px;padding:12px 0}
-.pill{color:#d3c193;font-size:13px;letter-spacing:.09em;padding:6px 10px}
-.hero{isolation:isolate;min-height:max(820px,100svh);padding:150px 0 150px;overflow:hidden;background:#141c13;align-items:center}
-.hero-art,.hero-shade{position:absolute;inset:0;z-index:-2;pointer-events:none}
-.hero-art img{width:100%;height:100%;object-fit:cover;object-position:64% 50%;animation:hero-breathe 30s ease-in-out infinite alternate}
-@keyframes hero-breathe{from{transform:scale(1)}to{transform:scale(1.035)}}
-.hero-shade{z-index:-1;background:linear-gradient(90deg,rgba(9,16,12,.96) 0%,rgba(12,21,14,.89) 23%,rgba(13,22,15,.57) 42%,rgba(16,22,14,.05) 65%),linear-gradient(0deg,#151a11 0%,rgba(14,23,15,.08) 34%,rgba(8,17,12,.13) 80%,rgba(8,17,12,.35))}
-.hero-layout{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:end}
-.hero-copy{max-width:550px}
-.hero-eyebrow{font-family:var(--f-sm);text-transform:uppercase;font-size:14px;letter-spacing:.13em;color:#d5c59b;margin:0 0 28px;text-shadow:1px 1px #000}
-.hero-eyebrow span{color:#e5b754;margin-right:7px}
-.hero .wordmark{font-size:clamp(60px,6.6vw,98px);white-space:nowrap;line-height:1.05;letter-spacing:-.025em;color:#eee0ab;text-shadow:2px 3px 0 #15110a;margin:0 0 26px}
-.hero .wordmark span{display:inline}.hero .wordmark .h{margin:0;color:#e9b856}
-.hero-heading{font-family:var(--f-ui);font-size:clamp(29px,3.4vw,45px);font-weight:400;line-height:1.15;letter-spacing:-.015em;color:#f2eddb;margin:0 0 23px;text-shadow:1px 2px #10150d}
-.hero-heading em{font-style:normal;color:#e3bd6b}
-.hero .lede{font-size:20px;line-height:1.5;color:#d9dcc9;max-width:43ch;margin-bottom:14px}
-.hero-loop{font-family:var(--f-ui);font-size:18px;color:#f1e6bf;margin-bottom:0;text-shadow:1px 1px #000}
-.hero .cta{margin:29px 0 18px;gap:12px}
-.hero .btn{min-height:52px;padding:11px 22px;font-size:18px;justify-content:center}
-.hero .btn span{margin-left:10px}.hero .btn.gold{background:linear-gradient(#b74e2d,#87341e);border-color:#d9955b #462618 #462618 #d9955b;color:#fff0c8}
-.hero-release{font-family:var(--f-body);font-size:15px;color:#c0c5af;max-width:49ch;line-height:1.5;margin:0}
-.hero-release a{color:#dcc38d}.release-dot{display:inline-block;width:6px;height:6px;background:#c69c4f;border-radius:50%;margin:0 6px 2px 0}
-.hero-stats{display:flex;gap:36px;margin:30px 0 0;padding-top:23px;border-top:1px solid #8f947340;width:fit-content}
-.hero-stats div{display:flex;flex-direction:column-reverse;gap:3px}
-.hero-stats dt{font-family:var(--f-sm);font-size:14px;color:#b4bea5;white-space:nowrap}
-.hero-stats dd{font-family:var(--f-quill);font-size:33px;line-height:1;color:#ecd7a2;margin:0}
-.hero-discovery{width:290px;justify-self:end;margin:0 10px 10px 0;background:rgba(27,28,18,.94);border:1px solid #8a7951;box-shadow:0 3px 0 #0a0e08;color:#e8dfc8;text-shadow:1px 1px #000;transform:translateY(14px)}
-.hero-discovery summary{color:#efcf83;background:none;font-family:var(--f-ui);font-size:19px;display:flex;gap:13px;align-items:center;padding:16px;min-height:78px;list-style:none;cursor:pointer}
-.hero-discovery summary::-webkit-details-marker{display:none}.hero-discovery summary::before,.hero-discovery summary::after{display:none}
-.hero-discovery summary small{display:block;font-family:var(--f-sm);font-size:13px;color:#b7baa1;margin-bottom:2px}
-.discovery-rune{font-family:var(--f-quill);font-size:30px;color:#dcbe73;border:1px solid #736449;background:#373a28;box-shadow:inset 1px 1px #898063;display:grid;place-items:center;width:37px;height:42px;flex:none}
-.discovery-plus{margin-left:auto;color:#cbbd8c}.hero-discovery[open] .discovery-plus{transform:rotate(45deg)}
-.discovery-answer{padding:2px 17px 18px;color:#d6d7c5;font-size:17px;line-height:1.4}.discovery-answer strong{color:#efdbaf;display:block;font-family:var(--f-ui);font-weight:400;font-size:20px}.epic-label{display:block;color:#cea6ee;font-size:14px;margin:3px 0 12px}.discovery-answer p{margin-bottom:12px}.discovery-answer a{color:#efcb78;font-size:16px}
-.hero-bottom{position:absolute;bottom:30px;left:0;right:0;width:100%;display:flex;align-items:center;gap:30px}
-.hero-location{display:flex;gap:14px;align-items:center;text-decoration:none;color:#d8ceb0}
-.hero-location b{display:block;font-family:var(--f-ui);font-size:19px;color:#e5cd95;font-weight:400}.hero-location small{font-family:var(--f-sm);font-size:14px;color:#adb79c}.location-mark{font-size:33px;color:#bd9a57}
-.art-credit{margin-left:auto;font-family:var(--f-sm);font-size:12px;color:#afb69f}
-.hero-scroll{font-family:var(--f-sm);font-size:14px;letter-spacing:.09em;color:#d6cba7;text-transform:uppercase;text-decoration:none;display:flex;gap:15px;align-items:center}.hero-scroll span{font-size:25px}
-#motion-toggle{position:fixed;right:18px;bottom:18px;z-index:41;background:#202218;border:1px solid #786b48;color:#d8cda8;font-family:var(--f-sm);font-size:13px;min-height:38px;padding:7px 13px;cursor:pointer;box-shadow:0 2px 5px #0006}
-#motion-toggle:hover{color:#ffff80;border-color:#bba466}
-body.in-hero #motion-toggle{bottom:103px}
-body.in-hero #mini,body.in-hero #acttext,body.in-hero #plates{visibility:hidden}
-#hud{display:none}body.debug #hud{display:block;bottom:65px}
-#mini{top:87px;width:138px;height:138px}
-body.motion-paused *,body.motion-paused *::before,body.motion-paused *::after{animation-play-state:paused!important;transition:none!important}
-html:has(body.motion-paused){scroll-behavior:auto}
-#tour{scroll-margin-top:72px}#how,#roster,#battle,#faq,#install,#dev{scroll-margin-top:100px}
-@media(min-width:1600px){.hero-art img{object-position:center 55%}.hero-shade{background:linear-gradient(90deg,#0d170dd9 0%,#0d170db0 35%,transparent 63%),linear-gradient(0deg,#151a11,transparent 30%)}}
-@media(max-width:1100px){.hero-layout{gap:20px;grid-template-columns:1.2fr .8fr}.hero-copy{max-width:530px}.hero .wordmark{font-size:76px}.hero .lede{max-width:36ch}.hero-discovery{width:252px;margin-right:0}.hero .btn{font-size:17px;padding:11px 17px}.hero-shade{background:linear-gradient(90deg,#0c170eef,#0c170eaa 47%,#0c170e15 90%),linear-gradient(0deg,#151a11,transparent 55%)}.nav nav{gap:17px}}
-@media(max-width:860px){.nav .wrap{height:auto;gap:5px 15px;padding-top:10px;padding-bottom:7px}.nav nav{padding:5px 0 0}.nav nav a{padding:4px 0;font-size:16px}.hero{padding-top:162px}.hero-layout{grid-template-columns:1fr 230px;gap:8px}.hero .wordmark{font-size:64px}.hero-eyebrow{font-size:12px;letter-spacing:.08em}.hero .lede{font-size:18px}.hero-stats{gap:25px}.hero-stats dt{font-size:12px}.hero-discovery{width:230px}.hero-discovery summary{font-size:16px;padding:12px;gap:8px}.hero-discovery summary small{font-size:12px}#mini{top:114px;width:104px;height:104px}.art-credit{display:none}}
-@media(max-width:620px){
- .hero{min-height:0;padding:0;display:block;background:#121c11}
- .hero-art{top:80px;height:460px;z-index:-2}.hero-art img{object-position:68% 0;animation:none}
- .hero-shade{height:560px;background:linear-gradient(0deg,#121c11 0%,#121c11e6 14%,#121c1130 47%,#121c1100 67%,#10191155)}
- .hero-layout{display:flex;flex-direction:column;align-items:stretch;gap:20px;padding-top:337px;padding-bottom:26px}
- .hero-copy{max-width:none}.hero-eyebrow{font-size:12px;margin-bottom:15px;letter-spacing:.085em}
- .hero .wordmark{font-size:clamp(54px,13.9vw,84px);margin-bottom:20px}.hero-heading{font-size:33px;margin-bottom:19px}
- .hero .lede{font-size:19px;max-width:44ch}.hero-loop{font-size:17px}
- .hero .cta{margin:25px 0 18px;gap:10px;display:grid;grid-template-columns:1fr 1fr}.hero .btn{font-size:16px;padding:10px 7px;gap:3px;min-height:50px}.hero .btn span{margin-left:4px}
- .hero-release{font-size:14px;max-width:40ch}.hero-stats{width:100%;justify-content:space-between;gap:8px;margin-top:27px;padding-top:23px}.hero-stats dd{font-size:32px}.hero-stats dt{font-size:13px}
- .hero-discovery{align-self:stretch;width:auto;transform:none;margin:7px 0 0}.hero-discovery summary{font-size:18px;padding:12px 14px;min-height:64px}.hero-discovery summary small{font-size:13px}.discovery-rune{height:35px;width:35px;font-size:25px}
- .hero-bottom{position:relative;bottom:auto;gap:10px;padding-top:20px;padding-bottom:26px;border-top:1px solid #626d4140}.hero-location small{display:none}.hero-location b{font-size:17px}.hero-location{gap:6px}.hero-scroll{margin-left:auto;font-size:12px;letter-spacing:.03em;gap:9px}.location-mark{font-size:25px}
- body.in-hero #motion-toggle{bottom:12px}#motion-toggle{font-size:12px;min-height:36px;right:10px;bottom:10px}.hero-scroll span{font-size:21px}
- .hero-stats dt{white-space:normal}.nav nav{justify-content:space-between;gap:12px}.nav nav a[href="#battle"],.nav nav a[href="#dev"]{display:none}#tour{scroll-margin-top:102px}
-}
-@media(prefers-reduced-motion:reduce){.hero-art img{animation:none}}
-@media(forced-colors:active){.hero-art,.hero-shade{display:none}.hero,.hero-discovery{background:Canvas;color:CanvasText}.hero *{color:CanvasText!important;text-shadow:none!important}.hero a,.hero summary,#motion-toggle{border:1px solid ButtonText;background:ButtonFace;color:ButtonText!important}.hero-layout{padding-top:145px}.hero-art{height:0}}
-
 </style>
 <link rel="stylesheet" href="assets/world/adventure.css">
 </head>
-<body class="in-hero">
+<body>
 <a class="sr" href="#how">Skip to content</a>
 
-<noscript><style>#motion-toggle{display:none}.win{min-height:0;padding:70px 0;background:#1b2419}#scan,#vig,#grain{display:none}.rv{opacity:1;transform:none}#hud{display:none}#world{background:#1a1610}</style></noscript>
+<noscript><style>#motion-toggle{display:none}.rv{opacity:1;transform:none}.intro-catch-actions{display:none}</style></noscript>
 
 
 
@@ -744,55 +670,44 @@ html:has(body.motion-paused){scroll-behavior:auto}
 
 <main class="page" id="top">
 
-<!-- ============ HERO ============ -->
-<section class="hero" aria-labelledby="wm">
-  <div id="world-stage" class="world-stage" aria-hidden="true"><canvas id="world-canvas" tabindex="-1" aria-label="Lumbridge adventure. Use the field journal for keyboard exploration."></canvas></div>
-  <picture class="hero-art">
-    <source media="(max-width: 620px)" srcset="assets/lumbridge-hero-mobile.webp">
-    <img src="assets/lumbridge-hero.webp" width="1536" height="1024" fetchpriority="high" alt="An illustrated Lumbridge castle and the River Lum, with a miniature Dharok hiding beside a stone wall.">
-  </picture>
-  <div class="hero-shade" aria-hidden="true"></div>
-  <div class="wrap hero-layout">
-    <div class="hero-copy">
-      <p class="hero-eyebrow"><span aria-hidden="true">✦</span> Old School RuneScape. A new adventure.</p>
-      <h1 class="wordmark" id="wm"><span>Rune</span><span class="h">Hunter</span></h1>
-      <p class="hero-heading">Same Gielinor.<br><em>A whole new hunt.</em></p>
-      <p class="lede">The familiar castle. A suspicious little chicken. Something with a very big axe hiding behind a wall. Step into Lumbridge and find a new friend.</p>
-      <p class="hero-loop">Find a tiny monster. Throw an orb. Bring it along.</p>
-      <div class="cta">
-        <a class="btn gold" id="explore-world" href="#tour">Explore Lumbridge <span aria-hidden="true">→</span></a>
-        <a class="btn" href="https://runehunter.gg/discord">Join the Discord <span aria-hidden="true">↗</span></a>
-      </div>
-      <p class="hero-release"><span class="release-dot" aria-hidden="true"></span> A free RuneLite plugin. <a href="#install">Plugin Hub release in preparation</a>.</p>
-      <dl class="hero-stats">
-        <div><dt>Creatures to discover</dt><dd>87</dd></div>
-        <div><dt>Rarity tiers</dt><dd>5</dd></div>
-        <div><dt>Real-world cost</dt><dd>Free</dd></div>
-      </dl>
+<!-- One native scroll journey. The text and scene stills also work without JavaScript. -->
+<section id="intro" class="scroll-intro" aria-labelledby="wm">
+  <div id="intro-sticky" class="intro-sticky">
+    <div id="world-stage" class="world-stage" aria-hidden="true"><canvas id="world-canvas"></canvas></div>
+    <picture class="intro-poster arrival-poster">
+      <source media="(max-width: 759px)" srcset="assets/lumbridge-hero-mobile.webp">
+      <img src="assets/lumbridge-hero.webp" width="1440" height="900" fetchpriority="high" alt="Lumbridge Castle, its blue-bannered gate towers and the stone bridge over the River Lum, rendered in the website’s 3D scene.">
+    </picture>
+    <picture class="intro-poster rear-poster">
+      <source media="(max-width: 759px)" srcset="assets/lumbridge-rear-mobile.webp">
+      <img src="assets/lumbridge-rear.webp" width="1440" height="900" alt="An adventurer meets miniature Dharok beside Lumbridge Castle’s rear entrance.">
+    </picture>
+    <div class="intro-shade" aria-hidden="true"></div>
+    <div class="intro-topline"><span class="intro-location"><span aria-hidden="true">⌖</span> Lumbridge <small>Kingdom of Misthalin</small></span><a id="intro-skip" href="#how">Skip intro <span aria-hidden="true">↗</span></a></div>
+    <div id="intro-arrival" class="intro-arrival">
+      <p class="intro-eyebrow">OLD SCHOOL RUNESCAPE. A NEW ADVENTURE.</p>
+      <h1 id="wm" class="intro-wordmark"><span>Rune</span><em>Hunter</em></h1>
+      <p class="intro-line">Your next adventure<br>is hiding in plain sight.</p>
+      <a id="intro-begin" class="intro-scroll" href="#encounter"><span class="scroll-mark" aria-hidden="true">↓</span> Scroll to begin</a>
     </div>
-    <details class="hero-discovery">
-      <summary><span class="discovery-rune" aria-hidden="true">?</span><span><small>Something is hiding here</small>Examine Dharok</span><span class="discovery-plus" aria-hidden="true">+</span></summary>
-      <div class="discovery-answer"><strong>Dharok the Wretched</strong><span class="epic-label">Epic creature</span><p>All of the menace. A tenth of the height. One of six Barrows brothers waiting to join your collection.</p><a href="#roster">Open the collection log <span aria-hidden="true">→</span></a></div>
-    </details>
+    <div id="intro-journey" class="intro-journey"><span class="chapter-number">02 / A familiar place</span><p>Just around the corner.</p></div>
+    <div id="intro-encounter" class="intro-encounter">
+      <p class="encounter-eyebrow"><span class="rare-gem" aria-hidden="true">◆</span> A very small Barrows brother</p>
+      <h2 id="intro-catch-title">Wait. Is that Dharok?</h2>
+      <p id="intro-catch-copy">All of the axe. Less of the height.<br>He looks like he could use a friend.</p>
+      <div class="intro-catch-actions">
+        <button id="intro-catch" class="btn gold" type="button"><span class="orb" aria-hidden="true"></span> Throw an orb</button>
+        <button id="intro-replay" class="intro-text-button" type="button" hidden>Replay catch <span aria-hidden="true">↺</span></button>
+      </div>
+      <p id="intro-status" class="intro-status" role="status" aria-live="polite" aria-atomic="true"></p>
+      <a class="intro-continue" href="#how">Continue to the website <span aria-hidden="true">↓</span></a>
+      <p class="intro-demo">Website demo · separate from your RuneLite collection</p>
+      <noscript><p class="intro-static-note">In RuneHunter, an orb can turn a wild creature into your next companion. Enable JavaScript to try this website’s catch animation.</p></noscript>
+    </div>
+    <div class="intro-bottom"><span id="intro-chapter">01 / Lumbridge</span><div class="intro-progress" aria-hidden="true"><span></span></div><span class="intro-showcase">A RuneHunter website showcase</span></div>
+    <p id="intro-graphics-status" class="intro-graphics-status" hidden>The scene still is ready. You can try the catch below.</p>
   </div>
-  <div class="hero-bottom wrap">
-    <a href="#tour" class="hero-location"><span class="location-mark" aria-hidden="true">⌖</span><span><b>Lumbridge</b><small>Every adventure starts somewhere.</small></span></a>
-    <span class="art-credit">Interactive website showcase</span>
-    <a href="#tour" class="hero-scroll">Discover the adventure <span aria-hidden="true">↓</span></a>
-  </div>
-</section>
-
-
-<section class="adventure-intro sec" id="tour" aria-labelledby="tour-title">
- <div class="wrap intro-layout">
-  <div><p class="eyebrow">A little detour through Lumbridge</p><h2 id="tour-title">Your next companion<br>is hiding in plain sight.</h2><p class="sub">Take a walk across the River Lum. Follow a curious sound. Meet three very small locals with very big personalities.</p><a class="btn gold" href="#tour" data-open-world>Take a little adventure <span aria-hidden="true">→</span></a><p class="demo-disclosure">A free browser showcase. No account, no downloads.<br>Demo catches are separate from your RuneLite collection.</p></div>
-  <div class="field-preview"><p class="field-heading"><span aria-hidden="true">✦</span> Notes from a first hunt</p>
-   <details><summary>01. A rather suspicious chicken</summary><p>Beside the river, a chicken is pretending not to notice you. It is doing a terrible job. Find it, throw an orb, and make a feathered friend.</p></details>
-   <details><summary>02. A goblin with places to be</summary><p>Cross the stone bridge and follow the path south. A tiny green traveler has been admiring the castle for quite some time.</p></details>
-   <details><summary>03. All of the axe. Less of the height.</summary><p>Step through the blue-bannered gate. A miniature Dharok is tucked inside the courtyard. His greataxe is not especially subtle.</p></details>
-   <p class="field-footnote">Three discoveries. One very familiar place.</p>
-  </div>
- </div>
+  <span id="encounter" class="intro-anchor" aria-hidden="true"></span>
 </section>
 
 <!-- ============ HOW ============ -->
@@ -1046,42 +961,14 @@ html:has(body.motion-paused){scroll-behavior:auto}
         <li><a href="#install">Release status</a></li>
       </ul></div>
     </div>
-    <p class="legal">An unofficial third party plugin. Not affiliated with or endorsed by Jagex Ltd. Old School RuneScape is a trademark of Jagex Ltd. Not affiliated with or endorsed by Nintendo, Game Freak, or The Pokémon Company. The interactive Lumbridge adventure is an original website showcase, not RuneLite gameplay. Demo catches stay in this page. Fallback: original AI-assisted Lumbridge concept artwork. Three.js is MIT licensed. Game fonts are CC0 recreations by RuneStar. No RuneHunter server or telemetry. No analytics.</p>
+    <p class="legal">An unofficial third party plugin. Not affiliated with or endorsed by Jagex Ltd. Old School RuneScape is a trademark of Jagex Ltd. Not affiliated with or endorsed by Nintendo, Game Freak, or The Pokémon Company. The Lumbridge introduction is an original 3D website showcase, not RuneLite gameplay. Demo catches stay in this page. Scene stills are captured from this website’s 3D models. Three.js is MIT licensed. Game fonts are CC0 recreations by RuneStar. No RuneHunter server or telemetry. No analytics.</p>
   </div>
 </footer>
 
 </main><!-- /page -->
 
 
-<dialog id="adventure-dialog" aria-labelledby="adventure-title" aria-describedby="adventure-description">
- <div class="adventure-shell">
-  <header class="adventure-bar"><div class="adventure-brand"><i class="orb" aria-hidden="true"></i><div><h2 id="adventure-title">A little hunt in Lumbridge</h2><p id="adventure-description">An interactive RuneHunter showcase</p></div></div><div class="adventure-actions"><button type="button" id="world-pause-quick" class="world-button" aria-pressed="false" aria-label="Pause motion">Pause</button><button type="button" id="exit-world" class="world-button">Back to website <span aria-hidden="true">×</span></button></div></header>
-  <div class="adventure-body">
-   <div id="adventure-viewport" class="adventure-viewport">
-    <img class="adventure-fallback" src="assets/lumbridge-hero.webp" width="1536" height="1024" alt="Lumbridge castle beside its stone bridge and river.">
-    <div class="world-place"><span class="place-dot" aria-hidden="true"></span><span>Lumbridge <small>Kingdom of Misthalin</small></span></div>
-    <canvas id="world-map" width="150" height="150" aria-hidden="true"></canvas>
-    <div id="world-label" class="world-label" aria-hidden="true"></div>
-    <p id="world-fallback-message" class="world-fallback-message" hidden>The illustrated view is ready. Use your field journal to explore and catch all three creatures.</p>
-    <div class="world-tools" aria-label="Camera controls"><button type="button" class="world-button" id="world-rotate-left" aria-label="Rotate camera left">↶</button><button type="button" class="world-button" id="world-rotate-right" aria-label="Rotate camera right">↷</button><span></span><button type="button" class="world-button" id="world-zoom-out" aria-label="Zoom out">−</button><button type="button" class="world-button" id="world-zoom-in" aria-label="Zoom in">+</button></div>
-    <p class="world-walk-hint" id="world-walk-hint">Click the ground to walk <span>·</span> Drag to look around</p>
-   </div>
-   <aside class="world-journal" aria-label="Your field journal">
-    <div class="journal-top"><p class="eyebrow">Your field journal</p><span id="world-progress" aria-label="Demo collection">0 / 3</span></div>
-    <h3 id="world-journal-title">A few small discoveries.</h3><p class="journal-help">Pick a clue to walk over, or explore at your own pace.</p>
-    <div class="creature-clues" aria-label="Creature clues">
-     <button type="button" data-creature="chicken" aria-pressed="false"><span class="creature-token chicken-token" aria-hidden="true">01</span><span><b>Chicken</b><small>A cluck by the river</small></span><span class="clue-mark" aria-hidden="true">+</span></button>
-     <button type="button" data-creature="goblin" aria-pressed="false"><span class="creature-token goblin-token" aria-hidden="true">02</span><span><b>Goblin</b><small>Across the old stone bridge</small></span><span class="clue-mark" aria-hidden="true">+</span></button>
-     <button type="button" data-creature="dharok" aria-pressed="false"><span class="creature-token dharok-token" aria-hidden="true">03</span><span><b>Dharok</b><small>A secret in the courtyard</small></span><span class="clue-mark" aria-hidden="true">+</span></button>
-    </div>
-    <div class="encounter-card"><p class="encounter-kicker" id="world-creature-tier">A new adventure</p><h4 id="world-creature-name">Who will you find first?</h4><p id="world-creature-description">Every great hunt starts with a little curiosity. Your three clues are just above.</p><button type="button" id="world-catch" class="btn gold" disabled>Choose a creature</button></div>
-    <p id="world-notice" role="status" aria-live="polite" aria-atomic="true">Welcome to Lumbridge. Your field journal will help you find your way.</p>
-    <div class="journal-controls"><button type="button" id="world-pause" class="world-button" aria-pressed="false">Pause motion</button><button type="button" id="world-replay" class="world-button">Replay</button></div>
-    <details class="world-help"><summary>Controls &amp; about this adventure</summary><p>Click or tap the ground to walk. Drag the scene or use the camera buttons to look around. With the scene focused, use WASD or the arrow keys to walk. Use the three creature clues and the catch button for the same adventure with a keyboard or screen reader.</p><p>Pause motion makes movement and catches instant. Escape returns to the website. Replay clears this demo collection; closing the adventure keeps it until you reload.</p><p>This is an original website showcase, not live RuneLite gameplay. Nothing is saved or sent to a server.</p></details>
-   </aside>
-  </div>
- </div>
-</dialog>
+
 
 <button id="motion-toggle" type="button" aria-pressed="false">Pause motion</button>
 <div id="toast" role="status" aria-live="polite" aria-atomic="true"></div>

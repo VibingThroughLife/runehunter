@@ -1,5 +1,8 @@
 # A small hunt in a living Lumbridge
 
+Historical release notes. The walkable demo was superseded on 12 September 2026
+by [Scroll into Lumbridge](SCROLL-INTO-LUMBRIDGE.md).
+
 Completed and reviewed on 5 September 2026, ahead of the 8 AM Chicago handoff.
 Branch: `codex/lumbridge-adventure`, based on completed hero `21fa6bf`.
 The website is ready for owner review; production publication remains pending.

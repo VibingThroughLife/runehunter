@@ -3,6 +3,7 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { gzipSync } from 'node:zlib';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const docs = path.join(repo, 'docs');
@@ -83,7 +84,7 @@ for (const [tag, attributes, code] of scriptTags) {
   } else if (type === 'module') await inspectModule(code, `${origin}/`, 'inline module');
   else syntaxCheck(code, 'inline script');
 }
-assert.ok(scriptTags.some(([, attributes]) => attribute(attributes, 'type') === 'module'), 'The adventure module must be loaded');
+assert.ok(scriptTags.some(([, attributes]) => attribute(attributes, 'type') === 'module'), 'The scroll-introduction module must be loaded');
 for (const match of source.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)) await inspectCss(match[1], `${origin}/`);
 for (const [tag] of source.matchAll(/<(?:img|source|link|video|audio)\b[^>]*>/gi)) {
   if (/^<link\b/i.test(tag)) {
@@ -146,16 +147,35 @@ const ids = [...source.matchAll(/\sid=["']([^"']+)["']/g)].map((match) => match[
 assert.equal(new Set(ids).size, ids.length, 'Duplicate HTML id found');
 const idSet = new Set(ids);
 for (const match of source.matchAll(/href=["']#([^"']+)["']/g)) assert.ok(idSet.has(match[1]), `Broken fragment link: #${match[1]}`);
-for (const id of ['top', 'tour', 'world-stage', 'world-canvas', 'explore-world', 'adventure-dialog', 'adventure-title', 'adventure-viewport', 'exit-world', 'world-pause', 'world-replay', 'world-zoom-in', 'world-zoom-out', 'world-rotate-left', 'world-rotate-right', 'world-catch', 'world-notice', 'world-progress']) {
-  assert.ok(idSet.has(id), `Adventure control is missing: #${id}`);
+for (const id of ['top', 'intro', 'intro-sticky', 'world-canvas', 'intro-arrival', 'intro-journey', 'intro-encounter', 'intro-catch', 'intro-replay', 'intro-status', 'intro-skip', 'intro-begin', 'encounter', 'motion-toggle', 'how', 'faq']) {
+  assert.ok(idSet.has(id), `Scroll introduction control is missing: #${id}`);
 }
-assert.match(source, /<dialog\b[^>]*id=["']adventure-dialog["']/i, 'Adventure needs a native dialog');
-assert.match(source, /id=["']explore-world["'][^>]*href=["']#tour["']|href=["']#tour["'][^>]*id=["']explore-world["']/i, 'Explore must retain a no-JS fallback link');
-for (const creature of ['chicken', 'goblin', 'dharok']) assert.ok(source.includes(`data-creature="${creature}"`) || source.includes(`data-creature='${creature}'`), `Accessible creature action missing: ${creature}`);
+for (const id of ['adventure-dialog', 'adventure-viewport', 'explore-world', 'world-pause', 'world-replay', 'world-catch', 'world-zoom-in', 'world-rotate-left', 'world-progress']) {
+  assert.ok(!idSet.has(id), `Obsolete exploration control remains: #${id}`);
+}
+assert.ok(!/<dialog\b/i.test(source), 'The scroll introduction must not use a modal');
+for (const [id, href] of [['intro-skip', '#how'], ['intro-begin', '#encounter']]) {
+  const tag = source.match(new RegExp(`<a\\b[^>]*id=["']${id}["'][^>]*>`, 'i'))?.[0];
+  assert.ok(tag && attribute(tag, 'href') === href, `${id} needs the native destination ${href}`);
+}
+assert.match(source, /id=["']intro-status["'][^>]*(?:role=["']status["']|aria-live=["']polite["'])|(?:role=["']status["']|aria-live=["']polite["'])[^>]*id=["']intro-status["']/i, 'Catch feedback needs a live status region');
+assert.match(source, /<button\b[^>]*id=["']intro-catch["']/i, 'Throw an orb must be a native button');
+assert.match(source, /<button\b[^>]*id=["']intro-replay["']/i, 'Replay catch must be a native button');
+assert.match(css, /position\s*:\s*sticky/, 'The introduction must use native sticky positioning');
+for (const fallback of ['lumbridge-hero.webp', 'lumbridge-hero-mobile.webp', 'lumbridge-rear.webp', 'lumbridge-rear-mobile.webp']) {
+  assert.ok(publishedAssets.includes(fallback), `Finished scene fallback is missing: ${fallback}`);
+}
+assert.ok(![...checkedModules].some((filename) => filename.endsWith('/simulation.js')), 'The old free-movement simulation must not ship in the intro dependency tree');
+assert.ok([...checkedModules].some((filename) => filename.endsWith('/world/intro.js')), 'The isolated intro-state module must be loaded');
+let worldGzipBytes = 0;
+for (const relative of publishedAssets.filter((name) => /^(?:world|vendor)\//.test(name))) {
+  worldGzipBytes += gzipSync(await readFile(path.join(docs, 'assets', relative))).byteLength;
+}
+assert.ok(worldGzipBytes <= 2 * 1024 * 1024, `Compressed world exceeds 2 MB: ${worldGzipBytes} bytes`);
 assert.match(source, /<main\b[^>]*id=["']top["']/i, 'Main landmark is missing');
 assert.match(css, /\.sr:focus\s*\{/, 'Visible skip-link focus style is missing');
 assert.match(css, /@media\s*\(\s*forced-colors\s*:\s*active\s*\)/, 'Forced-colors fallback is missing');
-assert.match(source, /prefers-reduced-motion\s*:\s*reduce/, 'Reduced-motion preference is missing');
+assert.match(css, /prefers-reduced-motion\s*:\s*reduce/, 'Reduced-motion preference is missing');
 
 const rosterMatch = source.match(/(?:var|const|let)\s+ROSTER\s*=\s*(\[[\s\S]*?\]);\s*(?:var|const|let)\s+TC\s*=/);
 assert.ok(rosterMatch, 'Site roster not found');
@@ -182,4 +202,4 @@ function jpegDimensions(buffer) {
 assert.equal(og.readUInt16BE(0), 0xffd8, 'Social card must be a JPEG');
 assert.deepEqual(jpegDimensions(og), { width: 1200, height: 630 }, 'Social card must be 1200x630');
 assert.ok(source.includes('https://runehunter.gg/og.jpg'), 'Social metadata must reference og.jpg');
-console.log(`RuneHunter static acceptance passed: ${checkedModules.size} local modules, ${checkedAssets.size} runtime assets, ${publishedAssets.length} mirrored assets, Three.js license, 87-creature roster, truthful status and accessible adventure controls.`);
+console.log(`RuneHunter static acceptance passed: ${checkedModules.size} local modules, ${checkedAssets.size} runtime assets, ${publishedAssets.length} mirrored assets, Three.js license, 87-creature roster, truthful status and accessible scroll-introduction controls; ${worldGzipBytes} gzip world bytes.`);
