@@ -1,0 +1,4 @@
+*.pdf binary
+# Keep the upstream Three.js distribution byte-for-byte, including its mixed indentation.
+assets/vendor/*.js linguist-vendored=true whitespace=-space-before-tab
+docs/assets/vendor/*.js linguist-vendored=true whitespace=-space-before-tab

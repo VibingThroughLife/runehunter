@@ -1,8 +1,10 @@
-# RuneHunter Integration API v1
+# RuneHunter Integration API v1: design draft
 
-*How to build a RuneLite plugin that reacts to RuneHunter.*
+*A proposal for RuneLite plugins that react to RuneHunter.*
 
-Status: **v1 draft**, read-and-react. Stable surface, additive changes only (see [Stability policy](#stability-policy)).
+**Not implemented in v0.8.0.** RuneHunter does not currently ship the broadcaster, JSON state files, consumer helper or API configuration described here. Code examples illustrate the proposed design and do not connect to the current plugin. API v1 is separate from the website's V1 release.
+
+All channels, payloads, filenames and compatibility promises below are proposals that may change before implementation. There is no stable integration surface or release date yet.
 
 ---
 
@@ -17,20 +19,20 @@ There is one hard constraint that shapes the entire design:
 
 That means your plugin and RuneHunter do **not** share class identity. If RuneHunter posts an instance of `com.runehunter.api.CreatureSpawned` on the shared `EventBus`, and your plugin subscribes to *its own* copy of that class, the EventBus keys the two on different `Class` objects and your handler never fires. This is the trap every "just post an event" integration falls into. Reflection would route around it, and reflection is **forbidden** by RuneLite's plugin rules, so that door is closed too.
 
-So the API is carried on channels whose types live in **RuneLite core**, which every plugin genuinely shares:
+The proposed API would use channels whose types live in **RuneLite core**, which every plugin shares:
 
 | Channel | Carries | Mechanism |
 |---|---|---|
 | **Event channel** | Discrete things that just happened | `ConfigChanged`, a core RuneLite event with `String` group/key/value |
 | **State channel** | Bulk current state and static data | JSON files under `.runelite/runehunter/` |
 
-Both are **local-only**. Nothing here touches the network, and nothing about this API changes RuneHunter's compliance posture.
+Both proposed channels are **local-only**. Any consumer that sends data elsewhere would be responsible for its own consent, privacy disclosure and review.
 
 ---
 
-## 2. Quick start
+## 2. Proposed consumer example
 
-Copy [`RuneHunterApi.java`](../api-stubs/consumer/RuneHunterApi.java) into your plugin (single file, BSD 2-Clause, no dependencies beyond what RuneLite already gives you). Then:
+The intended design includes a self-contained `RuneHunterApi.java` consumer helper. That file does not exist yet. This example sketches how a future helper might be used; it is not a working quick start:
 
 ```java
 public class ShinyAlertPlugin extends Plugin implements RuneHunterApi.Listener
@@ -67,17 +69,17 @@ public class ShinyAlertPlugin extends Plugin implements RuneHunterApi.Listener
 }
 ```
 
-That's the whole integration. No dependency on RuneHunter's jar, no build changes, no coordination with us.
+The design goal is to avoid a dependency on RuneHunter's jar. The example requires the unimplemented helper and broadcaster before it can work.
 
-**Detecting whether RuneHunter is installed:** don't try. Just listen. If RuneHunter isn't running, no events arrive. If you need to branch on it, check whether `.runelite/runehunter/state.json` exists and its `apiVersion` field is one you support.
+**Proposed availability detection:** consumers would listen for events and validate the version of a future state file. The current plugin does not create `.runelite/runehunter/state.json`; its absence cannot be used to determine whether v0.8.0 is installed.
 
 ---
 
-## 3. Event channel
+## 3. Proposed event channel
 
 ### Wire format
 
-RuneHunter writes a single config key. Every event overwrites it, so the config file does not grow.
+The proposal uses a single config key. Each event would overwrite it, rather than accumulate a history. The current plugin does not emit these events.
 
 - **Config group:** `runehunterapi`
 - **Config key:** `event`
@@ -101,7 +103,9 @@ RuneHunter writes a single config key. Every event overwrites it, so the config 
 | `ts` | long | `System.currentTimeMillis()` at emission. |
 | `d` | object | Payload. |
 
-### Consuming it raw (if you don't want the helper)
+### Illustrative raw consumer
+
+This sketch would need validation and lifecycle handling before production use. No events arrive from the current plugin.
 
 ```java
 @Subscribe
@@ -120,9 +124,9 @@ public void onConfigChanged(ConfigChanged e)
 
 ### Threading
 
-`ConfigChanged` is posted on whatever thread called `setConfiguration`. RuneHunter always emits from the **client thread**. Your handler therefore runs on the client thread. Do not block it. If you need to do I/O or network work (a Discord webhook, say), hand off to an executor; if you need to come back to the client, use `clientThread.invoke()`.
+`ConfigChanged` is posted on whatever thread called `setConfiguration`. The proposed broadcaster would emit from the **client thread**, so consumers would need to keep handlers non-blocking. I/O would run on an executor; access to the client would return through `clientThread.invoke()`. This threading contract has not been implemented or verified.
 
-### Event types (v1)
+### Proposed event types (v1)
 
 #### `creature.spawned`
 Fires when a creature is placed into the scene.
@@ -194,9 +198,9 @@ Emitted when the species lure from real NPC kills changes. `creatureId` is `null
 
 ---
 
-## 4. State channel
+## 4. Proposed state channel
 
-Files under `~/.runelite/runehunter/`. Rewritten atomically (temp file + rename), so a reader never sees a partial file. Read them on the `dex.updated` / `catch.success` signal rather than polling.
+The proposal places files under `~/.runelite/runehunter/` and uses atomic replacement (temp file + rename) to avoid partial reads. Consumers would read on a `dex.updated` / `catch.success` signal rather than poll. **None of these API files are currently written.**
 
 | File | Contents | Rewritten when |
 |---|---|---|
@@ -204,7 +208,7 @@ Files under `~/.runelite/runehunter/`. Rewritten atomically (temp file + rename)
 | `state.json` | `apiVersion`, plugin version, orb inventory, current companion, lifetime stats, currently active spawns | On any change, debounced to ≥1s |
 | `dex.json` | Per creature: `caught`, `count`, `shiny`, `firstCaughtAt` | On dex change |
 
-`roster.json` is the file that makes a *good* third-party plugin possible. It's how your plugin knows all 87 creatures and their tiers without hardcoding a copy that rots.
+The proposed `roster.json` would let consumers read the creature roster and tiers without maintaining a separate copy. The following values are illustrative, including `rosterVersion`:
 
 ```json
 // roster.json (excerpt)
@@ -221,33 +225,35 @@ Files under `~/.runelite/runehunter/`. Rewritten atomically (temp file + rename)
 
 ---
 
-## 5. What v1 deliberately does not do
+## 5. Proposed scope
 
-**You cannot write into RuneHunter.** No registering custom creatures, no injecting spawns, no overriding catch rolls. That's intentional for v1:
+**The proposed API is read-only.** It would not register custom creatures, inject spawns or override catch rolls:
 
 - Roster integrity is the collection's whole value. If any plugin can mint creatures, a completed dex means nothing.
 - It keeps our Plugin Hub review surface small. "Broadcasts local state" is trivially auditable; "executes third-party creature definitions" is not.
 - Read-and-react already covers the overwhelming majority of what people actually want to build.
 
-**Planned for v2** (once v1 has real consumers and we know what they hit): a declarative creature-pack format: third parties ship a signed JSON pack of creature definitions that RuneHunter loads into a clearly-marked *community* dex, separate from the canonical one. Declarative, not executable, so the review posture holds.
+**Possible future direction:** a declarative creature-pack format and a separate community dex. This is an idea for discussion, not committed v2 functionality or a promise of approval.
 
-If you're blocked on something v1 can't do, open an issue describing the *plugin you want to build*, not the API call you want. That's what shapes v2.
+To inform the design, open an issue describing the plugin you want to build and the data it would need.
 
 ---
 
-## 6. Stability policy
+## 6. Proposed stability policy
+
+These are design targets for a future release. They do not currently guarantee compatibility:
 
 - **`v` only increments on a breaking change.** We'd rather not.
-- **Adding a new event type, or a new field to an existing payload, is not breaking.** Your consumer must ignore unknown event types and unknown fields. The helper class does this for you.
-- **Removing or retyping a field is breaking** and bumps `v`. RuneHunter will emit both `v` and `v+1` envelopes for at least 90 days after any bump.
-- Config group `runehunterapi` will never be renamed.
-- The API is on by default and can be disabled in RuneHunter's config (*Third-party plugin API*). Assume some users have it off.
+- **Adding a new event type, or a new field to an existing payload, would not be breaking.** Consumers would ignore unknown event types and fields; a future helper would handle this.
+- **Removing or retyping a field would be breaking** and bump `v`. A transition window emitting both versions is proposed; its duration remains undecided.
+- The proposed config group is `runehunterapi`; it is not a released contract.
+- An API configuration toggle and its default are still design decisions. No *Third-party plugin API* setting exists in v0.8.0.
 
 ---
 
 ## 7. Things worth building
 
-Not a wishlist we're claiming. Genuinely unclaimed, and none of it needs us:
+Ideas that could use a future implemented API:
 
 - **Shiny TTS / sound pack**: audio alert on a shiny spawn, with per-tier sounds
 - **Stream overlay bridge**: write dex progress and last-catch to a file OBS reads as a text/browser source
@@ -257,8 +263,8 @@ Not a wishlist we're claiming. Genuinely unclaimed, and none of it needs us:
 - **Auto-screenshot**: trigger RuneLite's screenshot on `catch.success` where `newDexEntry` is true
 - **Dex-race scoreboard**: a clan-run tracker fed by opt-in exports
 
-Ship it, tell us, we'll link it.
+Feedback on these ideas is welcome while the API is being designed.
 
 ---
 
-*Questions: GitHub issues. Breaking-change announcements: repo releases page.*
+*Discuss the draft in [GitHub issues](https://github.com/VibingThroughLife/runehunter/issues).*
