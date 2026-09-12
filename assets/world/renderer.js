@@ -14,12 +14,12 @@ export function createIntroRenderer(canvas, { onLost, onRestored } = {}) {
   } catch { return null; }
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.03;
+  renderer.toneMappingExposure = 1.05;
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xb5c8c7);
-  scene.fog = new THREE.Fog(0xb5c8c7, 115, 225);
-  scene.add(new THREE.HemisphereLight(0xf2f4e4, 0x506446, 1.45));
-  const sun = new THREE.DirectionalLight(0xffefce, 2.0);
+  scene.background = new THREE.Color(0xb9d1d6);
+  scene.fog = new THREE.Fog(0xb9d1d6, 115, 225);
+  scene.add(new THREE.HemisphereLight(0xfff6dc, 0x4d6145, 1.1));
+  const sun = new THREE.DirectionalLight(0xffefce, 2.55);
   sun.position.set(-38, 64, 42); scene.add(sun);
   const world = createWorld(); scene.add(world.group);
   const camera = new THREE.PerspectiveCamera(38, 1, .1, 280);

@@ -116,10 +116,25 @@ export function createWorld() {
     if (hash(x + 5, z) > 0.72) water.quad([x + 0.2, -0.18, z + 0.3], [x + 0.2, -0.18, z + 1.2], [x + 0.32, -0.18, z + 1.2], [x + 0.32, -0.18, z + 0.3], 0xa9c7bf);
   }
   group.add(water.mesh(waterMaterial));
-  for (let z = -39; z < 47; z += 3) for (const x of [11.65, 19.3]) {
-    if (z > 4 && z < 13) continue;
-    props.rock(x, -0.03, z, 0.6, 0.34, 0.9, hash(x, z) > 0.5 ? 0x9a9a7d : 0xa4a688);
-    for (let n = 0; n < 3; n++) props.box(x + n * 0.17, 0.33 + n * 0.06, z + 0.5, 0.05, 0.75, 0.06, 0x718e4b, n * 0.4);
+  // Interrupted groups read as a natural bank, rather than a repeated fence.
+  for(let i=0;i<24;i++)for(const side of [0,1]){
+    const z=-40+i*3.65+hash(i,side)*1.8;
+    if(z>3.5&&z<13.5)continue;
+    if(hash(i+31,side)<.27)continue;
+    const x=(side?19.38:11.65)+(hash(i,side+8)-.5)*.32;
+    const radius=.32+hash(i+5,side)*.38;
+    props.rock(x,-.025,z,radius,.20+radius*.20,radius*1.3,hash(i,side)>.5?0x8c9279:0xa0a58a);
+    if(hash(i,side+11)>.55)props.rock(x+(side?.20:-.23),.04,z+.5,.23,.17,.3,0x8b9379);
+  }
+  for(const [x,z,n]of [[11.3,-21,6],[11.4,-5,7],[11.2,18,8],[11.4,33,6],[19.7,-17,7],[19.7,2,5],[19.8,22,8],[19.6,39,6]]){
+    for(let i=0;i<n;i++){
+      const px=x+(hash(i,z)-.5)*.55,pz=z+(hash(i,x)-.5)*2.5,h=.5+hash(i,z+9)*.55;
+      for(let blade=0;blade<3;blade++){
+        const a=blade*Math.PI/3,dx=Math.cos(a)*.065,dz=Math.sin(a)*.065;
+        leaves.tri([px-dx,0,pz-dz],[px+dx,0,pz+dz],[px+dx*.5,h,pz+dz*.5],blade===1?0x829655:0x657e46);
+      }
+      if(i%3===0)props.add(new THREE.CylinderGeometry(.045,.05,.19,5),0x6c5c37,px,h-.05,pz);
+    }
   }
 
   // A flat bridge is deliberate: walkable ground and render height agree.
@@ -142,6 +157,18 @@ export function createWorld() {
   };
   wall(-10, -22, 30, 1.3); wall(-10, 16, 30, 1.3);
   wall(5, -10.5, 1.3, 23); wall(5, 15.5, 1.3, 1);
+  // The south wall is in close view during the walk. A few broad weathered
+  // faces and interrupted foundation stones give scale to its blank surface.
+  for(let row=0;row<3;row++)for(let col=0;col<18;col++){
+    if(hash(col+7,row+2)<.45)continue;
+    const x=-24.05+col*1.63+(row%2)*.46,y=.62+row*.91;
+    if(x>4.1)continue;
+    const w=.36+hash(col,row+8)*.33,h=.09+hash(row,col+9)*.04;
+    stones.quad([x-w,y-h,16.668],[x+w,y-h,16.668],[x+w,y+h,16.668],[x-w,y+h,16.668],
+      hash(col,row)>.5?0x8e978e:0xa2a79c);
+  }
+  for(const x of [-23.9,-22.7,-17.5,-16.2,-11.1,-8.7,-3.5,.2,3.6])
+    stones.box(x,.16,16.67,.62,.28,.18,0x858f80);
   const arrowSlit = (x,y,z,rotation = 0) => {
     const b = new Batch();
     b.box(0,0,0,.035,1.16,.14,C.slit); b.box(0,.2,0,.045,.15,.53,C.slit);
@@ -323,6 +350,125 @@ export function createWorld() {
     if (Math.hypot(x - 30, z - 25) < 1.5) continue;
     props.box(x, 0.1, z, 0.035, 0.2, 0.035, 0x65834a);
     props.rock(x, 0.23, z, 0.12, 0.09, 0.12, i % 4 ? 0xeee1a3 : 0xe0b274);
+  }
+  // Landscape dressing follows a few authored places: south meadow, rear
+  // kitchen yard, shaded tree roots and the riverbank. Shared batches and a
+  // seeded hash keep the composition stable across resize, replay and reload.
+  const mark=(x,z,rx,rz,color,seed=0,y=.018)=>{
+    const ring=[];
+    for(let i=0;i<9;i++){const a=i*Math.PI*2/9,r=.76+hash(i+seed,seed+7)*.24;ring.push([x+Math.cos(a)*rx*r,y,z+Math.sin(a)*rz*r]);}
+    for(let i=0;i<ring.length;i++)props.tri([x,y,z],ring[(i+1)%ring.length],ring[i],color);
+  };
+  const tuft=(x,z,size=1,color=0x6e8750)=>{
+    for(let i=0;i<4;i++){
+      const a=i*2.12+hash(x,z),dx=Math.cos(a)*.11*size,dz=Math.sin(a)*.11*size,h=(.25+hash(i+x,z)*.23)*size;
+      leaves.tri([x-dx,0.025,z-dz],[x+dx,.025,z+dz],[x+dx*.8,h,z+dz*.8],i%2?color:0x607a46);
+    }
+  };
+  const blossom=(x,z,cream=true)=>{
+    const y=.23+hash(x,z)*.12;
+    leaves.tri([x-.025,.03,z],[x+.025,.03,z],[x,y,z+.02],0x657848);
+    for(let i=0;i<5;i++){
+      const a=i*Math.PI*2/5,co=Math.cos(a),si=Math.sin(a),r=.13;
+      leaves.tri([x,y,z],[x+co*r-si*.055,y+.015,z+si*r+co*.055],[x+co*r+si*.055,y+.015,z+si*r-co*.055],cream?0xd9d6a3:0xc6af62);
+    }
+    leaves.tri([x-.04,y+.025,z-.035],[x+.04,y+.025,z-.035],[x,y+.025,z+.045],0xbca65a);
+  };
+  const bush=(x,z,scale=1)=>{
+    mark(x,z,.87*scale,.68*scale,0x526b3e,x+z);
+    leaves.rock(x,.35*scale,z,.70*scale,.48*scale,.59*scale,0x526e3d);
+    leaves.rock(x+.42*scale,.37*scale,z-.08*scale,.46*scale,.38*scale,.43*scale,0x68834b);
+    leaves.rock(x-.32*scale,.29*scale,z+.16*scale,.42*scale,.34*scale,.45*scale,0x5c7741);
+  };
+  // Broad color islands soften the visible checkerboard without noisy pixels.
+  for(const [x,z,rx,rz,color]of [
+    [-46,21,10,6,0x647f4d],[-40,35,9,5,0x657e4e],[-28,31,8,3.7,0x60794a],
+    [-17,32,7,5,0x68804f],[-5,36,8,5,0x667f4b],[2,25.7,6,1.7,0x6b8052],
+    [-39,3,3,8,0x627a48],[-44,-12,8,5,0x698150],[-52,-27,9,6,0x617d49],
+    [-8,-31,10,4,0x667f4d],[6,-31,5,5,0x637d49],[27,25,6,7,0x667f4c],
+    [23,-19,5,3,0x677e4c],[36,10,8,6,0x657e4d],[-55,47,12,6,0x647c4b]
+  ])mark(x,z,rx,rz,color,x-z);
+  // Tiny groups tuck into these broad patches; the hero copy stays on quiet grass.
+  for(const [x,z,rx,rz,count]of [
+    [-45,23,9,6,46],[-29,30,8,3,44],[-17,29,6,3,42],[-5,30,6,4,42],
+    [4,28,4,3,27],[-39,4,2,8,31],[-42,-11,6,4,30],[-52,-24,7,5,24],
+    [25,27,5,6,36],[23,-20,3,3,20],[7,-23,2,5,18],[9,28,1.6,6,17]
+  ])for(let i=0;i<count;i++){
+    const a=hash(i+x,z)*Math.PI*2,r=Math.sqrt(hash(i+z,x));
+    tuft(x+Math.cos(a)*rx*r,z+Math.sin(a)*rz*r,.70+hash(i,x)*.65);
+  }
+  // Bushes sit with existing trees and at garden corners, all below knee height.
+  for(const [x,z,scale]of [[-21,28,1.05],[-17.8,29.3,.85],[-10.8,32,1.1],[-7.5,30.3,.8],
+    [-.6,32.5,1.1],[2.1,30.4,.85],[-47.4,-18,1],[-34.5,-17.4,1],[-51,28.7,1],
+    [31.4,24,1.1],[28.5,26.7,.9],[30.5,-19.3,.85],[33.2,1.3,.9]])bush(x,z,scale);
+  for(const [x,z,rx,rz,count]of [[-19,26.7,3,.8,10],[-8,27.5,3,.9,12],[1,27,2,.8,8],[25,20,2,2,9],[-37.6,-7,1.5,2,5]])
+    for(let i=0;i<count;i++)blossom(x+(hash(i,z)-.5)*rx*2,z+(hash(i,x)-.5)*rz*2,i%3!==0);
+
+  // Turf fragments attach to the actual three-metre tile boundaries. A
+  // shallow ragged lip breaks the ruler-straight edge without freestanding
+  // green marks on the travelled path or on the encounter's clean foreground.
+  const frayedEdge=(x,z,span,depth,axis,direction,seed)=>{
+    const local=[[-span,-.30],[-span*.94,.02],[-span*.59,depth*.5],[-span*.13,depth],
+      [span*.24,depth*.66],[span*.64,depth*.22],[span,-.22]];
+    const points=local.map(([u,v])=>axis==='x'?[x+u,.020,z+v*direction]:[x+v*direction,.020,z+u]);
+    const area=points.reduce((sum,a,i)=>{const b=points[(i+1)%points.length];return sum+a[0]*b[2]-b[0]*a[2];},0);
+    if(area>0)points.reverse();
+    const color=[0x627b4c,0x657e4f,0x617a49][Math.floor(hash(seed,3)*3)];
+    for(let i=1;i<points.length-1;i++)props.tri(points[0],points[i],points[i+1],color);
+  };
+  const southEdges=[[-22.5,18],[-20.8,18],[-17.8,18],[-10.4,18],[-8.9,18],[-2.6,18],[-.9,18],[4.5,18],
+    [-28,27],[-25.4,27],[-24.1,27],[-17,27],[-15.6,27],[-5.1,27],[-3.7,27],[.6,27],[5.2,27]];
+  for(const [i,[x,z]]of southEdges.entries()){
+    const inward=z===18?1:-1;
+    frayedEdge(x,z,.54+hash(i,15)*.92,.11+hash(i,8)*.27,'x',inward,i);
+    if(i%3===0){tuft(x+.1,z-inward*.34,.55);props.rock(x-.28,.025,z-inward*.08,.13,.045,.10,0x9b9a82);}
+  }
+  const westEdges=[[-36,-1.4],[-36,.4],[-36,1.7],[-36,4.2],[-36,8.1],[-36,10],[-36,13.5],[-36,15.2],
+    [-27,-.8],[-27,.5],[-27,3.5],[-27,7],[-27,8.2],[-27,13.1],[-27,14.5]];
+  for(const [i,[x,z]]of westEdges.entries()){
+    const inward=x===-36?1:-1;
+    frayedEdge(x,z,.42+hash(i,22)*.65,.09+hash(i,21)*.19,'z',inward,i+31);
+    if(i%4===0)tuft(x-inward*.32,z+.18,.55);
+  }
+  // Thin pale facets on travelled ground are flush, so the player never steps
+  // over decorative collision. Their groups follow the corners and back door.
+  for(const [x,z,rx,rz,count]of [[-25,21,3,1.3,10],[-33,13,1.5,2,8],[5,19,1.2,2,7],[-28,-5,1.8,.8,7]])
+    for(let i=0;i<count;i++){
+      const px=x+(hash(i,z)-.5)*rx*2,pz=z+(hash(i,x)-.5)*rz*2;
+      mark(px,pz,.12+hash(i,x+8)*.20,.09+hash(i,z+7)*.10,i%3?0xaaa58f:0x939880,i+37,.021);
+    }
+
+  // Rear kitchen garden: one low herb bed, a barrel and chopped logs against
+  // the wall. The central player–Dharok lane remains bare and easy to read.
+  props.box(-26.65,.055,2.25,1.3,.12,3.1,0x776444);
+  for(const x of [-27.36,-25.94])props.box(x,.16,2.25,.13,.25,3.4,0x9d9375);
+  for(const z of [.55,3.95])props.box(-26.65,.16,z,1.54,.25,.13,0x9d9375);
+  for(let i=0;i<7;i++){
+    const z=.9+i*.42;
+    for(const x of [-26.94,-26.42]){
+      leaves.rock(x,.26,z,.19,.17,.23,0x5c7944);
+      leaves.tri([x-.22,.21,z],[x,.52,z+.04],[x+.22,.21,z],0x829350);
+    }
+  }
+  props.drum(-26.2,0,-9.9,.43,.84,0x8b6a41,10,.36);
+  props.drum(-26.2,.13,-9.9,.438,.055,0x50584b,10);
+  props.drum(-26.2,.67,-9.9,.384,.055,0x50584b,10);
+  props.drum(-26.2,.83,-9.9,.35,.035,0x5e5036,10);
+  for(const [x,y,z]of [[-26.6,.16,-11.2],[-27.05,.16,-11.2],[-26.82,.45,-11.2]]){
+    props.add(new THREE.CylinderGeometry(.17,.20,1.25,7).rotateX(Math.PI/2),0x795935,x,y,z);
+    props.add(new THREE.CylinderGeometry(.142,.155,.025,7).rotateX(Math.PI/2),0xb39462,x,y,z+.63);
+  }
+  mark(-26.2,-10.4,1.25,1.5,0x77815e,16);
+  mark(-35.9,-8.8,.75,3.1,0x5a7344,17);
+  for(let i=0;i<12;i++)tuft(-35.65-hash(i,24)*.7,-10.8+hash(i,9)*4.6,.60+hash(i,4)*.25);
+  for(let i=0;i<9;i++){
+    const x=-34.5+hash(i,21)*5,z=-10.25+hash(i,31)*.55;
+    props.rock(x,.075,z,.11,.07,.09,0x8a876e);
+  }
+  // Daisies near the courtyard fountains echo a tended garden, not a meadow.
+  for(const [x,z]of [[-1.5,-12.5],[-1.3,-8.7],[-1.4,1.2],[-1.3,4.6]]){
+    mark(x,z,.66,.43,0x63794a,x+z);
+    for(let i=0;i<4;i++)blossom(x+(hash(i,z)-.5)*.8,z+(hash(i,x)-.5)*.5,true);
   }
   // Low-poly scenery outside navigation bounds closes the horizon gently.
   for (const [x, z, r, h] of [[-72,-66,24,5],[-30,-78,28,6],[16,-72,21,5],[64,-48,22,6],[-76,46,24,4],[59,71,23,5]])

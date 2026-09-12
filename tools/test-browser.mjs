@@ -132,6 +132,24 @@ async function screenshot(page, name) {
   await page.screenshot({ path: path.join(output, `${name}.png`) });
   return current;
 }
+async function assertCameraSweepBudget(page, label) {
+  const samples = [];
+  for (const progress of [0, .1, .2, .3, .42, .5, .58, .65, .76, 1]) {
+    await scrollToProgress(page, progress);
+    const current = await state(page);
+    assert.equal(current.renderer.mode, 'webgl', `${label}: camera sweep must measure the live scene`);
+    const sample = { progress, triangles: current.renderer.triangles, drawCalls: current.renderer.drawCalls };
+    assert.ok(sample.triangles > 0 && sample.triangles <= 50_000, `${label}: triangle budget at progress ${progress}: ${sample.triangles}`);
+    assert.ok(sample.drawCalls > 0 && sample.drawCalls <= 75, `${label}: draw-call budget at progress ${progress}: ${sample.drawCalls}`);
+    samples.push(sample);
+  }
+  await scrollToProgress(page, 0);
+  return {
+    maxTriangles: Math.max(...samples.map((sample) => sample.triangles)),
+    maxDrawCalls: Math.max(...samples.map((sample) => sample.drawCalls)),
+    samples,
+  };
+}
 async function beginCatch(page, keyboard = false) {
   const button = page.locator('#intro-catch');
   assert.equal(await button.isEnabled(), true, 'The visible encounter must offer a catch');
@@ -175,6 +193,7 @@ async function testViewport(name, width, height) {
     assert.equal(await page.locator('dialog').count(), 0, 'Intro must not use a modal');
     assert.equal(await page.locator('#world-canvas').count(), 1, 'One canvas must carry the full journey');
     await screenshot(page, `${name}-arrival`);
+    const budgetSweep = await assertCameraSweepBudget(page, name);
     if (name === 'desktop') {
       await page.mouse.wheel(0, 300);
       await waitState(page, (s) => s.progress > .03);
@@ -232,8 +251,8 @@ async function testViewport(name, width, height) {
     assert.equal(await page.locator('#dex .slot:not(.sec)').count(), 87, 'Collection log must retain all public creatures');
     await assertDetails(page);
     assertClean(fixture, name);
-    results.push({ name, width, height, passed: true, frameIntervals: frameIntervalSummary(completed.renderer.frameTimes), renderer: completed.renderer });
-    console.log(`Passed ${name}: native scroll, camera journey, catch, pause, replay, skip, offscreen suspension and local runtime.`);
+    results.push({ name, width, height, passed: true, budgetSweep, frameIntervals: frameIntervalSummary(completed.renderer.frameTimes), renderer: completed.renderer });
+    console.log(`Passed ${name}: native scroll, camera journey, catch, pause, replay, skip, offscreen suspension and local runtime; 10-point sweep peaks ${budgetSweep.maxTriangles} triangles / ${budgetSweep.maxDrawCalls} draw calls.`);
   } catch (error) { console.error(name, await state(page).then(({ progress, chapter, phase, elapsed, catchCount, paused, visible, renderer }) => ({ progress, chapter, phase, elapsed, catchCount, paused, visible, renderer: { ...renderer, frameTimes: frameIntervalSummary(renderer.frameTimes) } })).catch(() => null)); await page.screenshot({ path: path.join(output, `${name}-failure.png`) }).catch(() => {}); throw error; }
   finally { await fixture.context.close(); }
 }

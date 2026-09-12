@@ -1,5 +1,8 @@
 # Scroll into Lumbridge
 
+The subsequent [Lumbridge detail pass](LUMBRIDGE-DETAIL-PASS.md) records the latest
+scenery, lighting, refreshed captures, and validation measurements.
+
 Implemented and independently reviewed on 12 September 2026. Branch
 `codex/scroll-into-lumbridge` starts from `d45c2f3` in an isolated website worktree.
 The original checkout's unfinished plugin work is preserved. This replaces the
